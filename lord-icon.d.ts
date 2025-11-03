@@ -1,16 +1,18 @@
-declare namespace JSX {
-  interface IntrinsicElements {
-    'lord-icon': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
+import 'react';
+
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'lord-icon': {
         src?: string;
         trigger?: string;
         colors?: string;
-        delay?: number;
-        stroke?: number;
-        scale?: number;
+        delay?: number | string;
+        stroke?: number | string;
+        scale?: number | string;
         target?: string;
-      },
-      HTMLElement
-    >;
+        style?: React.CSSProperties;
+      };
+    }
   }
 }
