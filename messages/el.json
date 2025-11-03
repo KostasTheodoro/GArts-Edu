@@ -24,7 +24,32 @@
   },
   "contact": {
     "title": "Επικοινωνία",
-    "description": "Επικοινωνήστε μαζί μας για ερωτήσεις και υποστήριξη"
+    "description": "Η ομάδα μας είναι πάντα στη διάθεσή σας για να απαντήσει σε κάθε σας ερώτηση για τα προϊόντα και τις υπηρεσίες μας. Συμπληρώστε την παρακάτω φόρμα ή επικοινωνήστε μαζί μας μέσω τηλεφώνου ή email.",
+    "info": {
+      "address": "Η Διεύθυνσή Σας Εδώ\nΠόλη, Ταχυδρομικός Κώδικας",
+      "phone": "+30 123 456 7890",
+      "phoneLink": "+301234567890",
+      "email": "info@gartsedu.gr",
+      "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1!2d-73.98!3d40.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM40zMCcwMC4wIk4gNzPCsDU4JzQ4LjAiVw!5e0!3m2!1sen!2s!4v1234567890",
+      "mapTitle": "Τοποθεσία GArts Education"
+    },
+    "form": {
+      "firstName": "Όνομα",
+      "firstNamePlaceholder": "Το όνομά σας",
+      "lastName": "Επώνυμο",
+      "lastNamePlaceholder": "Το επώνυμό σας",
+      "email": "Email",
+      "emailPlaceholder": "Το email σας",
+      "phone": "Τηλέφωνο",
+      "phonePlaceholder": "π.χ. 2101234567",
+      "optional": "προαιρετικό",
+      "message": "Μήνυμα",
+      "messagePlaceholder": "Γράψτε το μήνυμά σας εδώ...",
+      "submit": "Αποστολή Μηνύματος",
+      "sending": "Αποστολή...",
+      "success": "Το μήνυμά σας στάλθηκε επιτυχώς!",
+      "error": "Σφάλμα κατά την αποστολή. Δοκιμάστε ξανά."
+    }
   },
   "metadata": {
     "home": {
