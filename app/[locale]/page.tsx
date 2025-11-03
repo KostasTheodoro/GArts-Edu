@@ -16,15 +16,19 @@ export default function HomePage() {
   const t = useTranslations('home');
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center py-32 px-16 bg-white dark:bg-black">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <h1 className="max-w-2xl text-4xl font-bold leading-tight tracking-tight text-black dark:text-zinc-50">
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center py-32 px-16">
+        <div className="flex flex-col items-center gap-8 text-center">
+          <h1 className="max-w-2xl text-5xl font-bold leading-tight tracking-tight text-foreground">
             {t('title')}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+          <p className="max-w-md text-lg leading-8 text-foreground/70">
             {t('description')}
           </p>
+          {/* Example button with your color scheme */}
+          <button className="mt-4 px-8 py-3 bg-black text-primary font-semibold rounded-lg hover:bg-primary hover:text-black transition-colors duration-200">
+            Get Started
+          </button>
         </div>
       </main>
     </div>
