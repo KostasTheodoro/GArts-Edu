@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface LordIconProps {
   src: string;
   trigger?: 'hover' | 'click' | 'loop' | 'loop-on-hover' | 'morph' | 'boomerang';
