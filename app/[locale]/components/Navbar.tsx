@@ -4,6 +4,7 @@ import { Link, usePathname } from "@/i18n/routing";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
   const t = useTranslations("navigation");
@@ -31,10 +32,11 @@ export default function Navbar() {
 
   return (
     <nav className="bg-black px-6 py-4 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between lg:justify-start">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Mobile: Hamburger on left */}
         <button
           onClick={toggleMenu}
-          className="lg:hidden flex flex-col gap-1.5 p-2 z-50 relative order-first"
+          className="lg:hidden flex flex-col gap-1.5 p-2 z-50 relative"
           aria-label="Toggle menu"
         >
           <span
@@ -54,7 +56,11 @@ export default function Navbar() {
           />
         </button>
 
-        <Link href="/" className="z-50 lg:order-first group">
+        {/* Mobile: Logo in center, Desktop: Logo on left */}
+        <Link
+          href="/"
+          className="z-50 lg:mr-auto group absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0"
+        >
           <Image
             src="/logo.png"
             alt="GArts Edu Logo"
@@ -65,7 +71,7 @@ export default function Navbar() {
           />
         </Link>
 
-        <ul className="hidden lg:flex items-center gap-32 mx-auto">
+        <ul className="hidden lg:flex items-center gap-20 mx-auto">
           {navItems.map((item) => (
             <li key={item.href}>
               <Link
@@ -81,6 +87,10 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+
+        <div className="hidden md:block z-50 ml-auto lg:ml-32">
+          <LanguageSwitcher />
+        </div>
       </div>
 
       <AnimatePresence>
@@ -122,6 +132,12 @@ export default function Navbar() {
                     </Link>
                   </li>
                 ))}
+
+                <li className="mt-6 px-4 md:hidden">
+                  <div className="border-t border-white/20 pt-6">
+                    <LanguageSwitcher />
+                  </div>
+                </li>
               </ul>
             </motion.div>
           </>

@@ -25,10 +25,11 @@ export default function ContactPage() {
     <div className="min-h-screen py-16 px-4">
       <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-start">
         <div className="flex flex-col pr-0 lg:pr-24">
-          <h1 className="text-3xl font-extrabold tracking-tight text-primary mb-10">
+          <h1 className="text-3xl font-extrabold tracking-tight text-black mb-2 text-center">
             {t("title")}
           </h1>
-          <p className="text-lg text-foreground/70 mb-10 leading-relaxed">
+          <div className="w-20 h-1 bg-primary mx-auto mt-4 mb-10"></div>
+          <p className="text-lg text-foreground/70 mb-10 leading-relaxed text-left">
             {t("description")}
           </p>
 
