@@ -12,7 +12,23 @@
   },
   "software": {
     "title": "Λογισμικό",
-    "description": "Εξερευνήστε τις λύσεις λογισμικού και τα αναπτυξιακά έργα μας"
+    "description": "Εξερευνήστε τις λύσεις λογισμικού και τα αναπτυξιακά έργα μας",
+    "blender": {
+      "title": "Blender",
+      "description": "Το Blender είναι ένα λογισμικό ανοιχτού κώδικα που σας επιτρέπει να δημιουργήσετε τρισδιάστατα μοντέλα υψηλής πιστότητας και να προσομοιώσετε ολόκληρους κόσμους που προσεγγίζουν αυτούς της πραγματικής ζωής χάρη στο Cycles, μία από τις καλύτερες φωτορεαλιστικές μηχανές απόδοσης που υπάρχουν στη βιομηχανία 3D.\n\nΤα διάφορα εργαλεία που διατίθενται προσφέρουν ατελείωτες δυνατότητες για να επιτύχετε το επιθυμητό αποτέλεσμα και να επιταχύνετε τη ροή εργασίας σας παράγοντας αποτελέσματα με υψηλή αποδοτικότητα.\n\nΜε συχνές ενημερώσεις και νέες λειτουργίες, το Blender κερδίζει αναμφισβήτητα τον ανταγωνισμό του καλύτερου λογισμικού 3D καθώς σας παραδίδει το πιο ολοκληρωμένο πακέτο είτε θέλετε να γίνετε τρισδιάστατος μοντελιστής είτε animator και το πιο σημαντικό δωρεάν."
+    },
+    "photoshop": {
+      "title": "Photoshop",
+      "description": "Το Photoshop είναι ένα λογισμικό επεξεργασίας εικόνας της Adobe που χρησιμοποιείται από χιλιάδες φωτογράφους και καλλιτέχνες CGI σε όλο τον κόσμο. Το ισχυρό σύστημα επιπέδων του δίνει στον χρήστη τη δυνατότητα να εργάζεται μη καταστροφικά, εκτελώντας προσαρμογές και εφέ χωρίς να αλλοιώνει το αρχικό αποτέλεσμα.\n\nΌχι μόνο μπορεί να μεταμορφώσει εντελώς μια εικόνα που διαφορετικά θα ήταν κακή, αλλά μπορεί επίσης να χρησιμοποιηθεί σε συνδυασμό με το Blender για τη δημιουργία περίπλοκων χαρτών υφής και την εφαρμογή λεπτομερειών σε κάθε τρισδιάστατο μοντέλο.\n\nΜε τη βοήθεια του Photoshop μπορείτε να ενισχύσετε την καριέρα σας ως γραφίστας ή φωτογράφος, καθώς η εξοικείωση με τα εργαλεία του σας δίνει πρόσβαση σε πιο εξελιγμένους τρόπους χειρισμού εικόνων, ενισχύοντας τα συναισθήματα που μεταδίδονται σε μια φωτογραφία ή τον ρεαλισμό μιας τρισδιάστατης σκηνής."
+    },
+    "premierePro": {
+      "title": "Premiere Pro",
+      "description": "Το Premiere Pro, ο ηγέτης της βιομηχανίας στο λογισμικό επεξεργασίας βίντεο, σας δίνει τη δύναμη να ελέγχετε τη ροή των βίντεό σας, αφηγούμενοι την πιο απίστευτη ιστορία μέσω της ακολουθίας και επεξεργασίας τους, προκειμένου να παραδώσετε στον θεατή μια απρόσκοπτη εμπειρία.\n\nΜε τα track mattes μπορείτε να ελέγξετε την περιοχή στην οποία κάθε βίντεο είναι ορατό, συνδυάζοντάς τα έτσι με τον καλύτερο δυνατό τρόπο.\n\nΗ χρονολογική γραμμή θα γίνει ο καλύτερός σας φίλος, καθώς μπορείτε να ορίσετε με ακρίβεια την ακριβή στιγμή που κάθε κλιπ διαδέχεται το προηγούμενο και αν θα εκτελεστεί ή όχι μια μετάβαση για μια ομαλή ανάμειξη.\n\nΤα ηχητικά εφέ μπορούν να προστεθούν πάνω από κάθε κλιπ για να ενισχύσουν την εντύπωση ενός ζωντανού περιβάλλοντος, καθώς και χαρακτηριστικά διαβάθμισης χρωμάτων που δίνουν στο συνολικό αποτέλεσμα μια πιο ατμοσφαιρική εμφάνιση και αντικατοπτρίζουν τη διάθεση της τοποθεσίας και της χρονικής περιόδου που λαμβάνουν χώρα τα γεγονότα της ιστορίας."
+    },
+    "afterEffects": {
+      "title": "After Effects",
+      "description": "Το After Effects είναι σχεδιασμένο για όλους εσάς που θέλετε να καρυκεύσετε το περιεχόμενο βίντεό σας με εκπληκτικά οπτικά εφέ και κινούμενα γραφικά.\n\nΧρησιμοποιείται σε πολλές σκηνές μετα-παραγωγής για ταινίες και διαφημίσεις, εξοπλίζει τον καλλιτέχνη με μερικά από τα πιο ισχυρά εργαλεία για tracking και keying προκειμένου να συνθέσει πραγματικό υλικό με τρισδιάστατα αντικείμενα.\n\nΑμέτρητα πρόσθετα καθώς και η συνεργατική λειτουργία με το Premiere Pro και άλλο λογισμικό της Adobe, επεκτείνουν τη λειτουργικότητα του προγράμματος και επιταχύνουν τη διαδικασία δημιουργίας περίπλοκων συνθέσεων."
+    }
   },
   "session": {
     "title": "Συνεδρία",
@@ -20,18 +36,31 @@
   },
   "about": {
     "title": "Σχετικά με εμένα",
-    "description": "Μάθετε περισσότερα για την ομάδα και την αποστολή μας"
+    "description": "Μάθετε περισσότερα για την ομάδα και την αποστολή μας",
+    "content": {
+      "paragraph1": "Since my early childhood i was captivated by the visuals of the movie and video game industry. It was the age where all the big blockbuster movies which blended seamlessly reality with computer generated graphics were released for the first time.",
+      "paragraph2": "Since i graduated from the university of economics and business, i realized that if someone wants to have a successful career and live a fulfilled life should always chase his/her dreams after.",
+      "paragraph3": "And guess what.. mine was not about submitting financial reports but using a mix of my imagination and skills in computer graphics that i should develop, to quench my thirst of conveying whatever crazy ideas that i could came up with, into a screen made of pixels.",
+      "paragraph4": "Thus, fueled by passion after years of hard work i have managed to acquire all the necessary knowledge in order to turn my dream into reality, delivering high quality visuals to people which i am truly proud of. All of a sudden, this gave meaning to an otherwise boring and mundane daily routine that i was repeating the same tasks again and again.",
+      "paragraph5": "And this is the purpose of this site.. to share all this wealth of knowledge with you, interact with each other exchanging opinions and perspectives on how something could be improved, investing your time into something that you truly love and you are enthusiastic about, where you will always have something new and exciting to learn, challenging yourselves every day to become better.",
+      "paragraph6": "And one day who knows you may conquer a place amongst the top artist of the world.",
+      "tagline": "Creative Freedom Starts Here.."
+    },
+    "vision": {
+      "title": "Το Όραμά μου",
+      "content": "Να ενδυναμώσω τους φιλόδοξους καλλιτέχνες και δημιουργούς με τα εργαλεία, τη γνώση και την έμπνευση που χρειάζονται για να μετατρέψουν τη φαντασία τους σε εκπληκτικές οπτικές πραγματικότητες. Μέσω της ολοκληρωμένης εκπαίδευσης στα γραφικά υπολογιστών και τις ψηφιακές τέχνες, στοχεύω να χτίσω μια κοινότητα όπου η δημιουργικότητα δεν έχει όρια και κάθε μαθητής ανακαλύπτει τη μοναδική καλλιτεχνική του φωνή στον συνεχώς εξελισσόμενο κόσμο των ψηφιακών μέσων."
+    }
   },
   "contact": {
-    "title": "Επικοινωνία",
-    "description": "Η ομάδα μας είναι πάντα στη διάθεσή σας για να απαντήσει σε κάθε σας ερώτηση για τα προϊόντα και τις υπηρεσίες μας. Συμπληρώστε την παρακάτω φόρμα ή επικοινωνήστε μαζί μας μέσω τηλεφώνου ή email.",
+    "title": "Έχετε Ερωτήσεις; Ας Μιλήσουμε!",
+    "description": "Είμαι στη διάθεσή σας για να απαντήσω σε οποιαδήποτε ερώτηση έχετε σχετικά με τα μαθήματα μου. Χρησιμοποιήστε τη φόρμα ή επικοινωνήστε μέσω email ή τηλεφώνου, και θα σας απαντήσω το συντομότερο δυνατό. Σημείωση: η φόρμα επικοινωνίας είναι μόνο για ερωτήσεις — οι κρατήσεις μαθημάτων γίνονται ξεχωριστά μέσα από την ιστοσελίδα.",
     "info": {
-      "address": "Η Διεύθυνσή Σας Εδώ\nΠόλη, Ταχυδρομικός Κώδικας",
-      "phone": "+30 123 456 7890",
-      "phoneLink": "+301234567890",
-      "email": "info@gartsedu.gr",
-      "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1!2d-73.98!3d40.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM40zMCcwMC4wIk4gNzPCsDU4JzQ4LjAiVw!5e0!3m2!1sen!2s!4v1234567890",
-      "mapTitle": "Τοποθεσία GArts Education"
+      "address": "Εθνικής Αντιστάσεως 43\nΒριλήσσια, 15235",
+      "phone": "6939515320",
+      "phoneLink": "+306939515320",
+      "email": "geo_apo@hotmail.com",
+      "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3142.418010634551!2d23.828757699999997!3d38.0373453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a19939559baacd%3A0xac50fa9e7d3056c5!2sEth.%20Antistaseos%2043%2C%20Vrilissia%20152%2035!5e0!3m2!1sen!2sgr!4v1762196819421!5m2!1sen!2sgr",
+      "mapTitle": "GArts Education"
     },
     "form": {
       "firstName": "Όνομα",

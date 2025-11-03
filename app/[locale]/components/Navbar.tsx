@@ -1,84 +1,60 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
-import { Link, usePathname } from '@/i18n/routing';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+"use client";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/routing";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Navbar() {
-  const t = useTranslations('navigation');
+  const t = useTranslations("navigation");
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { href: '/software', label: t('software') },
-    { href: '/session', label: t('session') },
-    { href: '/about', label: t('about') },
-    { href: '/contact', label: t('contact') },
+    { href: "/software", label: t("software") },
+    { href: "/session", label: t("session") },
+    { href: "/about", label: t("about") },
+    { href: "/contact", label: t("contact") },
   ];
+  const mobileNavItems = [{ href: "/", label: t("home") }, ...navItems];
 
-  // Mobile nav includes Home
-  const mobileNavItems = [
-    { href: '/', label: t('home') },
-    ...navItems,
-  ];
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  const isActive = (href: string) => {
-    if (href === '/') {
-      return pathname === '/';
+  const toggleMenu = () => {
+    const next = !isMenuOpen;
+    setIsMenuOpen(next);
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = next ? "hidden" : "unset";
     }
-    return pathname.startsWith(href);
   };
-
-  // Close menu on route change
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
-
-  // Prevent body scroll when menu is open
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMenuOpen]);
 
   return (
     <nav className="bg-black px-6 py-4 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between lg:justify-start">
-        {/* Hamburger Menu Button - Mobile (LEFT on mobile) */}
         <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={toggleMenu}
           className="lg:hidden flex flex-col gap-1.5 p-2 z-50 relative order-first"
           aria-label="Toggle menu"
         >
           <span
             className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isMenuOpen ? 'rotate-45 translate-y-2' : ''
+              isMenuOpen ? "rotate-45 translate-y-2" : ""
             }`}
           />
           <span
             className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isMenuOpen ? 'opacity-0' : ''
+              isMenuOpen ? "opacity-0" : ""
             }`}
           />
           <span
             className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-              isMenuOpen ? '-rotate-45 -translate-y-2' : ''
+              isMenuOpen ? "-rotate-45 -translate-y-2" : ""
             }`}
           />
         </button>
 
-        {/* Logo - Left on desktop, Right on mobile */}
-        <Link
-          href="/"
-          className="z-50 lg:order-first group"
-        >
+        <Link href="/" className="z-50 lg:order-first group">
           <Image
             src="/logo.png"
             alt="GArts Edu Logo"
@@ -89,16 +65,15 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Desktop Navigation - Center */}
-        <ul className="hidden lg:flex items-center gap-12 mx-auto">
+        <ul className="hidden lg:flex items-center gap-32 mx-auto">
           {navItems.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
                 className={`text-lg font-semibold transition-colors ${
                   isActive(item.href)
-                    ? 'text-primary'
-                    : 'text-white hover:text-primary'
+                    ? "text-primary"
+                    : "text-white hover:text-primary"
                 }`}
               >
                 {item.label}
@@ -108,48 +83,46 @@ export default function Navbar() {
         </ul>
       </div>
 
-      {/* Mobile Menu Modal */}
       <AnimatePresence>
         {isMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={toggleMenu}
               className="fixed inset-0 bg-black/50 z-40 lg:hidden"
             />
 
-            {/* Sidebar */}
             <motion.div
-              initial={{ x: '-100%' }}
+              initial={{ x: "-100%" }}
               animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'tween', duration: 0.3 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
               className="fixed inset-y-0 left-0 w-[75vw] max-w-xs bg-black shadow-xl z-40 lg:hidden overflow-y-auto"
             >
-              <div className="flex flex-col h-full">
-                {/* Navigation Links */}
-                <ul className="flex flex-col gap-2 px-4 pt-20 pb-6">
-                  {mobileNavItems.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
-                          isActive(item.href)
-                            ? 'text-primary bg-primary/10'
-                            : 'text-white hover:text-primary hover:bg-white/5'
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <ul className="flex flex-col gap-2 px-4 pt-20 pb-6">
+                {mobileNavItems.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        if (typeof document !== "undefined")
+                          document.body.style.overflow = "unset";
+                      }}
+                      className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
+                        isActive(item.href)
+                          ? "text-primary bg-primary/10"
+                          : "text-white hover:text-primary hover:bg-white/5"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           </>
         )}

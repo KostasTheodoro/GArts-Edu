@@ -12,7 +12,23 @@
   },
   "software": {
     "title": "Software",
-    "description": "Explore our software solutions and development projects"
+    "description": "Explore our software solutions and development projects",
+    "blender": {
+      "title": "Blender",
+      "description": "Blender is an open source software that enables you to create 3D models with high fidelity and simulate entire worlds approximating those of real life thanks to Cycles one of the best photorealistic rendering engines that exist in the 3D industry.\n\nThe various tools that are available offer endless possibilities to reach the desired outcome and speed up your workflow producing results with high efficiency.\n\nWith frequent updates and new features Blender undoubtfully wins the competition of the best 3D software since it delivers to you the most complete package either you want to become a 3D modeler or an animator and most importantly for free."
+    },
+    "photoshop": {
+      "title": "Photoshop",
+      "description": "Photoshop is an image editing software owned by Adobe used by thousands of photographers and CGI artists all around the world. Its powerful layering system gives to the user the possibility to work undestructively performing adjustments and effects without altering the initial result.\n\nNot only it can transform entirely an otherwise bad looking image, but also it can be used in conjunction with Blender to create complicated texture maps and apply minute details to every 3D model.\n\nWith the help of Photoshop you can boost your career as a graphic designer or photographer, since mastering its tools gives you access to more sophisticated ways of manipulating images, enchaning the emotions conveyed in a picture or the realism of a 3D scene."
+    },
+    "premierePro": {
+      "title": "Premiere Pro",
+      "description": "Premiere Pro the industry leader in the video editing software, gives you the power to control the flow of your videos, telling the most incredible story by sequencing and editing them, in order to deliver to the viewer a seamless experience.\n\nWith track mattes you can control the area which each video is visible, thus combining them with the best possible way.\n\nThe timeline will become your best friend, since you can define precisely the exact moment each clip succeeds the previous one and whether or not a transition will be performed for a smooth blending.\n\nSound effects can be added on top of each clip to enhance the impression of a lively environment, as well as color grading features which give to the overall result a more atmospheric look and reflect the mood of the location and time period that the facts of the story take place."
+    },
+    "afterEffects": {
+      "title": "After Effects",
+      "description": "After Effects is designed for all those you want to spice up their video content with amazing visual effects and motion graphics.\n\nUsed in many post-production scenes for movies and advertisements, equips the artist with some of the most powerful tools for tracking and keying in order to composite real-time footage with 3d objects.\n\nCountless plugins as well as collaborative operation with Premiere Pro and other Adobe software, expand the functionality of the program and speed up the process of building up complicated compositions."
+    }
   },
   "session": {
     "title": "Session",
@@ -20,18 +36,31 @@
   },
   "about": {
     "title": "About Me",
-    "description": "Learn more about our team and mission"
+    "description": "Learn more about our team and mission",
+    "content": {
+      "paragraph1": "Since my early childhood i was captivated by the visuals of the movie and video game industry. It was the age where all the big blockbuster movies which blended seamlessly reality with computer generated graphics were released for the first time.",
+      "paragraph2": "Since i graduated from the university of economics and business, i realized that if someone wants to have a successful career and live a fulfilled life should always chase his/her dreams after.",
+      "paragraph3": "And guess what.. mine was not about submitting financial reports but using a mix of my imagination and skills in computer graphics that i should develop, to quench my thirst of conveying whatever crazy ideas that i could came up with, into a screen made of pixels.",
+      "paragraph4": "Thus, fueled by passion after years of hard work i have managed to acquire all the necessary knowledge in order to turn my dream into reality, delivering high quality visuals to people which i am truly proud of. All of a sudden, this gave meaning to an otherwise boring and mundane daily routine that i was repeating the same tasks again and again.",
+      "paragraph5": "And this is the purpose of this site.. to share all this wealth of knowledge with you, interact with each other exchanging opinions and perspectives on how something could be improved, investing your time into something that you truly love and you are enthusiastic about, where you will always have something new and exciting to learn, challenging yourselves every day to become better.",
+      "paragraph6": "And one day who knows you may conquer a place amongst the top artist of the world.",
+      "tagline": "Creative Freedom Starts Here.."
+    },
+    "vision": {
+      "title": "My Vision",
+      "content": "To empower aspiring artists and creators with the tools, knowledge, and inspiration they need to transform their imagination into stunning visual realities. Through comprehensive education in computer graphics and digital arts, I aim to build a community where creativity knows no bounds, and every student discovers their unique artistic voice in the ever-evolving world of digital media."
+    }
   },
   "contact": {
-    "title": "Contact Us",
-    "description": "Our team is always available to answer any questions you may have about our products and services. Fill out the form below or contact us via phone or email.",
+    "title": "Have Questions? Let’s Chat!",
+    "description": "I’m happy to answer any questions you may have about my lessons. Use the form  or reach out by email or phone directly, and I’ll get back to you as soon as possible. Please note: this contact form is for questions only—lesson bookings are handled separately on the website.",
     "info": {
-      "address": "Your Address Here\nCity, Postal Code",
-      "phone": "+30 123 456 7890",
-      "phoneLink": "+301234567890",
-      "email": "info@gartsedu.gr",
-      "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1!2d-73.98!3d40.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM40zMCcwMC4wIk4gNzPCsDU4JzQ4LjAiVw!5e0!3m2!1sen!2s!4v1234567890",
-      "mapTitle": "GArts Education Location"
+      "address": "Eth. Antistaseos 43\nVrilissia, 15235",
+      "phone": "6939515320",
+      "phoneLink": "+306939515320",
+      "email": "geo_apo@hotmail.com",
+      "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3142.418010634551!2d23.828757699999997!3d38.0373453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a19939559baacd%3A0xac50fa9e7d3056c5!2sEth.%20Antistaseos%2043%2C%20Vrilissia%20152%2035!5e0!3m2!1sen!2sgr!4v1762196819421!5m2!1sen!2sgr",
+      "mapTitle": "GArts Education"
     },
     "form": {
       "firstName": "First Name",
