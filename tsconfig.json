@@ -24,6 +24,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "lord-icon.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",

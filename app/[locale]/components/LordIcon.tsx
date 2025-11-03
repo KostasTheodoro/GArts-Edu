@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface LordIconProps {
   src: string;
   trigger?: 'hover' | 'click' | 'loop' | 'loop-on-hover' | 'morph' | 'boomerang';
@@ -9,25 +7,6 @@ interface LordIconProps {
   stroke?: number;
   scale?: number;
   target?: string;
-}
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'lord-icon': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement> & {
-          src?: string;
-          trigger?: string;
-          colors?: string;
-          delay?: number;
-          stroke?: number;
-          scale?: number;
-          target?: string;
-        },
-        HTMLElement
-      >;
-    }
-  }
 }
 
 export default function LordIcon({
