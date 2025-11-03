@@ -23,19 +23,23 @@ export default function SoftwarePage() {
   const softwareList = [
     {
       key: "blender",
-      imageAlt: "Blender 3D Software",
+      videoUrl: "/animations/blender.mp4",
+      downloadUrl: "https://www.blender.org/download/",
     },
     {
       key: "photoshop",
-      imageAlt: "Adobe Photoshop",
+      videoUrl: "/animations/photoshop.mp4",
+      downloadUrl: "https://www.adobe.com/products/photoshop.html",
     },
     {
       key: "premierePro",
-      imageAlt: "Adobe Premiere Pro",
+      videoUrl: "/animations/premiere-pro.mp4",
+      downloadUrl: "https://www.adobe.com/products/premiere.html",
     },
     {
       key: "afterEffects",
-      imageAlt: "Adobe After Effects",
+      videoUrl: "/animations/after-effects.mp4",
+      downloadUrl: "https://www.adobe.com/products/aftereffects.html",
     },
   ];
 
@@ -52,15 +56,15 @@ export default function SoftwarePage() {
           </p>
         </div>
 
-        {/* Software Cards - Stacked Vertically */}
-        <div className="max-w-2xl mx-auto space-y-6">
-          {softwareList.map((software) => (
+        <div className="max-w-5xl mx-auto space-y-12">
+          {softwareList.map((software, index) => (
             <SoftwareCard
               key={software.key}
               title={t(`${software.key}.title`)}
               description={t(`${software.key}.description`)}
-              imageUrl={`https://placehold.co/800x450/ff8500/white?text=${software.key}`}
-              imageAlt={software.imageAlt}
+              videoUrl={software.videoUrl}
+              downloadUrl={software.downloadUrl}
+              reverse={index % 2 !== 0}
             />
           ))}
         </div>
