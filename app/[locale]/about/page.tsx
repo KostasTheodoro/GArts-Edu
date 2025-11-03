@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import aboutImage1 from '@/assets/images/about-1.jpg';
 import aboutImage2 from '@/assets/images/about-2.jpg';
+import LordIcon from '../components/LordIcon';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -81,6 +82,14 @@ export default function AboutPage() {
         {/* My Vision Section */}
         <div className="mb-24">
           <div className="text-center mb-12">
+            <div className="flex justify-center mb-6">
+              <LordIcon
+                src="https://cdn.lordicon.com/vfczflna.json"
+                trigger="hover"
+                colors="primary:#000000,secondary:#ff8500"
+                size={120}
+              />
+            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-black mb-2">
               {t('vision.title')}
             </h2>

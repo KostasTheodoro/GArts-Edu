@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { locales } from "@/i18n";
 import type { ReactNode } from "react";
+import Script from "next/script";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -43,6 +44,7 @@ export default async function LocaleLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           {children}
