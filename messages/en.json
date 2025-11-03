@@ -1,0 +1,51 @@
+{
+  "navigation": {
+    "home": "Home",
+    "software": "Software",
+    "session": "Session",
+    "about": "About Me",
+    "contact": "Contact Me"
+  },
+  "home": {
+    "title": "Welcome to Garts Education",
+    "description": "Your gateway to quality educational resources and software development"
+  },
+  "software": {
+    "title": "Software",
+    "description": "Explore our software solutions and development projects"
+  },
+  "session": {
+    "title": "Session",
+    "description": "Book a session with us for personalized learning"
+  },
+  "about": {
+    "title": "About Me",
+    "description": "Learn more about our team and mission"
+  },
+  "contact": {
+    "title": "Contact Me",
+    "description": "Get in touch with us for inquiries and support"
+  },
+  "metadata": {
+    "home": {
+      "title": "Garts Education - Home",
+      "description": "Welcome to Garts Education - Your gateway to quality educational resources"
+    },
+    "software": {
+      "title": "Garts Education - Software",
+      "description": "Explore our software solutions and development projects"
+    },
+    "session": {
+      "title": "Garts Education - Session",
+      "description": "Book a session with us for personalized learning"
+    },
+    "about": {
+      "title": "Garts Education - About Me",
+      "description": "Learn more about our team and mission"
+    },
+    "contact": {
+      "title": "Garts Education - Contact Me",
+      "description": "Get in touch with us for inquiries and support"
+    }
+  }
+}
