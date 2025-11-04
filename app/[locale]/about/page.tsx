@@ -67,7 +67,7 @@ export default function AboutPage() {
           </div>
 
           {/* Image */}
-          <div className="relative aspect-[3/4] overflow-hidden">
+          <div className="relative aspect-[3/4] overflow-hidden rounded-2xl">
             <Image
               src={aboutImage1}
               alt="About Me"
@@ -105,7 +105,7 @@ export default function AboutPage() {
 
         {/* Second Image */}
         <div className="max-w-4xl mx-auto">
-          <div className="relative aspect-video overflow-hidden">
+          <div className="relative aspect-video overflow-hidden rounded-2xl">
             <Image
               src={aboutImage2}
               alt="My Vision"
