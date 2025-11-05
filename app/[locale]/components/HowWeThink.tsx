@@ -15,7 +15,7 @@ import imgC from "@/assets/images/Neural System IMG_1C.jpg";
 import imgD from "@/assets/images/Neural System IMG_1D.jpg";
 import imgE from "@/assets/images/Neural System IMG_1E.jpg";
 
-export default function NeuralSystem() {
+export default function HowWeThink() {
   const [activeCircle, setActiveCircle] = useState<string | null>(null);
   const t = useTranslations("home.neuralSystem");
 

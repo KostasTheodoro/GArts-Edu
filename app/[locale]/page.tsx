@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import NeuralSystem from './components/NeuralSystem';
+import HowWeThink from './components/HowWeThink';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -31,8 +31,8 @@ export default function HomePage() {
         </button>
       </div>
 
-      {/* Neural System Section */}
-      <NeuralSystem />
+      {/* How We Think Section */}
+      <HowWeThink />
     </main>
   );
 }
