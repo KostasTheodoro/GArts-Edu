@@ -7,8 +7,10 @@
     "contact": "Contact Me"
   },
   "home": {
-    "title": "Welcome to Garts Education",
-    "description": "Your gateway to quality educational resources and software development",
+    "hero": {
+      "title": "Creative Freedom",
+      "button": "starts here"
+    },
     "neuralSystem": {
       "title": "How We Think, How We Teach",
       "description": "We revolutionize the way you learn. At GArts Education, we study exactly how the human brain learns, adapts, and evolves - and we design our teaching around that. Every connection, every feedback loop, every challenge is built to train not just your hands, but your mind. The more you learn how you think, the better you create.",

@@ -136,12 +136,11 @@ export default function HowWeThink() {
                 }}
               >
                 <IconComponent
-                  className={`transition-all duration-200 ${
+                  className={`transition-all duration-200 text-lg sm:text-3xl ${
                     isActive
                       ? "text-primary scale-125 animate-pulse drop-shadow-[0_0_15px_rgba(255,133,0,0.9)]"
                       : "text-white"
                   }`}
-                  size={28}
                 />
               </div>
             );
