@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Hero from "./components/Hero";
+import HeroAnimated1 from "./components/HeroAnimated1";
+import HeroAnimated2 from "./components/HeroAnimated2";
+import HeroAnimated3 from "./components/HeroAnimated3";
 import HowWeThink from "./components/HowWeThink";
 
 export async function generateMetadata({
@@ -21,6 +24,9 @@ export default function HomePage() {
   return (
     <main className="w-full">
       <Hero />
+      <HeroAnimated1 />
+      <HeroAnimated2 />
+      <HeroAnimated3 />
       <HowWeThink />
     </main>
   );
