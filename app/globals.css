@@ -6,6 +6,7 @@
   --dark-gray: #d9d9d9;
   --black: #000000;
   --primary: #ff9a56;
+  --neural-dark: #120800;
 
   /* Text color */
   --foreground: #171717;
@@ -16,6 +17,7 @@
   --color-dark-gray: var(--dark-gray);
   --color-black: var(--black);
   --color-primary: var(--primary);
+  --color-neural-dark: var(--neural-dark);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
