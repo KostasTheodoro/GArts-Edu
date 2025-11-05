@@ -37,7 +37,7 @@ export default function LanguageSwitcher() {
             disabled={isPending}
             className={`px-3 py-2 rounded-md font-semibold text-lg transition-colors flex items-center gap-2 ${
               locale === loc
-                ? 'bg-primary text-black'
+                ? 'bg-primary text-neural-dark'
                 : 'bg-white/10 text-white hover:bg-white/20'
             } ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
           >

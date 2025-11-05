@@ -47,7 +47,7 @@ export default function SoftwarePage() {
     <div className="min-h-screen bg-gray py-16 px-4">
       <main className="max-w-7xl mx-auto">
         <div className="mb-12 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-black mb-2">
+          <h1 className="text-5xl md:text-6xl font-bold text-neural-dark mb-2">
             {t("title")}
           </h1>
           <div className="w-20 h-1 bg-primary mx-auto mt-4"></div>

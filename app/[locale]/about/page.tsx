@@ -24,7 +24,7 @@ export default function AboutPage() {
       <main className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-16 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-black mb-2">
+          <h1 className="text-5xl md:text-6xl font-bold text-neural-dark mb-2">
             {t('title')}
           </h1>
           <div className="w-20 h-1 bg-primary mx-auto mt-4"></div>
@@ -90,7 +90,7 @@ export default function AboutPage() {
                 size={120}
               />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-black mb-2">
+            <h2 className="text-4xl md:text-5xl font-bold text-neural-dark mb-2">
               {t('vision.title')}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto mt-4"></div>

@@ -56,7 +56,7 @@ export default function SoftwareCard({
     <div className="bg-dark-gray rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="p-8">
         <div className="text-center mb-16">
-          <h3 className="text-4xl font-bold text-black mb-3">{title}</h3>
+          <h3 className="text-4xl font-bold text-neural-dark mb-3">{title}</h3>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
         </div>
 
@@ -97,7 +97,7 @@ export default function SoftwareCard({
             href={downloadUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-black text-primary font-bold px-8 py-3 rounded-full text-lg shadow-md hover:bg-primary hover:text-white border-2 border-black hover:border-primary transition-colors duration-200"
+            className="inline-block bg-neural-dark text-primary font-bold px-8 py-3 rounded-full text-lg shadow-md hover:bg-primary hover:text-white border-2 border-neural-dark hover:border-primary transition-colors duration-200"
           >
             Download {title} here
           </a>

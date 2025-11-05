@@ -31,7 +31,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-black px-6 py-4 sticky top-0 z-50">
+    <nav className="bg-neural-dark px-6 py-4 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Mobile: Hamburger on left */}
         <button
@@ -102,7 +102,7 @@ export default function Navbar() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               onClick={toggleMenu}
-              className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+              className="fixed inset-0 bg-neural-dark/50 z-40 lg:hidden"
             />
 
             <motion.div
@@ -110,7 +110,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="fixed inset-y-0 left-0 w-[75vw] max-w-xs bg-black shadow-xl z-40 lg:hidden overflow-y-auto"
+              className="fixed inset-y-0 left-0 w-[75vw] max-w-xs bg-neural-dark shadow-xl z-40 lg:hidden overflow-y-auto"
             >
               <ul className="flex flex-col gap-2 px-4 pt-20 pb-6">
                 {mobileNavItems.map((item) => (

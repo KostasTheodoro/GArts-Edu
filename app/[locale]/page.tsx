@@ -26,7 +26,7 @@ export default function HomePage() {
           {t('description')}
         </p>
         {/* Example button with your color scheme */}
-        <button className="mt-4 px-8 py-3 bg-black text-primary font-semibold rounded-lg hover:bg-primary hover:text-black transition-colors duration-200">
+        <button className="mt-4 px-8 py-3 bg-neural-dark text-primary font-semibold rounded-lg hover:bg-primary hover:text-neural-dark transition-colors duration-200">
           Get Started
         </button>
       </div>

@@ -160,7 +160,7 @@ export default function ContactForm() {
       <div className="mt-8 flex justify-end">
         <button
           type="submit"
-          className="inline-block bg-black text-primary font-bold px-8 py-3 rounded-lg text-lg shadow-md hover:bg-primary hover:text-white border-2 border-black hover:border-primary transition-colors duration-200"
+          className="inline-block bg-neural-dark text-primary font-bold px-8 py-3 rounded-lg text-lg shadow-md hover:bg-primary hover:text-white border-2 border-neural-dark hover:border-primary transition-colors duration-200"
           disabled={sending}
         >
           {t("submit")}

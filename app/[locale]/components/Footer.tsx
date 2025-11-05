@@ -2,7 +2,7 @@ import { FaFacebookF, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white py-6">
+    <footer className="bg-neural-dark text-white py-6">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <div className="flex-1"></div>
@@ -18,7 +18,7 @@ export default function Footer() {
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center bg-black "
+              className="w-10 h-10 flex items-center justify-center bg-neural-dark"
               aria-label="Facebook"
             >
               <FaFacebookF
@@ -30,7 +30,7 @@ export default function Footer() {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center bg-black"
+              className="w-10 h-10 flex items-center justify-center bg-neural-dark"
               aria-label="Instagram"
             >
               <FaInstagram
