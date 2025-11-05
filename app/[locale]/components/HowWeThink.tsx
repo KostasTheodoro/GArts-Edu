@@ -178,7 +178,7 @@ export default function HowWeThink() {
           })}
         </div>
 
-        <div className="flex flex-col justify-center space-y-6 text-white">
+        <div className="flex flex-col justify-center space-y-6 text-white max-w-md mx-auto ">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">{t("title")}</h2>
           <p className="text-lg md:text-xl leading-relaxed text-gray-300">
             {t("description")}

@@ -2,7 +2,8 @@
   "navigation": {
     "home": "Home",
     "software": "Software",
-    "session": "Session",
+    "sessions": "Sessions",
+    "bookings": "Bookings",
     "about": "About Me",
     "contact": "Contact Me"
   },
@@ -62,9 +63,36 @@
       "content": "To empower aspiring artists and creators with the tools, knowledge, and inspiration they need to transform their imagination into stunning visual realities. Through comprehensive education in computer graphics and digital arts, I aim to build a community where creativity knows no bounds, and every student discovers their unique artistic voice in the ever-evolving world of digital media."
     }
   },
+  "sessions": {
+    "title": "Our Sessions",
+    "subtitle": "Choose the learning format that best fits your needs and schedule:",
+    "online": {
+      "title": "Online",
+      "description": "Join live interactive sessions from anywhere in the world. Our online classes are conducted through professional video conferencing platforms, providing a seamless learning experience with screen sharing, real-time demonstrations, and direct interaction with your instructor.",
+      "groups": "Sessions are available for individuals or small groups, carefully organized by skill level and age group to ensure optimal learning outcomes for every student.",
+      "button": "Book Online Session"
+    },
+    "face2face": {
+      "title": "Face2Face",
+      "description": "Experience personalized, hands-on learning in our fully-equipped studio located in the northern suburbs of Athens. Our face-to-face sessions offer an immersive educational environment designed for serious learners who want to maximize their creative potential.",
+      "benefit1": "Dedicated personal attention",
+      "benefit2": "Collaborative learning environment",
+      "benefit3": "Instant real-time feedback",
+      "benefit4": "Enhanced understanding and retention",
+      "benefit5": "Continuous hands-on guidance",
+      "benefit6": "Reliable, uninterrupted connectivity",
+      "benefit7": "Professional-grade color-calibrated displays",
+      "benefit8": "Access to high-performance workstations",
+      "button": "Book Face2Face Session"
+    }
+  },
+  "bookings": {
+    "title": "Book Your Session",
+    "description": "Ready to start your creative journey? Book a personalized session with us and unlock your full potential."
+  },
   "contact": {
-    "title": "Have Questions? Let’s Chat!",
-    "description": "I’m happy to answer any questions you may have about my lessons. Use the form  or reach out by email or phone directly, and I’ll get back to you as soon as possible. Please note: this contact form is for questions only—lesson bookings are handled separately on the website.",
+    "title": "Have Questions? Let's Chat!",
+    "description": "I'm happy to answer any questions you may have about my lessons. Use the form  or reach out by email or phone directly, and I'll get back to you as soon as possible. Please note: this contact form is for questions only—lesson bookings are handled separately on the website.",
     "info": {
       "address": "Eth. Antistaseos 43\nVrilissia, 15235",
       "phone": "6939515320",
@@ -100,9 +128,13 @@
       "title": "Garts Education - Software",
       "description": "Explore our software solutions and development projects"
     },
-    "session": {
-      "title": "Garts Education - Session",
-      "description": "Book a session with us for personalized learning"
+    "sessions": {
+      "title": "Garts Education - Sessions",
+      "description": "Choose between online or face-to-face personalized learning sessions"
+    },
+    "bookings": {
+      "title": "Garts Education - Bookings",
+      "description": "Schedule your personalized learning session"
     },
     "about": {
       "title": "Garts Education - About Me",

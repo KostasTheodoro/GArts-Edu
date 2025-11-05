@@ -13,7 +13,8 @@ export default function Navbar() {
 
   const navItems = [
     { href: "/software", label: t("software") },
-    { href: "/session", label: t("session") },
+    { href: "/sessions", label: t("sessions") },
+    { href: "/bookings", label: t("bookings") },
     { href: "/about", label: t("about") },
     { href: "/contact", label: t("contact") },
   ];
@@ -71,7 +72,7 @@ export default function Navbar() {
           />
         </Link>
 
-        <ul className="hidden lg:flex items-center gap-20 mx-auto">
+        <ul className="hidden lg:flex items-center gap-12 mx-auto">
           {navItems.map((item) => (
             <li key={item.href}>
               <Link
@@ -88,7 +89,7 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden md:block z-50 ml-auto lg:ml-32">
+        <div className="hidden md:block z-50 ml-auto lg:ml-12">
           <LanguageSwitcher />
         </div>
       </div>

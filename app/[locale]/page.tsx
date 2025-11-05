@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import HeroBlended from "./components/HeroBlended";
+import Hero from "./components/Hero";
 import HowWeThink from "./components/HowWeThink";
 
 export async function generateMetadata({
@@ -20,7 +20,7 @@ export async function generateMetadata({
 export default function HomePage() {
   return (
     <main className="w-full">
-      <HeroBlended />
+      <Hero />
       <HowWeThink />
     </main>
   );

@@ -29,17 +29,17 @@ export default function SoftwarePage() {
     {
       key: "photoshop",
       videoUrl: "/animations/photoshop.mp4",
-      downloadUrl: "https://www.adobe.com/products/photoshop.html",
+      downloadUrl: "https://www.adobe.com/gr_en/products/photoshop.html",
     },
     {
       key: "premierePro",
       videoUrl: "/animations/premiere-pro.mp4",
-      downloadUrl: "https://www.adobe.com/products/premiere.html",
+      downloadUrl: "https://www.adobe.com/gr_en/products/premiere.html",
     },
     {
       key: "afterEffects",
       videoUrl: "/animations/after-effects.mp4",
-      downloadUrl: "https://www.adobe.com/products/aftereffects.html",
+      downloadUrl: "https://www.adobe.com/gr_en/products/aftereffects.html",
     },
   ];
 
