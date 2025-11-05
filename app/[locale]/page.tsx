@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import HeroAnimated1 from "./components/HeroAnimated1";
 import HeroAnimated2 from "./components/HeroAnimated2";
 import HeroAnimated3 from "./components/HeroAnimated3";
+import HeroBlended from "./components/HeroBlended";
 import HowWeThink from "./components/HowWeThink";
 
 export async function generateMetadata({
@@ -27,6 +28,7 @@ export default function HomePage() {
       <HeroAnimated1 />
       <HeroAnimated2 />
       <HeroAnimated3 />
+      <HeroBlended />
       <HowWeThink />
     </main>
   );
