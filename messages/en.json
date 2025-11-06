@@ -114,6 +114,51 @@
     },
     "button": "Explore Our Software"
   },
+  "learningPath": {
+    "title": "Learning Path",
+    "steps": {
+      "3dModeling": {
+        "title": "3D Modeling",
+        "description": "Master the fundamentals of creating 3D objects and structures. Learn to build everything from simple shapes to complex models using industry-standard techniques and workflows."
+      },
+      "digitalSculpting": {
+        "title": "Digital Sculpting",
+        "description": "Discover the art of organic modeling through digital sculpting. Create detailed characters, creatures, and natural forms with intuitive sculpting tools and techniques."
+      },
+      "uvMapping": {
+        "title": "UV Mapping",
+        "description": "Learn how to unwrap 3D models and create efficient UV layouts. Essential skill for applying textures and materials to your 3D creations with precision."
+      },
+      "texturing": {
+        "title": "Texturing",
+        "description": "Bring your models to life with realistic textures and surface details. Master procedural and image-based texturing techniques for photorealistic results."
+      },
+      "shading": {
+        "title": "Shading",
+        "description": "Understand material properties and shader networks. Learn to create realistic materials that respond accurately to light, from metals to glass to skin."
+      },
+      "animationPrinciples": {
+        "title": "Animation Principles",
+        "description": "Explore the 12 principles of animation and bring your creations to life. Learn timing, spacing, and movement to create compelling character and object animations."
+      },
+      "rendering": {
+        "title": "Rendering",
+        "description": "Master the art of rendering photorealistic images. Learn lighting techniques, render settings, and optimization strategies for stunning final outputs."
+      },
+      "videoEditing": {
+        "title": "Video Editing",
+        "description": "Edit and sequence your animations and footage. Learn professional video editing workflows, transitions, and storytelling techniques."
+      },
+      "postProcessing": {
+        "title": "Post Processing",
+        "description": "Enhance your renders with compositing and color grading. Add visual effects, adjust colors, and polish your work to professional standards."
+      },
+      "fileExploring": {
+        "title": "File Exploring",
+        "description": "Understand file formats, project organization, and asset management. Learn best practices for managing complex projects and collaborating with teams."
+      }
+    }
+  },
   "bookings": {
     "title": "Book Your Session",
     "description": "Ready to start your creative journey? Book a personalized session with us and unlock your full potential."
