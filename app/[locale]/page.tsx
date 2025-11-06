@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import Hero from "./components/Hero";
 import HowWeThink from "./components/HowWeThink";
 import TargetAudience from "./components/TargetAudience";
+import VideoMonitor from "./components/VideoMonitor";
 
 export async function generateMetadata({
   params,
@@ -24,6 +25,7 @@ export default function HomePage() {
       <Hero />
       <HowWeThink />
       <TargetAudience />
+      <VideoMonitor />
     </main>
   );
 }
