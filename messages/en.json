@@ -86,6 +86,34 @@
       "button": "Book Face2Face Session"
     }
   },
+  "targetAudience": {
+    "title": "Who We're Here For",
+    "subtitle": "Our creative community welcomes everyone who believes that imagination can change the way we learn, work, and connect.",
+    "visual": {
+      "title": "Visual Creators",
+      "graphicDesigners": "Graphic Designers",
+      "motionArtists": "Motion Artists",
+      "cgiEnthusiasts": "CGI Enthusiasts",
+      "productJewelryDesigners": "Product & Jewelry Designers",
+      "architects": "Architects"
+    },
+    "storytellers": {
+      "title": "Storytellers",
+      "photographers": "Photographers",
+      "filmmakers": "Filmmakers",
+      "youtubers": "YouTubers",
+      "influencers": "Influencers",
+      "vloggers": "Vloggers"
+    },
+    "digital": {
+      "title": "Digital Communicators",
+      "marketers": "Marketers",
+      "advertisers": "Advertisers",
+      "contentCreators": "Content Creators",
+      "digitalPresence": "Anyone who wants to build a strong digital presence"
+    },
+    "button": "Explore Our Software"
+  },
   "bookings": {
     "title": "Book Your Session",
     "description": "Ready to start your creative journey? Book a personalized session with us and unlock your full potential."

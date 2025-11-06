@@ -40,7 +40,7 @@ export default function HeroBlended() {
       <div className="relative z-10 text-center px-4">
         <Link
           href="/sessions"
-          className="inline-block bg-neural-dark text-primary font-bold px-12 py-4 rounded-full text-xl shadow-md hover:bg-primary hover:text-white border-2 border-primary transition-colors duration-200 uppercase"
+          className="inline-block bg-neural-dark text-primary font-bold px-12 py-4 rounded-full text-xl shadow-md hover:bg-primary hover:text-white border-4 border-primary transition-colors duration-200 uppercase"
         >
           {t("hero.button")}
         </Link>

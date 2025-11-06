@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Hero from "./components/Hero";
 import HowWeThink from "./components/HowWeThink";
+import TargetAudience from "./components/TargetAudience";
 
 export async function generateMetadata({
   params,
@@ -22,6 +23,7 @@ export default function HomePage() {
     <main className="w-full">
       <Hero />
       <HowWeThink />
+      <TargetAudience />
     </main>
   );
 }
