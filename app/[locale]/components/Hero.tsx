@@ -6,24 +6,24 @@ export default function HeroBlended() {
 
   return (
     <section className="relative min-h-[800px] md:min-h-[900px] flex flex-col justify-between pt-16 pb-40 overflow-hidden">
-      {/* Animated Background Video */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover md:object-center"
+        style={{ objectPosition: "72% center" }}
       >
         <source src="/hero-animated-wallpaper.mp4" type="video/mp4" />
       </video>
 
-      {/* Animated Video Overlay */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover mix-blend-screen"
+        className="absolute inset-0 w-full h-full object-cover mix-blend-screen md:object-center"
+        style={{ objectPosition: "65% center" }}
       >
         <source src="/hero-animated-1.mp4" type="video/mp4" />
       </video>
