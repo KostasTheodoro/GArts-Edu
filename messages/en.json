@@ -84,6 +84,10 @@
       "benefit7": "Professional-grade color-calibrated displays",
       "benefit8": "Access to high-performance workstations",
       "button": "Book Face2Face Session"
+    },
+    "studio": {
+      "image1Alt": "GArts Education Studio Interior - View 1",
+      "image2Alt": "GArts Education Studio Interior - View 2"
     }
   },
   "targetAudience": {

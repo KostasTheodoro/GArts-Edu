@@ -38,7 +38,7 @@ export default function SessionsPage() {
         </div>
 
         {/* Online Card */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-12 p-8 md:p-12">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-30 p-8 md:p-12">
           {/* Title */}
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-neural-dark mb-3">
@@ -71,7 +71,6 @@ export default function SessionsPage() {
             </div>
           </div>
 
-          {/* Button */}
           <div className="flex justify-center">
             <Link
               href="/bookings"
@@ -82,9 +81,7 @@ export default function SessionsPage() {
           </div>
         </div>
 
-        {/* Face2Face Card */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-12 p-8 md:p-12">
-          {/* Title */}
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-30 p-8 md:p-12">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-neural-dark mb-3">
               {t("face2face.title")}
@@ -92,7 +89,6 @@ export default function SessionsPage() {
             <div className="w-20 h-1 bg-primary mx-auto"></div>
           </div>
 
-          {/* Content Grid */}
           <div className="grid md:grid-cols-2 gap-8 items-start mb-8">
             <div>
               <p className="text-lg text-foreground leading-relaxed mb-6">
@@ -133,7 +129,6 @@ export default function SessionsPage() {
             </div>
           </div>
 
-          {/* Button */}
           <div className="flex justify-center">
             <Link
               href="/bookings"
@@ -141,6 +136,27 @@ export default function SessionsPage() {
             >
               {t("face2face.button")}
             </Link>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-xl">
+            <Image
+              src="/studio-interior-1.jpg"
+              alt={t("studio.image1Alt")}
+              fill
+              className="object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-xl">
+            <Image
+              src="/studio-interior-2.jpg"
+              alt={t("studio.image2Alt")}
+              fill
+              className="object-cover"
+              loading="lazy"
+            />
           </div>
         </div>
       </main>

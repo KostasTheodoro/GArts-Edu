@@ -5,12 +5,17 @@ export default function HeroBlended() {
   const t = useTranslations("home");
 
   return (
-    <section className="relative min-h-[600px] flex flex-col justify-between pt-16 pb-40 overflow-hidden">
-      {/* Static Image Background */}
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat "
-        style={{ backgroundImage: "url(/hero-background.jpg)" }}
-      ></div>
+    <section className="relative min-h-[800px] md:min-h-[900px] flex flex-col justify-between pt-16 pb-40 overflow-hidden">
+      {/* Animated Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="/hero-animated-wallpaper.mp4" type="video/mp4" />
+      </video>
 
       {/* Animated Video Overlay */}
       <video
@@ -18,7 +23,7 @@ export default function HeroBlended() {
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover  mix-blend-screen"
+        className="absolute inset-0 w-full h-full object-cover mix-blend-screen"
       >
         <source src="/hero-animated-1.mp4" type="video/mp4" />
       </video>
