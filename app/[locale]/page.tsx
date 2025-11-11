@@ -27,8 +27,8 @@ export default function HomePage() {
       <Hero />
       <HowWeThink />
       <TargetAudience />
-      <BeforeAfter />
       <LearningPath />
+      <BeforeAfter />
       <VideoMonitor />
     </main>
   );
