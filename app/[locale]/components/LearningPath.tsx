@@ -2,6 +2,18 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import {
+  TbCube,
+  TbGridPattern,
+  TbPalette,
+  TbBrush,
+  TbSun,
+  TbPlayerPlay,
+  TbCamera,
+  TbVideo,
+  TbAdjustments,
+  TbFolderOpen,
+} from "react-icons/tb";
 
 export default function LearningPath() {
   const t = useTranslations("learningPath");
@@ -20,6 +32,19 @@ export default function LearningPath() {
     "postProcessing",
     "fileExploring",
   ];
+
+  const stepIcons: Record<string, React.ElementType> = {
+    "3dModeling": TbCube,
+    "digitalSculpting": TbBrush,
+    "uvMapping": TbGridPattern,
+    "texturing": TbPalette,
+    "shading": TbSun,
+    "animationPrinciples": TbPlayerPlay,
+    "rendering": TbCamera,
+    "videoEditing": TbVideo,
+    "postProcessing": TbAdjustments,
+    "fileExploring": TbFolderOpen,
+  };
 
   const handleDotClick = (index: number) => {
     setSelectedStep(selectedStep === index ? null : index);
@@ -114,7 +139,15 @@ export default function LearningPath() {
                         >
                           &times;
                         </button>
-                        <h3 className="text-lg md:text-xl font-bold text-neural-dark mb-3">
+                        {(() => {
+                          const Icon = stepIcons[step];
+                          return Icon ? (
+                            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-primary rounded-full">
+                              <Icon className="w-8 h-8 text-white" />
+                            </div>
+                          ) : null;
+                        })()}
+                        <h3 className="text-lg md:text-xl font-bold text-neural-dark mb-3 text-center">
                           {t(`steps.${step}.title`)}
                         </h3>
                         <p className="text-sm md:text-base text-neural-dark leading-relaxed">
