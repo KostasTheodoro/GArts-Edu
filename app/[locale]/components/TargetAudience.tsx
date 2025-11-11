@@ -84,11 +84,11 @@ export default function TargetAudience() {
         {/* Button */}
         <div className="flex justify-center">
           <Link
-            href="/software"
+            href="/sessions"
             className="inline-block bg-primary text-neural-dark font-bold px-10 py-4 rounded-full text-lg shadow-md hover:bg-neural-dark
              hover:text-primary border-4 border-primary transition-colors duration-200"
           >
-            {t("button")}
+            {t("buttonSessions")}
           </Link>
         </div>
       </div>

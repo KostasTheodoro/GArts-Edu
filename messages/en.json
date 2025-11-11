@@ -112,7 +112,8 @@
       "contentCreators": "Content Creators",
       "digitalPresence": "Anyone who wants to build a strong digital presence"
     },
-    "button": "Explore Our Software"
+    "button": "Explore Our Software",
+    "buttonSessions": "View Our Sessions"
   },
   "learningPath": {
     "title": "Learning Path",
@@ -158,6 +159,15 @@
         "description": "Understand file formats, project organization, and asset management. Learn best practices for managing complex projects and collaborating with teams."
       }
     }
+  },
+  "beforeAfter": {
+    "title": "See the Transformation",
+    "subtitle": "Drag the slider to reveal the journey from concept to final render",
+    "before": "Preview",
+    "after": "Final Render",
+    "beforeAlt": "CGI Preview - Before rendering",
+    "afterAlt": "CGI Final Render - After rendering",
+    "instruction": "Drag the slider left or right to compare"
   },
   "bookings": {
     "title": "Book Your Session",

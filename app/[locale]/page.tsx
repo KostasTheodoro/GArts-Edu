@@ -5,6 +5,7 @@ import HowWeThink from "./components/HowWeThink";
 import TargetAudience from "./components/TargetAudience";
 import VideoMonitor from "./components/VideoMonitor";
 import LearningPath from "./components/LearningPath";
+import BeforeAfter from "./components/BeforeAfter";
 
 export async function generateMetadata({
   params,
@@ -26,6 +27,7 @@ export default function HomePage() {
       <Hero />
       <HowWeThink />
       <TargetAudience />
+      <BeforeAfter />
       <LearningPath />
       <VideoMonitor />
     </main>
