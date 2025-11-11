@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import Hero from "./components/Hero";
 import MissionStatement from "./components/MissionStatement";
 import HowWeThink from "./components/HowWeThink";
+import Manifesto from "./components/Manifesto";
 import TargetAudience from "./components/TargetAudience";
 import VideoMonitor from "./components/VideoMonitor";
 import LearningPath from "./components/LearningPath";
@@ -28,6 +29,7 @@ export default function HomePage() {
       <Hero />
       <MissionStatement />
       <HowWeThink />
+      <Manifesto />
       <TargetAudience />
       <LearningPath />
       <BeforeAfter />
