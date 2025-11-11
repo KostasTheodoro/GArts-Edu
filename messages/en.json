@@ -90,6 +90,25 @@
       "image2Alt": "GArts Education Studio Interior - View 2"
     }
   },
+  "mission": {
+    "headline": "Create with purpose. Learn with passion.",
+    "intro": "Every great artwork begins with a spark — a vision waiting to take form.",
+    "ourMission": "Our Mission",
+    "paragraph1": "My mission is to help you break free from everything that holds your imagination back — and guide you in turning creativity into skill and passion into art.",
+    "paragraph2": {
+      "prefix": "At",
+      "garts": "GArts Education",
+      "suffix": ", every idea deserves to take shape — from the first sketch to a fully rendered 3D model."
+    },
+    "callToAction": "So grab your mouse and keyboard, and let's design a future as vibrant, wild, and limitless as your dreams.",
+    "question": "Do you have the passion and drive to learn and create?",
+    "answer": "If so, you're in the right place — and you'll never be alone on this journey.",
+    "closing": {
+      "prefix": "At",
+      "garts": "GArts Education",
+      "suffix": ", creativity meets knowledge."
+    }
+  },
   "targetAudience": {
     "title": "Who We're Here For",
     "subtitle": "Our creative community welcomes everyone who believes that imagination can change the way we learn, work, and connect.",

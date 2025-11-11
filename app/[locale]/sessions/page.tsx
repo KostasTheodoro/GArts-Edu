@@ -41,7 +41,7 @@ export default function SessionsPage() {
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-30 p-8 md:p-12">
           {/* Title */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-neural-dark mb-3">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neural-dark mb-3">
               {t("online.title")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto"></div>
@@ -83,7 +83,7 @@ export default function SessionsPage() {
 
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-30 p-8 md:p-12">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-neural-dark mb-3">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neural-dark mb-3">
               {t("face2face.title")}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto"></div>

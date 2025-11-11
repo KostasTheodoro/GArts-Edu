@@ -90,7 +90,7 @@ export default function AboutPage() {
                 size={120}
               />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-neural-dark mb-2">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neural-dark mb-3">
               {t('vision.title')}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto mt-4"></div>

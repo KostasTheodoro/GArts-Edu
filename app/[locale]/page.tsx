@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Hero from "./components/Hero";
+import MissionStatement from "./components/MissionStatement";
 import HowWeThink from "./components/HowWeThink";
 import TargetAudience from "./components/TargetAudience";
 import VideoMonitor from "./components/VideoMonitor";
@@ -25,6 +26,7 @@ export default function HomePage() {
   return (
     <main className="w-full">
       <Hero />
+      <MissionStatement />
       <HowWeThink />
       <TargetAudience />
       <LearningPath />

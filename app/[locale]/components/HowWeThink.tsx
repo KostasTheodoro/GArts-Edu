@@ -179,7 +179,10 @@ export default function HowWeThink() {
         </div>
 
         <div className="flex flex-col justify-center space-y-6 text-white max-w-md mx-auto ">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">{t("title")}</h2>
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">{t("title")}</h2>
+            <div className="w-20 h-1 bg-primary mx-auto mb-4"></div>
+          </div>
           <p className="text-lg md:text-xl leading-relaxed text-gray-300">
             {t("description")}
           </p>
