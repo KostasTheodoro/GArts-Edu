@@ -99,7 +99,7 @@ export default function SoftwareCard({
             rel="noopener noreferrer"
             className="inline-block bg-neural-dark text-primary font-bold px-8 py-3 rounded-full text-lg shadow-md hover:bg-primary hover:text-white border-2 border-neural-dark hover:border-primary transition-colors duration-200"
           >
-            Download {title} here
+            Download {title}
           </a>
         </div>
       </div>

@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import avatar1 from "@/assets/images/avatar-1.jpg";
 import avatar2 from "@/assets/images/avatar-2.jpg";
+import studioImage1 from "@/assets/images/studio-interior-1.jpg";
+import studioImage2 from "@/assets/images/studio-interior-2.jpg";
 
 export async function generateMetadata({
   params,
@@ -142,20 +144,22 @@ export default function SessionsPage() {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-xl">
             <Image
-              src="/studio-interior-1.jpg"
+              src={studioImage1}
               alt={t("studio.image1Alt")}
               fill
               className="object-cover"
               loading="lazy"
+              placeholder="blur"
             />
           </div>
           <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-xl">
             <Image
-              src="/studio-interior-2.jpg"
+              src={studioImage2}
               alt={t("studio.image2Alt")}
               fill
               className="object-cover"
               loading="lazy"
+              placeholder="blur"
             />
           </div>
         </div>

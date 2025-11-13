@@ -215,6 +215,27 @@
     "afterAlt": "CGI Final Render - After rendering",
     "instruction": "Drag the slider left or right to compare"
   },
+  "progressionLevel": {
+    "title": "Progression Level",
+    "steps": {
+      "vertex": {
+        "title": "Vertex",
+        "description": "A single point in 3D space - the most basic building block of any 3D model"
+      },
+      "edge": {
+        "title": "Edge",
+        "description": "A line connecting two vertices, forming the skeleton of your model"
+      },
+      "face": {
+        "title": "Face",
+        "description": "A surface created by connecting edges, giving your model its shape"
+      },
+      "mesh": {
+        "title": "Mesh",
+        "description": "The complete 3D model formed by combining faces into a complex structure"
+      }
+    }
+  },
   "bookings": {
     "title": "Book Your Session",
     "description": "Ready to start your creative journey? Book a personalized session with us and unlock your full potential."

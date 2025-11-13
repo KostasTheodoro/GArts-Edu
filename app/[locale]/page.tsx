@@ -8,6 +8,7 @@ import TargetAudience from "./components/TargetAudience";
 import VideoMonitor from "./components/VideoMonitor";
 import LearningPath from "./components/LearningPath";
 import BeforeAfter from "./components/BeforeAfter";
+import ProgressionLevel from "./components/ProgressionLevel";
 
 export async function generateMetadata({
   params,
@@ -32,6 +33,7 @@ export default function HomePage() {
       <Manifesto />
       <TargetAudience />
       <LearningPath />
+      <ProgressionLevel />
       <BeforeAfter />
       <VideoMonitor />
     </main>

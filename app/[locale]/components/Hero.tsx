@@ -14,7 +14,7 @@ export default function HeroBlended() {
         className="absolute inset-0 w-full h-full object-cover md:object-center"
         style={{ objectPosition: "72% center" }}
       >
-        <source src="/hero-animated-wallpaper.mp4" type="video/mp4" />
+        <source src="/videos/hero/hero-animated-wallpaper.mp4" type="video/mp4" />
       </video>
 
       <video
@@ -25,7 +25,7 @@ export default function HeroBlended() {
         className="absolute inset-0 w-full h-full object-cover mix-blend-screen md:object-center"
         style={{ objectPosition: "65% center" }}
       >
-        <source src="/hero-animated-1.mp4" type="video/mp4" />
+        <source src="/videos/hero/hero-animated-1.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-neural-dark/30"></div>

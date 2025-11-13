@@ -10,7 +10,7 @@ export default function TargetAudience() {
   const audiences = [
     {
       id: "visual",
-      icon: "/edit-icon.json",
+      icon: "/icons/edit-icon.json",
       items: [
         "graphicDesigners",
         "motionArtists",
@@ -21,7 +21,7 @@ export default function TargetAudience() {
     },
     {
       id: "storytellers",
-      icon: "/camera-icon.json",
+      icon: "/icons/camera-icon.json",
       items: [
         "photographers",
         "filmmakers",
@@ -32,7 +32,7 @@ export default function TargetAudience() {
     },
     {
       id: "digital",
-      icon: "/megaphone-icon.json",
+      icon: "/icons/megaphone-icon.json",
       items: ["marketers", "advertisers", "contentCreators", "digitalPresence"],
     },
   ];

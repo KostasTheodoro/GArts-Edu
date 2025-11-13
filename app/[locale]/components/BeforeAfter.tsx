@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl";
 import { useState, useRef } from "react";
 import Image from "next/image";
+import cgiPreview from "@/assets/images/cgi-preview.jpg";
+import cgiRender from "@/assets/images/cgi-render.jpg";
 
 export default function BeforeAfter() {
   const t = useTranslations("beforeAfter");
@@ -58,12 +60,13 @@ export default function BeforeAfter() {
         >
           <div className="absolute inset-0 rounded-lg overflow-hidden">
             <Image
-              src="/cgi-preview.jpg"
+              src={cgiPreview}
               alt={t("beforeAlt")}
               fill
               className="object-cover"
               draggable={false}
               priority
+              placeholder="blur"
             />
           </div>
 
@@ -74,12 +77,13 @@ export default function BeforeAfter() {
             }}
           >
             <Image
-              src="/cgi-render.png"
+              src={cgiRender}
               alt={t("afterAlt")}
               fill
               className="object-cover"
               draggable={false}
               priority
+              placeholder="blur"
             />
           </div>
 
