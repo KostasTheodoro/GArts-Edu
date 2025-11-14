@@ -59,7 +59,7 @@ export default function LearningPath() {
   };
 
   return (
-    <div className="w-full py-12 md:py-20 px-4 bg-gray">
+    <div className="w-full py-12 md:py-20 px-8 md:px-4 bg-gray">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neural-dark mb-3">
@@ -68,8 +68,8 @@ export default function LearningPath() {
           <div className="w-20 h-1 bg-primary mx-auto"></div>
         </div>
 
-        <div className="relative w-full py-12 md:py-20">
-          <div className="relative flex justify-between items-center max-w-6xl mx-auto">
+        <div className="relative w-full py-12 md:py-20 px-2 md:px-0">
+          <div className="relative flex justify-between items-center max-w-5xl md:max-w-6xl mx-auto">
             {steps.map((step, index) => {
               const isTop = index % 2 === 0;
               const isHovered = hoveredStep === index;
@@ -109,9 +109,9 @@ export default function LearningPath() {
                   </div>
 
                   <div
-                    className={`w-3 h-3 md:w-5 md:h-5 rounded-full transition-all duration-300 bg-neural-dark ${
+                    className={`w-2 h-2 md:w-5 md:h-5 rounded-full transition-all duration-300 bg-neural-dark ${
                       isHovered || isSelected
-                        ? "shadow-[0_0_0_2px_#ff8500,0_0_15px_rgba(255,133,0,0.8)] md:shadow-[0_0_0_3px_#ff8500,0_0_20px_rgba(255,133,0,0.8)]"
+                        ? "shadow-[0_0_0_1.5px_#ff8500,0_0_10px_rgba(255,133,0,0.8)] md:shadow-[0_0_0_3px_#ff8500,0_0_20px_rgba(255,133,0,0.8)]"
                         : "shadow-[0_0_0_1px_#1a1a1a] md:shadow-[0_0_0_2px_#1a1a1a]"
                     }`}
                     style={{ zIndex: 10 }}

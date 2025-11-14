@@ -123,7 +123,7 @@ export default function Navbar() {
                         if (typeof document !== "undefined")
                           document.body.style.overflow = "unset";
                       }}
-                      className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
+                      className={`block px-4 py-3 rounded-lg font-bold transition-colors ${
                         isActive(item.href)
                           ? "text-primary bg-primary/10"
                           : "text-white hover:text-primary hover:bg-white/5"

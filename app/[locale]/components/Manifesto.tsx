@@ -129,7 +129,6 @@ export default function Manifesto() {
       `}</style>
       <div className="max-w-4xl mx-auto">
         <blockquote className="bg-white rounded-xl shadow-lg p-8 md:p-12 border-l-8 border-primary relative">
-          {/* Decorative Quote Mark */}
           <div className="absolute top-4 left-4 text-6xl md:text-7xl text-primary/10 font-serif leading-none select-none">
             &ldquo;
           </div>

@@ -32,7 +32,7 @@ export default function ProgressionLevel() {
   ];
 
   return (
-    <div className="w-full py-12 md:py-20 px-4 bg-gray">
+    <div className="hidden md:block w-full py-12 md:py-20 px-4 bg-gray">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neural-dark mb-3">

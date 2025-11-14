@@ -5,7 +5,7 @@
     "sessions": "Sessions",
     "bookings": "Bookings",
     "about": "About Me",
-    "contact": "Contact Me"
+    "contact": "Contact"
   },
   "home": {
     "hero": {
@@ -124,8 +124,8 @@
     "line12": "curiosity with confidence,",
     "line13": "art with emotion.",
     "line14": "You'll never walk this path alone.",
-    "line15": "Every step comes with guidance, feedback,",
-    "line16": "and a community that shares your fire.",
+    "line15": "Every step comes with guidance, feedback and a community",
+    "line16": " that shares your fire.",
     "line17": "This is not just another course.",
     "line18": "This is a movement —",
     "line19": "a journey to turn your passion into purpose.",

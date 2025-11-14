@@ -34,7 +34,7 @@ export default function SessionsPage() {
             {t("title")}
           </h1>
           <div className="w-20 h-1 bg-primary mx-auto mt-4"></div>
-          <p className="mt-6 text-xl text-foreground max-w-3xl mx-auto">
+          <p className="mt-6 text-lg md:text-xl text-foreground max-w-3xl mx-auto">
             {t("subtitle")}
           </p>
         </div>
@@ -50,17 +50,17 @@ export default function SessionsPage() {
           </div>
 
           {/* Content Grid */}
-          <div className="grid md:grid-cols-2 gap-8 items-start mb-8">
+          <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
             <div>
-              <p className="text-lg text-foreground leading-relaxed mb-4">
+              <p className="text-base md:text-lg text-foreground leading-relaxed mb-4">
                 {t("online.description")}
               </p>
-              <p className="text-lg text-foreground leading-relaxed">
+              <p className="text-base md:text-lg text-foreground leading-relaxed">
                 {t("online.groups")}
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative w-88 h-88 rounded-2xl overflow-hidden">
+              <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden">
                 <Image
                   src={avatar1}
                   alt="Online Sessions"
@@ -76,7 +76,7 @@ export default function SessionsPage() {
           <div className="flex justify-center">
             <Link
               href="/bookings"
-              className="inline-block bg-neural-dark text-primary font-bold px-8 py-3 rounded-full text-lg shadow-md hover:bg-primary hover:text-white border-2 border-neural-dark hover:border-primary transition-colors duration-200"
+              className="inline-block text-center bg-neural-dark text-primary font-bold px-8 py-3 rounded-full text-base md:text-lg shadow-md hover:bg-primary hover:text-white border-2 border-neural-dark hover:border-primary transition-colors duration-200"
             >
               {t("online.button")}
             </Link>
@@ -91,9 +91,9 @@ export default function SessionsPage() {
             <div className="w-20 h-1 bg-primary mx-auto"></div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 items-start mb-8">
+          <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
             <div>
-              <p className="text-lg text-foreground leading-relaxed mb-6">
+              <p className="text-base md:text-lg text-foreground leading-relaxed mb-6">
                 {t("face2face.description")}
               </p>
               <ul className="space-y-3">
@@ -111,14 +111,14 @@ export default function SessionsPage() {
                     key={benefit}
                     className="flex items-start gap-3 text-foreground"
                   >
-                    <span className="text-primary text-xl mt-1">✓</span>
-                    <span className="text-lg">{t(`face2face.${benefit}`)}</span>
+                    <span className="text-primary text-lg md:text-xl mt-1">✓</span>
+                    <span className="text-base md:text-lg">{t(`face2face.${benefit}`)}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div className="flex justify-center">
-              <div className="relative w-100 h-120 rounded-2xl overflow-hidden">
+              <div className="relative w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden">
                 <Image
                   src={avatar2}
                   alt="Face2Face Sessions"
@@ -134,7 +134,7 @@ export default function SessionsPage() {
           <div className="flex justify-center">
             <Link
               href="/bookings"
-              className="inline-block bg-neural-dark text-primary font-bold px-8 py-3 rounded-full text-lg shadow-md hover:bg-primary hover:text-white border-2 border-neural-dark hover:border-primary transition-colors duration-200"
+              className="inline-block text-center bg-neural-dark text-primary font-bold px-8 py-3 rounded-full text-base md:text-lg shadow-md hover:bg-primary hover:text-white border-2 border-neural-dark hover:border-primary transition-colors duration-200"
             >
               {t("face2face.button")}
             </Link>

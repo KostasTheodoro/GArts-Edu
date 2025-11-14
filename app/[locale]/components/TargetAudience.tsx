@@ -40,7 +40,6 @@ export default function TargetAudience() {
   return (
     <div className="w-full py-16 px-4 bg-neural-dark">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
             {t("title")}
@@ -51,11 +50,9 @@ export default function TargetAudience() {
           </p>
         </div>
 
-        {/* Three Columns */}
         <div className="grid md:grid-cols-3 gap-12 mb-16">
           {audiences.map((audience) => (
             <div key={audience.id}>
-              {/* Icon */}
               <div className="flex justify-center mb-6">
                 <LordIcon
                   src={audience.icon}
@@ -65,13 +62,11 @@ export default function TargetAudience() {
                 />
               </div>
 
-              {/* Category Title */}
               <h3 className="text-2xl font-bold text-white mb-6 text-center">
                 {t(`${audience.id}.title`)}
               </h3>
 
-              {/* List Items */}
-              <ul className="space-y-2 flex flex-col items-center">
+              <ul className="space-y-2 flex flex-col items-center text-sm">
                 {audience.items.map((item) => (
                   <li key={item} className="text-gray-300">
                     {t(`${audience.id}.${item}`)}
@@ -82,7 +77,6 @@ export default function TargetAudience() {
           ))}
         </div>
 
-        {/* Button */}
         <div className="flex justify-center">
           <Link
             href="/sessions"

@@ -66,9 +66,9 @@ export default function VideoMonitor() {
                   className="absolute inset-0 flex items-center justify-center cursor-pointer rounded-sm z-30"
                   onClick={handlePlayClick}
                 >
-                  <div className="relative w-24 h-24 rounded-full border-4 border-white flex items-center justify-center hover:bg-white/10 transition-all shadow-2xl">
+                  <div className="relative w-[20%] aspect-square rounded-full border-[3px] border-white flex items-center justify-center hover:bg-white/10 transition-all shadow-2xl">
                     <svg
-                      className="w-14 h-14 text-white ml-1"
+                      className="w-[60%] h-[60%] text-white ml-[5%]"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >

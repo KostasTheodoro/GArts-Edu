@@ -34,33 +34,33 @@ export default function AboutPage() {
         <div className="grid md:grid-cols-2 gap-12 items-start mb-24">
           {/* Text Content */}
           <div className="space-y-6">
-            <p className="text-lg text-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-foreground leading-relaxed">
               {t('content.paragraph1')}
             </p>
 
-            <p className="text-lg text-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-foreground leading-relaxed">
               {t('content.paragraph2')}
             </p>
 
-            <p className="text-lg text-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-foreground leading-relaxed">
               {t('content.paragraph3')}
             </p>
 
-            <p className="text-lg text-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-foreground leading-relaxed">
               {t('content.paragraph4')}
             </p>
 
-            <p className="text-lg text-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-foreground leading-relaxed">
               {t('content.paragraph5')}
             </p>
 
-            <p className="text-lg text-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-foreground leading-relaxed">
               {t('content.paragraph6')}
             </p>
 
             {/* Tagline */}
             <div className="pt-6 mt-6">
-              <p className="text-2xl font-bold text-primary">
+              <p className="text-xl md:text-2xl font-bold text-primary">
                 {t('content.tagline')}
               </p>
             </div>
@@ -97,7 +97,7 @@ export default function AboutPage() {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <p className="text-xl text-foreground leading-relaxed text-center">
+            <p className="text-lg md:text-xl text-foreground leading-relaxed text-center">
               {t('vision.content')}
             </p>
           </div>

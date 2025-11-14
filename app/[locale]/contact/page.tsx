@@ -29,11 +29,11 @@ export default function ContactPage() {
             {t("title")}
           </h1>
           <div className="w-20 h-1 bg-primary mx-auto mt-4 mb-10"></div>
-          <p className="text-lg text-foreground/70 mb-10 leading-relaxed text-left">
+          <p className="text-base md:text-lg text-foreground/70 mb-10 leading-relaxed text-left">
             {t("description")}
           </p>
 
-          <dl className="space-y-6 text-lg">
+          <dl className="space-y-6 text-base md:text-lg">
             <div className="flex items-start gap-3">
               <MapPin
                 className="h-6 w-6 text-primary mt-1 shrink-0"
