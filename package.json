@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@lordicon/element": "^2.0.1",
+    "@react-email/components": "^1.0.1",
     "country-flag-icons": "^1.5.21",
     "framer-motion": "^12.23.24",
     "js-cookie": "^3.0.5",
@@ -19,7 +20,9 @@
     "next-intl": "^4.4.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-icons": "^5.5.0"
+    "react-email": "^5.0.4",
+    "react-icons": "^5.5.0",
+    "resend": "^6.4.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
