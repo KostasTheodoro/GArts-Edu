@@ -2,17 +2,22 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import CustomSelect from "./CustomSelect";
 
 interface CalendarProps {
   selectedDate: string | null;
   onDateSelect: (date: string) => void;
   minDate?: Date;
+  datesWithAvailability?: string[]; // Array of dates in YYYY-MM-DD format that have available slots
+  onMonthChange?: (month: number, year: number) => void; // Callback when month/year changes
 }
 
 export default function Calendar({
   selectedDate,
   onDateSelect,
   minDate = new Date(),
+  datesWithAvailability,
+  onMonthChange,
 }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -86,36 +91,64 @@ export default function Calendar({
   };
 
   const handlePrevMonth = () => {
+    let newMonth = currentMonth;
+    let newYear = currentYear;
+
     if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(currentYear - 1);
+      newMonth = 11;
+      newYear = currentYear - 1;
     } else {
-      setCurrentMonth(currentMonth - 1);
+      newMonth = currentMonth - 1;
     }
+
+    setCurrentMonth(newMonth);
+    setCurrentYear(newYear);
+    onMonthChange?.(newMonth, newYear);
   };
 
   const handleNextMonth = () => {
+    let newMonth = currentMonth;
+    let newYear = currentYear;
+
     if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(currentYear + 1);
+      newMonth = 0;
+      newYear = currentYear + 1;
     } else {
-      setCurrentMonth(currentMonth + 1);
+      newMonth = currentMonth + 1;
     }
+
+    setCurrentMonth(newMonth);
+    setCurrentYear(newYear);
+    onMonthChange?.(newMonth, newYear);
   };
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCurrentMonth(parseInt(e.target.value));
+    const newMonth = parseInt(e.target.value);
+    setCurrentMonth(newMonth);
+    onMonthChange?.(newMonth, currentYear);
   };
 
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCurrentYear(parseInt(e.target.value));
+    const newYear = parseInt(e.target.value);
+    setCurrentYear(newYear);
+    onMonthChange?.(currentMonth, newYear);
   };
 
   const isDateDisabled = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     date.setHours(0, 0, 0, 0);
-    return date < minDate;
+
+    // Check if date is in the past
+    if (date < minDate) return true;
+
+    // Check if date has no availability (if datesWithAvailability is provided)
+    if (datesWithAvailability && datesWithAvailability.length > 0) {
+      const dateStr = formatDateForValue(date);
+      return !datesWithAvailability.includes(dateStr);
+    }
+
+    return false;
   };
 
   const isDateSelected = (date: Date) => {
@@ -143,29 +176,29 @@ export default function Calendar({
     <div className="w-full">
       {/* Month/Year Selection */}
       <div className="flex items-center gap-2 mb-4">
-        <select
-          value={currentMonth}
+        <CustomSelect
+          value={currentMonth.toString()}
           onChange={handleMonthChange}
-          className="flex-1 p-2 text-base border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
+          className="flex-1 p-2 pr-10 text-base border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
         >
           {monthNames.map((month, index) => (
             <option key={month} value={index}>
               {month}
             </option>
           ))}
-        </select>
+        </CustomSelect>
 
-        <select
-          value={currentYear}
+        <CustomSelect
+          value={currentYear.toString()}
           onChange={handleYearChange}
-          className="flex-1 p-2 text-base border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
+          className="flex-1 p-2 pr-10 text-base border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
         >
           {years.map((year) => (
             <option key={year} value={year}>
               {year}
             </option>
           ))}
-        </select>
+        </CustomSelect>
 
         <div className="flex gap-1">
           <button

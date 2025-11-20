@@ -5,9 +5,9 @@ const CAL_COM_USERNAME = process.env.CAL_COM_USERNAME;
 
 export async function POST(req: NextRequest) {
   try {
-    const { eventTypeId, date, duration } = await req.json();
+    const { eventTypeId, month, year, duration } = await req.json();
 
-    if (!eventTypeId || !date || !duration) {
+    if (!eventTypeId || month === undefined || !year || !duration) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -26,25 +26,26 @@ export async function POST(req: NextRequest) {
     // Convert duration to minutes (1h = 60, 2h = 120)
     const durationInMinutes = duration === "1h" ? 60 : 120;
 
-    // Format date for Cal.com API with Europe/Athens timezone
+    // Format date range for Cal.com API with Europe/Athens timezone
     const timeZone = "Europe/Athens";
-    const startOfDay = new Date(`${date}T00:00:00`);
-    const endOfDay = new Date(`${date}T23:59:59`);
 
-    // Call Cal.com API to get availability
-    // Cal.com v1 API uses query parameter authentication, not Bearer token
-    // Endpoint is /v1/slots not /v1/slots/available
-    // The usernameList parameter ensures we check availability for the specific user
-    // The duration parameter helps Cal.com filter slots that don't have enough consecutive time
+    // Get first and last day of the month
+    const startOfMonth = new Date(year, month, 1);
+    const endOfMonth = new Date(year, month + 1, 0); // Last day of month
+
+    const startTime = startOfMonth.toISOString();
+    const endTime = new Date(endOfMonth.setHours(23, 59, 59, 999)).toISOString();
+
+    // Build API URL
     const username = CAL_COM_USERNAME || "";
-    let apiUrl = `https://api.cal.com/v1/slots?apiKey=${CAL_COM_API_KEY}&eventTypeId=${eventTypeId}&startTime=${startOfDay.toISOString()}&endTime=${endOfDay.toISOString()}&timeZone=${encodeURIComponent(timeZone)}&duration=${durationInMinutes}`;
+    let apiUrl = `https://api.cal.com/v1/slots?apiKey=${CAL_COM_API_KEY}&eventTypeId=${eventTypeId}&startTime=${startTime}&endTime=${endTime}&timeZone=${encodeURIComponent(timeZone)}&duration=${durationInMinutes}`;
 
     // Add username if available to ensure proper conflict checking
     if (username) {
       apiUrl += `&usernameList=${encodeURIComponent(username)}`;
     }
 
-    console.log("Fetching availability:", { eventTypeId, date, duration, durationInMinutes, username, url: apiUrl.replace(CAL_COM_API_KEY, 'API_KEY_HIDDEN') });
+    console.log("Fetching available dates for month:", { eventTypeId, month, year, duration });
 
     const response = await fetch(apiUrl, {
       method: "GET",
@@ -67,32 +68,38 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
-    console.log("Cal.com availability response:", JSON.stringify(data, null, 2));
 
-    // Extract available time slots - handle different response formats
-    let slots = [];
+    // Extract unique dates that have available slots
+    const datesWithSlots = new Set<string>();
 
     if (data.slots) {
       // Check if slots is an object with dates as keys
       if (typeof data.slots === 'object' && !Array.isArray(data.slots)) {
         // Format: { "2025-11-19": [{ time: "..." }] }
-        const dateSlots = data.slots[date];
-        slots = Array.isArray(dateSlots) ? dateSlots : [];
+        Object.keys(data.slots).forEach(dateKey => {
+          const dateSlots = data.slots[dateKey];
+          if (Array.isArray(dateSlots) && dateSlots.length > 0) {
+            datesWithSlots.add(dateKey);
+          }
+        });
       } else if (Array.isArray(data.slots)) {
-        // Format: [{ time: "..." }]
-        slots = data.slots;
+        // Format: [{ time: "2025-11-19T10:00:00Z" }]
+        data.slots.forEach((slot: any) => {
+          if (slot.time) {
+            const date = new Date(slot.time);
+            const dateStr = date.toISOString().split('T')[0]; // Extract YYYY-MM-DD
+            datesWithSlots.add(dateStr);
+          }
+        });
       }
     }
 
-    // Ensure all slots have a 'time' property
-    const formattedSlots = slots.map((slot: any) => ({
-      time: slot.time || slot,
-    }));
+    const availableDates = Array.from(datesWithSlots);
+    console.log(`Found ${availableDates.length} dates with availability in month ${month + 1}/${year}`);
 
-    console.log(`Found ${formattedSlots.length} available slots for ${date}`);
-    return NextResponse.json({ slots: formattedSlots });
+    return NextResponse.json({ availableDates });
   } catch (error) {
-    console.error("Error fetching availability:", error);
+    console.error("Error fetching available dates:", error);
     return NextResponse.json(
       { error: "Internal server error", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
