@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import CustomSelect from "./CustomSelect";
 
@@ -21,6 +21,13 @@ export default function Calendar({
 }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+  // Notify parent of initial month/year on mount
+  useEffect(() => {
+    if (onMonthChange) {
+      onMonthChange(currentMonth, currentYear);
+    }
+  }, []); // Only run once on mount
 
   const monthNames = [
     "January",
@@ -174,33 +181,36 @@ export default function Calendar({
 
   return (
     <div className="w-full">
-      {/* Month/Year Selection */}
-      <div className="flex items-center gap-2 mb-4">
-        <CustomSelect
-          value={currentMonth.toString()}
-          onChange={handleMonthChange}
-          className="flex-1 p-2 pr-10 text-base border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
-        >
-          {monthNames.map((month, index) => (
-            <option key={month} value={index}>
-              {month}
-            </option>
-          ))}
-        </CustomSelect>
+      <div className="flex items-stretch gap-2 mb-4 w-full">
+        <div className="flex-1 min-w-0">
+          <CustomSelect
+            value={currentMonth.toString()}
+            onChange={handleMonthChange}
+            className="w-full p-2 pr-10 text-base border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
+          >
+            {monthNames.map((month, index) => (
+              <option key={month} value={index}>
+                {month}
+              </option>
+            ))}
+          </CustomSelect>
+        </div>
 
-        <CustomSelect
-          value={currentYear.toString()}
-          onChange={handleYearChange}
-          className="flex-1 p-2 pr-10 text-base border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
-        >
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </CustomSelect>
+        <div className="flex-1 min-w-0">
+          <CustomSelect
+            value={currentYear.toString()}
+            onChange={handleYearChange}
+            className="w-full p-2 pr-10 text-base border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
+          >
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </CustomSelect>
+        </div>
 
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-shrink-0">
           <button
             onClick={handlePrevMonth}
             className="p-2 border-2 border-gray-300 rounded-lg hover:border-primary transition-colors"

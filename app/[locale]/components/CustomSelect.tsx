@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -20,12 +20,24 @@ export default function CustomSelect({
   children,
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const selectRef = useRef<HTMLSelectElement>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onChange(e);
+    // Close dropdown after selection
+    setIsOpen(false);
+    // Blur the select to ensure it loses focus
+    if (selectRef.current) {
+      selectRef.current.blur();
+    }
+  };
 
   return (
     <div className="relative">
       <select
+        ref={selectRef}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
         onFocus={() => !disabled && setIsOpen(true)}
         onBlur={() => setIsOpen(false)}
         onMouseDown={(e) => {

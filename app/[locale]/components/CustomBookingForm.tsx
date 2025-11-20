@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import {
   X,
@@ -90,9 +90,6 @@ export default function CustomBookingForm({
   >("idle");
   const [eventTypes, setEventTypes] = useState<EventType[]>([]);
   const [isLoadingEventTypes, setIsLoadingEventTypes] = useState(true);
-  const [selectedEventType, setSelectedEventType] = useState<EventType | null>(
-    null
-  );
   const [emailError, setEmailError] = useState<string>("");
   const [notification, setNotification] = useState<{
     type: "success" | "error";
@@ -102,6 +99,7 @@ export default function CustomBookingForm({
   const [calendarMonth, setCalendarMonth] = useState(new Date().getMonth());
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
 
+  // Fetch event types on mount
   useEffect(() => {
     const fetchEventTypes = async () => {
       try {
@@ -129,18 +127,21 @@ export default function CustomBookingForm({
     fetchEventTypes();
   }, []);
 
-  useEffect(() => {
-    if (bookingData.software && eventTypes.length > 0) {
-      const slugMap: Record<SoftwareType, string> = {
-        blender: "blender-private",
-        photoshop: "photoshop-private",
-        premierePro: "premiere-pro-private",
-        afterEffects: "after-effects-private",
-      };
-      const slug = slugMap[bookingData.software];
-      const eventType = eventTypes.find((et) => et.slug === slug);
-      setSelectedEventType(eventType || null);
+  // Derive selectedEventType from bookingData.software and eventTypes (no useEffect needed!)
+  const selectedEventType = useMemo(() => {
+    if (!bookingData.software || eventTypes.length === 0) {
+      return null;
     }
+
+    const slugMap: Record<SoftwareType, string> = {
+      blender: "blender-private",
+      photoshop: "photoshop-private",
+      premierePro: "premiere-pro-private",
+      afterEffects: "after-effects-private",
+    };
+
+    const slug = slugMap[bookingData.software];
+    return eventTypes.find((et) => et.slug === slug) || null;
   }, [bookingData.software, eventTypes]);
 
   // Fetch available time slots when date changes
@@ -174,7 +175,6 @@ export default function CustomBookingForm({
         const data = await response.json();
         console.log("Availability data received:", data);
 
-        // Extract time from ISO datetime strings
         const slots = data.slots
           .filter((slot: { time: string }) => slot.time)
           .map((slot: { time: string }) => {
@@ -548,10 +548,10 @@ export default function CustomBookingForm({
       </AnimatePresence>
 
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-        <div className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex">
-          {/* Left Sidebar - Step Indicator */}
-          <div className="w-80 bg-neural-dark flex flex-col">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm">
+        <div className="relative w-full max-w-5xl h-[100dvh] sm:h-auto sm:max-h-[90vh] bg-white rounded-none sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+          {/* Left Sidebar - Step Indicator (Hidden on mobile, visible on md+) */}
+          <div className="hidden md:flex md:w-80 bg-neural-dark flex-col">
             {/* Header */}
             <div className="p-6 border-b border-white/10">
               <h2 className="text-3xl font-bold text-white">{t("title")}</h2>
@@ -643,29 +643,46 @@ export default function CustomBookingForm({
           </div>
 
           {/* Right Content Area */}
-          <div className="flex-1 flex flex-col bg-white">
+          <div className="flex-1 flex flex-col bg-white min-h-0">
             {/* Header with close button */}
-            <div className="relative p-6 border-b border-gray-200">
+            <div className="relative p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
               <button
                 onClick={handleClose}
-                className="absolute top-6 right-6 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="absolute top-4 sm:top-6 right-4 sm:right-6 p-2 rounded-lg hover:bg-gray-100 transition-colors z-10"
                 aria-label="Close"
               >
                 <X className="w-6 h-6 text-gray-600" />
               </button>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-neural-dark">
+
+              {/* Mobile Step Indicator */}
+              <div className="md:hidden mb-4 flex items-center justify-center gap-2">
+                {[1, 2, 3, 4].map((s) => (
+                  <div
+                    key={s}
+                    className={`h-2 rounded-full transition-all ${
+                      s === step
+                        ? "w-8 bg-primary"
+                        : s < step
+                        ? "w-2 bg-green-500"
+                        : "w-2 bg-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <div className="text-center pr-8 sm:pr-0">
+                <h3 className="text-2xl sm:text-3xl font-bold text-neural-dark">
                   {getStepInfo(step).title}
                 </h3>
-                <div className="w-20 h-1 bg-primary mx-auto mt-4"></div>
+                <div className="w-16 sm:w-20 h-1 bg-primary mx-auto mt-3 sm:mt-4"></div>
               </div>
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
               {/* Step 1: Service Selection */}
               {step === 1 && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   <div>
                     <label className="block text-sm font-semibold text-neural-dark mb-2">
                       {t("selectSoftware")}
@@ -678,7 +695,7 @@ export default function CustomBookingForm({
                           software: e.target.value as SoftwareType,
                         })
                       }
-                      className="p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
+                      className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
                     >
                       <option value="" disabled>
                         {t("selectSoftwarePlaceholder")}
@@ -703,7 +720,7 @@ export default function CustomBookingForm({
                           duration: e.target.value as DurationType,
                         })
                       }
-                      className="p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
+                      className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
                     >
                       <option value="" disabled>
                         {t("selectDurationPlaceholder")}
@@ -730,7 +747,7 @@ export default function CustomBookingForm({
                           locationAddress: selectedLocation?.address || null,
                         });
                       }}
-                      className="p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white"
+                      className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
                       disabled={!selectedEventType || isLoadingEventTypes}
                     >
                       <option value="" disabled>
@@ -770,7 +787,7 @@ export default function CustomBookingForm({
 
               {/* Step 2: Date & Time Selection */}
               {step === 2 && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {/* Calendar */}
                   <div>
                     <CalendarComponent
@@ -808,7 +825,7 @@ export default function CustomBookingForm({
                             </span>
                           </div>
                         ) : availableTimeSlots.length > 0 ? (
-                          <div className="grid grid-cols-3 gap-3">
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                             <AnimatePresence mode="popLayout">
                               {availableTimeSlots.map((time, index) => (
                                 <motion.button
@@ -850,7 +867,7 @@ export default function CustomBookingForm({
               {/* Step 3: Personal Information */}
               {step === 3 && (
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-neural-dark mb-2">
                         {t("firstName")}{" "}
@@ -870,7 +887,7 @@ export default function CustomBookingForm({
                           });
                         }}
                         required
-                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none"
+                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none text-base"
                         placeholder={t("firstNamePlaceholder")}
                       />
                     </div>
@@ -893,7 +910,7 @@ export default function CustomBookingForm({
                           });
                         }}
                         required
-                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none"
+                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none text-base"
                         placeholder={t("lastNamePlaceholder")}
                       />
                     </div>
@@ -979,59 +996,59 @@ export default function CustomBookingForm({
 
               {/* Step 4: Confirmation */}
               {step === 4 && (
-                <div className="space-y-6">
-                  <div className="bg-gray-50 rounded-lg p-6 space-y-4">
-                    <h3 className="text-xl font-bold text-neural-dark mb-4">
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="bg-gray-50 rounded-lg p-4 sm:p-6 space-y-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-neural-dark mb-4">
                       {t("reviewBooking")}
                     </h3>
 
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
+                    <div className="space-y-3 text-sm sm:text-base">
+                      <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
                           {t("softwareLabel")}:
                         </span>
-                        <span className="text-neural-dark">
+                        <span className="text-neural-dark text-right">
                           {bookingData.software &&
                             tSoftware(`${bookingData.software}.title`)}
                         </span>
                       </div>
 
-                      <div className="flex justify-between">
+                      <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
                           {t("durationLabel")}:
                         </span>
-                        <span className="text-neural-dark">
+                        <span className="text-neural-dark text-right">
                           {bookingData.duration &&
                             formatDuration(bookingData.duration)}
                         </span>
                       </div>
 
-                      <div className="flex justify-between">
+                      <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
                           {t("locationLabel")}:
                         </span>
-                        <span className="text-neural-dark">
+                        <span className="text-neural-dark text-right">
                           {bookingData.location &&
                             formatLocationName(bookingData.location)}
                         </span>
                       </div>
 
                       {bookingData.locationAddress && (
-                        <div className="flex justify-between">
+                        <div className="flex justify-between gap-2 flex-wrap">
                           <span className="font-semibold text-gray-700">
                             Address:
                           </span>
-                          <span className="text-neural-dark">
+                          <span className="text-neural-dark text-right">
                             {bookingData.locationAddress}
                           </span>
                         </div>
                       )}
 
-                      <div className="flex justify-between">
+                      <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
                           {t("dateTime")}:
                         </span>
-                        <span className="text-neural-dark">
+                        <span className="text-neural-dark text-right">
                           {bookingData.date} at{" "}
                           {bookingData.time
                             ? formatTimeRange(
@@ -1042,30 +1059,30 @@ export default function CustomBookingForm({
                         </span>
                       </div>
 
-                      <div className="flex justify-between">
+                      <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
                           {t("name")}:
                         </span>
-                        <span className="text-neural-dark">
+                        <span className="text-neural-dark text-right">
                           {bookingData.firstName} {bookingData.lastName}
                         </span>
                       </div>
 
-                      <div className="flex justify-between">
+                      <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
                           {t("email")}:
                         </span>
-                        <span className="text-neural-dark">
+                        <span className="text-neural-dark text-right break-all">
                           {bookingData.email}
                         </span>
                       </div>
 
                       {bookingData.phone && (
-                        <div className="flex justify-between">
+                        <div className="flex justify-between gap-2 flex-wrap">
                           <span className="font-semibold text-gray-700">
                             {t("phone")}:
                           </span>
-                          <span className="text-neural-dark">
+                          <span className="text-neural-dark text-right">
                             {bookingData.phone}
                           </span>
                         </div>
@@ -1073,15 +1090,15 @@ export default function CustomBookingForm({
                     </div>
 
                     <div className="border-t-2 border-gray-300 pt-4 mt-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-xl font-bold text-neural-dark">
+                      <div className="flex justify-between items-center gap-2">
+                        <span className="text-lg sm:text-xl font-bold text-neural-dark">
                           {t("totalCost")}:
                         </span>
-                        <span className="text-2xl font-bold text-primary">
+                        <span className="text-xl sm:text-2xl font-bold text-primary">
                           €{calculateCost()}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600 mt-2">
+                      <p className="text-xs sm:text-sm text-gray-600 mt-2">
                         {t("paymentOnSite")}
                       </p>
                     </div>
@@ -1091,18 +1108,18 @@ export default function CustomBookingForm({
             </div>
 
             {/* Footer Buttons */}
-            <div className="flex items-center justify-between p-6 bg-gray-50 border-t border-gray-200">
+            <div className="flex items-center justify-between gap-3 p-4 sm:p-6 bg-gray-50 border-t border-gray-200">
               <button
                 onClick={handleBack}
                 disabled={step === 1}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 ${
+                className={`flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 ${
                   step === 1
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300"
                     : "bg-neural-dark text-primary hover:bg-primary hover:text-white border-neural-dark hover:border-primary"
                 }`}
               >
                 <ChevronLeft className="w-5 h-5" />
-                {t("back")}
+                <span>{t("back")}</span>
               </button>
 
               {step < 4 ? (
@@ -1113,7 +1130,7 @@ export default function CustomBookingForm({
                     (step === 2 && !canProceedStep2) ||
                     (step === 3 && !canProceedStep3)
                   }
-                  className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 ${
+                  className={`flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 flex-1 sm:flex-initial sm:min-w-[140px] ${
                     (step === 1 && !canProceedStep1) ||
                     (step === 2 && !canProceedStep2) ||
                     (step === 3 && !canProceedStep3)
@@ -1121,14 +1138,14 @@ export default function CustomBookingForm({
                       : "bg-neural-dark text-primary hover:bg-primary hover:text-white border-neural-dark hover:border-primary"
                   }`}
                 >
-                  {t("continue")}
+                  <span>{t("continue")}</span>
                   <ChevronRight className="w-5 h-5" />
                 </button>
               ) : (
                 <button
                   onClick={handleSubmit}
                   disabled={submissionStatus !== "idle"}
-                  className={`px-8 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 flex items-center gap-2 ${
+                  className={`px-4 sm:px-8 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 flex items-center justify-center gap-2 flex-1 sm:flex-initial ${
                     submissionStatus === "submitting"
                       ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300"
                       : submissionStatus === "success"
