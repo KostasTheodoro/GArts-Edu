@@ -646,6 +646,7 @@ export default function CustomBookingForm({
           <div className="flex-1 flex flex-col bg-white min-h-0">
             {/* Header with close button */}
             <div className="relative p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
+              {/* Close Button (Top Right) */}
               <button
                 onClick={handleClose}
                 className="absolute top-4 sm:top-6 right-4 sm:right-6 p-2 rounded-lg hover:bg-gray-100 transition-colors z-10"
@@ -670,7 +671,21 @@ export default function CustomBookingForm({
                 ))}
               </div>
 
-              <div className="text-center pr-8 sm:pr-0">
+              <div className="text-center md:pr-0 relative">
+                {/* Mobile Back Button (Same line as header) */}
+                <button
+                  onClick={handleBack}
+                  disabled={step === 1}
+                  className={`group md:hidden absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-lg transition-colors duration-200 ${
+                    step === 1
+                      ? "opacity-0 pointer-events-none"
+                      : "bg-neural-dark hover:bg-primary border-2 border-neural-dark hover:border-primary"
+                  }`}
+                  aria-label="Back"
+                >
+                  <ChevronLeft className="w-6 h-6 text-primary group-hover:text-white transition-colors" />
+                </button>
+
                 <h3 className="text-2xl sm:text-3xl font-bold text-neural-dark">
                   {getStepInfo(step).title}
                 </h3>
@@ -1108,11 +1123,12 @@ export default function CustomBookingForm({
             </div>
 
             {/* Footer Buttons */}
-            <div className="flex items-center justify-between gap-3 p-4 sm:p-6 bg-gray-50 border-t border-gray-200">
+            <div className="flex items-center justify-center md:justify-between gap-3 p-4 sm:p-6 bg-gray-50 border-t border-gray-200 flex-shrink-0">
+              {/* Desktop Back Button */}
               <button
                 onClick={handleBack}
                 disabled={step === 1}
-                className={`flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 ${
+                className={`hidden md:flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 ${
                   step === 1
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300"
                     : "bg-neural-dark text-primary hover:bg-primary hover:text-white border-neural-dark hover:border-primary"
@@ -1130,7 +1146,7 @@ export default function CustomBookingForm({
                     (step === 2 && !canProceedStep2) ||
                     (step === 3 && !canProceedStep3)
                   }
-                  className={`flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 flex-1 sm:flex-initial sm:min-w-[140px] ${
+                  className={`flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 w-full md:w-auto md:min-w-[140px] ${
                     (step === 1 && !canProceedStep1) ||
                     (step === 2 && !canProceedStep2) ||
                     (step === 3 && !canProceedStep3)
@@ -1145,7 +1161,7 @@ export default function CustomBookingForm({
                 <button
                   onClick={handleSubmit}
                   disabled={submissionStatus !== "idle"}
-                  className={`px-4 sm:px-8 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 flex items-center justify-center gap-2 flex-1 sm:flex-initial ${
+                  className={`px-4 sm:px-8 py-3 rounded-full font-bold shadow-md border-2 transition-colors duration-200 flex items-center justify-center gap-2 w-full md:w-auto ${
                     submissionStatus === "submitting"
                       ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300"
                       : submissionStatus === "success"
