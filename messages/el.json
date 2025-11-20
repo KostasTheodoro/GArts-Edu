@@ -238,7 +238,78 @@
   },
   "bookings": {
     "title": "Κλείστε τη Συνεδρία σας",
-    "description": "Έτοιμοι να ξεκινήσετε το δημιουργικό σας ταξίδι; Κλείστε μια εξατομικευμένη συνεδρία μαζί μας και ξεκλειδώστε τις δυνατότητές σας."
+    "intro": "Τα ατομικά μας μαθήματα είναι σχεδιασμένα για σοβαρούς μαθητές που θέλουν εξατομικευμένη προσοχή και εστιασμένη διδασκαλία. Είτε είστε εντελώς αρχάριοι είτε θέλετε να αναπτύξετε τις δεξιότητές σας, οι ατομικές μας συνεδρίες προσαρμόζονται στους συγκεκριμένους στόχους και τον ρυθμό μάθησής σας.",
+    "bookButton": "Κλείστε Τώρα",
+    "bookPrivateSession": "Κλείστε Ιδιωτικό Μάθημα",
+    "selectSoftware": "Επιλέξτε το Λογισμικό σας",
+    "bookingForm": "Ατομικό Μάθημα",
+    "software": {
+      "blender": {
+        "title": "Blender",
+        "description": "3D μοντελοποίηση, κινούμενα σχέδια και απόδοση"
+      },
+      "photoshop": {
+        "title": "Photoshop",
+        "description": "Επεξεργασία εικόνας και ψηφιακή ζωγραφική"
+      },
+      "premierePro": {
+        "title": "Premiere Pro",
+        "description": "Επαγγελματική επεξεργασία βίντεο"
+      },
+      "afterEffects": {
+        "title": "After Effects",
+        "description": "Κινούμενα γραφικά και οπτικά εφέ"
+      }
+    },
+    "form": {
+      "title": "Κλείστε το Μάθημά σας",
+      "steps": {
+        "serviceSelection": "Επιλογή Υπηρεσίας",
+        "dateTime": "Ημερομηνία & Ώρα",
+        "yourInformation": "Τα Στοιχεία σας",
+        "overview": "Επισκόπηση"
+      },
+      "selectSoftware": "Επιλέξτε Λογισμικό",
+      "selectSoftwarePlaceholder": "Επιλέξτε λογισμικό...",
+      "selectSoftwareFirst": "Επιλέξτε πρώτα λογισμικό",
+      "selectDuration": "Επιλέξτε Διάρκεια",
+      "selectDurationPlaceholder": "Επιλέξτε διάρκεια...",
+      "selectLocation": "Επιλέξτε Τοποθεσία",
+      "selectLocationPlaceholder": "Επιλέξτε τοποθεσία...",
+      "selectDate": "Επιλέξτε Ημερομηνία",
+      "selectTime": "Επιλέξτε Ώρα",
+      "selectDateFirst": "Παρακαλώ επιλέξτε πρώτα ημερομηνία για να δείτε τις διαθέσιμες ώρες",
+      "duration": {
+        "1h": "1 Ώρα",
+        "2h": "2 Ώρες"
+      },
+      "location": {
+        "online": "Διαδικτυακή Συνεδρία",
+        "offline": "Δια Ζώσης (Στούντιο)"
+      },
+      "firstName": "Όνομα",
+      "firstNamePlaceholder": "Το όνομά σας",
+      "lastName": "Επώνυμο",
+      "lastNamePlaceholder": "Το επώνυμό σας",
+      "email": "Διεύθυνση Email",
+      "emailPlaceholder": "to.email@paradeigma.com",
+      "phone": "Αριθμός Τηλεφώνου",
+      "phonePlaceholder": "π.χ. 6939515320",
+      "notes": "Επιπλέον Σημειώσεις (Προαιρετικό)",
+      "notesPlaceholder": "Υπάρχουν συγκεκριμένες απαιτήσεις ή ερωτήσεις;",
+      "reviewBooking": "Ελέγξτε την Κράτησή σας",
+      "softwareLabel": "Λογισμικό",
+      "durationLabel": "Διάρκεια",
+      "locationLabel": "Τοποθεσία",
+      "dateTime": "Ημερομηνία & Ώρα",
+      "name": "Όνομα",
+      "totalCost": "Συνολικό Κόστος",
+      "paymentOnSite": "Η πληρωμή θα πραγματοποιηθεί επιτόπου κατά τη διάρκεια του μαθήματος",
+      "back": "Πίσω",
+      "continue": "Συνέχεια",
+      "confirmBooking": "Επιβεβαίωση Κράτησης",
+      "submitting": "Υποβολή..."
+    }
   },
   "contact": {
     "title": "Έχετε Ερωτήσεις; Ας Μιλήσουμε!",

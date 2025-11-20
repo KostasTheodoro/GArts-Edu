@@ -238,7 +238,78 @@
   },
   "bookings": {
     "title": "Book Your Session",
-    "description": "Ready to start your creative journey? Book a personalized session with us and unlock your full potential."
+    "intro": "Our individual lessons are designed for serious learners who want personalized attention and focused instruction. Whether you're a complete beginner or looking to advance your skills, our one-on-one sessions are tailored to your specific goals and learning pace.",
+    "bookButton": "Book Now",
+    "bookPrivateSession": "Book Private Session",
+    "selectSoftware": "Select Your Software",
+    "bookingForm": "Individual Lesson",
+    "software": {
+      "blender": {
+        "title": "Blender",
+        "description": "3D modeling, animation, and rendering"
+      },
+      "photoshop": {
+        "title": "Photoshop",
+        "description": "Image editing and digital painting"
+      },
+      "premierePro": {
+        "title": "Premiere Pro",
+        "description": "Professional video editing"
+      },
+      "afterEffects": {
+        "title": "After Effects",
+        "description": "Motion graphics and visual effects"
+      }
+    },
+    "form": {
+      "title": "Book Your Lesson",
+      "steps": {
+        "serviceSelection": "Service Selection",
+        "dateTime": "Date & Time",
+        "yourInformation": "Your Information",
+        "overview": "Overview"
+      },
+      "selectSoftware": "Select Software",
+      "selectSoftwarePlaceholder": "Choose a software...",
+      "selectSoftwareFirst": "Select software first",
+      "selectDuration": "Select Duration",
+      "selectDurationPlaceholder": "Choose duration...",
+      "selectLocation": "Select Location",
+      "selectLocationPlaceholder": "Choose location...",
+      "selectDate": "Select Date",
+      "selectTime": "Select Time",
+      "selectDateFirst": "Please select a date first to see available times",
+      "duration": {
+        "1h": "1 Hour",
+        "2h": "2 Hours"
+      },
+      "location": {
+        "online": "Online Session",
+        "offline": "Face-to-Face (Studio)"
+      },
+      "firstName": "First Name",
+      "firstNamePlaceholder": "Your first name",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Your last name",
+      "email": "Email Address",
+      "emailPlaceholder": "your.email@example.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "e.g. 6939515320",
+      "notes": "Additional Notes (Optional)",
+      "notesPlaceholder": "Any specific requests or questions?",
+      "reviewBooking": "Review Your Booking",
+      "softwareLabel": "Software",
+      "durationLabel": "Duration",
+      "locationLabel": "Location",
+      "dateTime": "Date & Time",
+      "name": "Name",
+      "totalCost": "Total Cost",
+      "paymentOnSite": "Payment will be collected on-site at the time of your lesson",
+      "back": "Back",
+      "continue": "Continue",
+      "confirmBooking": "Confirm Booking",
+      "submitting": "Submitting..."
+    }
   },
   "contact": {
     "title": "Have Questions? Let's Chat!",
