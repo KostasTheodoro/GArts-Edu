@@ -106,7 +106,9 @@ export default function CustomBookingForm({
   const [availableDates, setAvailableDates] = useState<string[]>([]);
   const [calendarMonth, setCalendarMonth] = useState(new Date().getMonth());
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
-  const [groupBookingCount, setGroupBookingCount] = useState<number | null>(null);
+  const [groupBookingCount, setGroupBookingCount] = useState<number | null>(
+    null
+  );
   const [isLoadingBookingCount, setIsLoadingBookingCount] = useState(false);
 
   // Fetch event types on mount
@@ -137,11 +139,7 @@ export default function CustomBookingForm({
     fetchEventTypes();
   }, []);
 
-  // Filter event types into individual (private) and group events
-  const individualEventTypes = useMemo(() => {
-    return eventTypes.filter((et) => et.slug.includes("private"));
-  }, [eventTypes]);
-
+  // Filter event types into group events
   const groupEventTypes = useMemo(() => {
     return eventTypes.filter((et) => et.slug.includes("group"));
   }, [eventTypes]);
@@ -492,7 +490,9 @@ export default function CustomBookingForm({
   const canProceedStep1 =
     bookingData.sessionType === "individual"
       ? bookingData.software && bookingData.duration && bookingData.location
-      : bookingData.groupEventId !== null && bookingData.duration && bookingData.location;
+      : bookingData.groupEventId !== null &&
+        bookingData.duration &&
+        bookingData.location;
   const canProceedStep2 =
     bookingData.sessionType === "group"
       ? true // Group sessions can always proceed from step 2
@@ -514,7 +514,7 @@ export default function CustomBookingForm({
   const parseDescription = (description: string): string => {
     if (!description) return "";
 
-    let parsed = description
+    const parsed = description
       // Convert ****text**** to <strong>text</strong>
       .replace(/\*\*\*\*([^*]+)\*\*\*\*/g, "<strong>$1</strong>")
       // Convert **text** to <strong>text</strong> (standard markdown)
@@ -530,7 +530,10 @@ export default function CustomBookingForm({
 
   // Helper function to extract specific field from description
   // e.g., extractDescriptionField(description, "Running Period") returns "1/12/25 - 31/2/26..."
-  const extractDescriptionField = (description: string, fieldName: string): string | null => {
+  const extractDescriptionField = (
+    description: string,
+    fieldName: string
+  ): string | null => {
     if (!description) return null;
 
     // Pattern matches ****Field Name:**** value or **Field Name:** value
@@ -582,14 +585,6 @@ export default function CustomBookingForm({
   // Helper function to convert minutes to duration type for API calls
   const minutesToDurationType = (minutes: number): DurationType => {
     return minutes === 60 ? "1h" : "2h";
-  };
-
-  // Helper function to convert DurationType to minutes
-  const durationToMinutes = (duration: DurationType | null): number => {
-    if (!duration) return 60;
-    if (duration === "1h") return 60;
-    if (duration === "2h") return 120;
-    return 60;
   };
 
   // Helper function to format time slot as range (e.g., "9:00-10:00", "9:00-11:00")
@@ -666,15 +661,21 @@ export default function CustomBookingForm({
       {
         number: 2,
         icon: Calendar,
-        title: bookingData.sessionType === "group" ? t("steps.groupInfo") : t("steps.dateTime"),
-        selections: bookingData.sessionType === "group"
-          ? bookingData.date === "group-session" ? [t("seatReserved")] : []
-          : [
-              bookingData.date ? bookingData.date : null,
-              bookingData.time
-                ? formatTimeRange(bookingData.time, durationForTimeRange)
-                : null,
-            ].filter(Boolean),
+        title:
+          bookingData.sessionType === "group"
+            ? t("steps.groupInfo")
+            : t("steps.dateTime"),
+        selections:
+          bookingData.sessionType === "group"
+            ? bookingData.date === "group-session"
+              ? [t("seatReserved")]
+              : []
+            : [
+                bookingData.date ? bookingData.date : null,
+                bookingData.time
+                  ? formatTimeRange(bookingData.time, durationForTimeRange)
+                  : null,
+              ].filter(Boolean),
       },
       {
         number: 3,
@@ -770,7 +771,7 @@ export default function CustomBookingForm({
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm">
-        <div className="relative w-full max-w-5xl h-[100dvh] sm:h-auto sm:max-h-[90vh] bg-white rounded-none sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+        <div className="relative w-full max-w-5xl h-dvh sm:h-auto sm:max-h-[90vh] bg-white rounded-none sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
           {/* Left Sidebar - Step Indicator (Hidden on mobile, visible on md+) */}
           <div className="hidden md:flex md:w-80 bg-neural-dark flex-col">
             {/* Header */}
@@ -866,7 +867,7 @@ export default function CustomBookingForm({
           {/* Right Content Area */}
           <div className="flex-1 flex flex-col bg-white min-h-0">
             {/* Header with close button */}
-            <div className="relative p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
+            <div className="relative p-4 sm:p-6 border-b border-gray-200 shrink-0">
               {/* Close Button (Top Right) */}
               <button
                 onClick={handleClose}
@@ -943,7 +944,9 @@ export default function CustomBookingForm({
                       }}
                       className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
                     >
-                      <option value="individual">{t("sessionType.individual")}</option>
+                      <option value="individual">
+                        {t("sessionType.individual")}
+                      </option>
                       <option value="group">{t("sessionType.group")}</option>
                     </CustomSelect>
                   </div>
@@ -1008,176 +1011,194 @@ export default function CustomBookingForm({
                   </div>
 
                   {/* Individual Session: Duration & Location */}
-                  {bookingData.sessionType === "individual" && bookingData.software && (
-                    <>
-                      <div>
-                        <label className="block text-sm font-semibold text-neural-dark mb-2">
-                          {t("selectDuration")}
-                        </label>
-                        <CustomSelect
-                          value={bookingData.duration || ""}
-                          onChange={(e) =>
-                            setBookingData({
-                              ...bookingData,
-                              duration: e.target.value as DurationType,
-                              // Reset dependent fields
-                              date: null,
-                              time: null,
-                            })
-                          }
-                          className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
-                          disabled={!selectedEventType}
-                        >
-                          <option value="" disabled>
-                            {t("selectDurationPlaceholder")}
-                          </option>
-                          {selectedEventType?.availableDurations?.map((minutes) => (
-                            <option key={minutes} value={minutesToDurationType(minutes)}>
-                              {minutes}&apos;
+                  {bookingData.sessionType === "individual" &&
+                    bookingData.software && (
+                      <>
+                        <div>
+                          <label className="block text-sm font-semibold text-neural-dark mb-2">
+                            {t("selectDuration")}
+                          </label>
+                          <CustomSelect
+                            value={bookingData.duration || ""}
+                            onChange={(e) =>
+                              setBookingData({
+                                ...bookingData,
+                                duration: e.target.value as DurationType,
+                                // Reset dependent fields
+                                date: null,
+                                time: null,
+                              })
+                            }
+                            className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                            disabled={!selectedEventType}
+                          >
+                            <option value="" disabled>
+                              {t("selectDurationPlaceholder")}
                             </option>
-                          ))}
-                        </CustomSelect>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-neural-dark mb-2">
-                          {t("selectLocation")}
-                        </label>
-                        <CustomSelect
-                          value={bookingData.location || ""}
-                          onChange={(e) => {
-                            const selectedIndex = e.target.selectedIndex - 1;
-                            const selectedLocation =
-                              selectedEventType?.locations[selectedIndex];
-
-                            setBookingData({
-                              ...bookingData,
-                              location: e.target.value as LocationType,
-                              locationAddress: selectedLocation?.address || null,
-                            });
-                          }}
-                          className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
-                          disabled={!selectedEventType || isLoadingEventTypes}
-                        >
-                          <option value="" disabled>
-                            {isLoadingEventTypes
-                              ? "Loading..."
-                              : !selectedEventType
-                                ? t("selectSoftwareFirst")
-                                : t("selectLocationPlaceholder")}
-                          </option>
-                          {selectedEventType?.locations &&
-                            selectedEventType.locations.map(
-                              (location: Location, index: number) => {
-                                let displayLabel = "Online";
-                                let locationValue =
-                                  location.type || `location-${index}`;
-
-                                if (location.type) {
-                                  displayLabel = formatLocationName(location.type);
-                                  locationValue = location.type;
-                                } else if (location.link) {
-                                  displayLabel = "Custom Link";
-                                  locationValue = location.link;
-                                }
-
-                                return (
-                                  <option key={index} value={locationValue}>
-                                    {displayLabel}
-                                  </option>
-                                );
-                              }
+                            {selectedEventType?.availableDurations?.map(
+                              (minutes) => (
+                                <option
+                                  key={minutes}
+                                  value={minutesToDurationType(minutes)}
+                                >
+                                  {minutes}&apos;
+                                </option>
+                              )
                             )}
-                        </CustomSelect>
-                      </div>
-                    </>
-                  )}
+                          </CustomSelect>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-neural-dark mb-2">
+                            {t("selectLocation")}
+                          </label>
+                          <CustomSelect
+                            value={bookingData.location || ""}
+                            onChange={(e) => {
+                              const selectedIndex = e.target.selectedIndex - 1;
+                              const selectedLocation =
+                                selectedEventType?.locations[selectedIndex];
+
+                              setBookingData({
+                                ...bookingData,
+                                location: e.target.value as LocationType,
+                                locationAddress:
+                                  selectedLocation?.address || null,
+                              });
+                            }}
+                            className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                            disabled={!selectedEventType || isLoadingEventTypes}
+                          >
+                            <option value="" disabled>
+                              {isLoadingEventTypes
+                                ? "Loading..."
+                                : !selectedEventType
+                                  ? t("selectSoftwareFirst")
+                                  : t("selectLocationPlaceholder")}
+                            </option>
+                            {selectedEventType?.locations &&
+                              selectedEventType.locations.map(
+                                (location: Location, index: number) => {
+                                  let displayLabel = "Online";
+                                  let locationValue =
+                                    location.type || `location-${index}`;
+
+                                  if (location.type) {
+                                    displayLabel = formatLocationName(
+                                      location.type
+                                    );
+                                    locationValue = location.type;
+                                  } else if (location.link) {
+                                    displayLabel = "Custom Link";
+                                    locationValue = location.link;
+                                  }
+
+                                  return (
+                                    <option key={index} value={locationValue}>
+                                      {displayLabel}
+                                    </option>
+                                  );
+                                }
+                              )}
+                          </CustomSelect>
+                        </div>
+                      </>
+                    )}
 
                   {/* Group Session: Duration & Location dropdowns */}
-                  {bookingData.sessionType === "group" && bookingData.groupEventId && (
-                    <>
-                      <div>
-                        <label className="block text-sm font-semibold text-neural-dark mb-2">
-                          {t("selectDuration")}
-                        </label>
-                        <CustomSelect
-                          value={bookingData.duration || ""}
-                          onChange={(e) =>
-                            setBookingData({
-                              ...bookingData,
-                              duration: e.target.value as DurationType,
-                              // Reset dependent fields
-                              date: null,
-                              time: null,
-                            })
-                          }
-                          className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
-                          disabled={!selectedEventType}
-                        >
-                          <option value="" disabled>
-                            {t("selectDurationPlaceholder")}
-                          </option>
-                          {selectedEventType?.availableDurations?.map((minutes) => (
-                            <option key={minutes} value={minutesToDurationType(minutes)}>
-                              {minutes}&apos;
+                  {bookingData.sessionType === "group" &&
+                    bookingData.groupEventId && (
+                      <>
+                        <div>
+                          <label className="block text-sm font-semibold text-neural-dark mb-2">
+                            {t("selectDuration")}
+                          </label>
+                          <CustomSelect
+                            value={bookingData.duration || ""}
+                            onChange={(e) =>
+                              setBookingData({
+                                ...bookingData,
+                                duration: e.target.value as DurationType,
+                                // Reset dependent fields
+                                date: null,
+                                time: null,
+                              })
+                            }
+                            className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                            disabled={!selectedEventType}
+                          >
+                            <option value="" disabled>
+                              {t("selectDurationPlaceholder")}
                             </option>
-                          ))}
-                        </CustomSelect>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-neural-dark mb-2">
-                          {t("selectLocation")}
-                        </label>
-                        <CustomSelect
-                          value={bookingData.location || ""}
-                          onChange={(e) => {
-                            const selectedIndex = e.target.selectedIndex - 1;
-                            const selectedLocation =
-                              selectedEventType?.locations[selectedIndex];
-
-                            setBookingData({
-                              ...bookingData,
-                              location: e.target.value as LocationType,
-                              locationAddress: selectedLocation?.address || null,
-                            });
-                          }}
-                          className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
-                          disabled={!selectedEventType || isLoadingEventTypes}
-                        >
-                          <option value="" disabled>
-                            {isLoadingEventTypes
-                              ? "Loading..."
-                              : !selectedEventType
-                                ? t("selectGroupFirst")
-                                : t("selectLocationPlaceholder")}
-                          </option>
-                          {selectedEventType?.locations &&
-                            selectedEventType.locations.map(
-                              (location: Location, index: number) => {
-                                let displayLabel = "Online";
-                                let locationValue =
-                                  location.type || `location-${index}`;
-
-                                if (location.type) {
-                                  displayLabel = formatLocationName(location.type);
-                                  locationValue = location.type;
-                                } else if (location.link) {
-                                  displayLabel = "Custom Link";
-                                  locationValue = location.link;
-                                }
-
-                                return (
-                                  <option key={index} value={locationValue}>
-                                    {displayLabel}
-                                  </option>
-                                );
-                              }
+                            {selectedEventType?.availableDurations?.map(
+                              (minutes) => (
+                                <option
+                                  key={minutes}
+                                  value={minutesToDurationType(minutes)}
+                                >
+                                  {minutes}&apos;
+                                </option>
+                              )
                             )}
-                        </CustomSelect>
-                      </div>
-                    </>
-                  )}
+                          </CustomSelect>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-neural-dark mb-2">
+                            {t("selectLocation")}
+                          </label>
+                          <CustomSelect
+                            value={bookingData.location || ""}
+                            onChange={(e) => {
+                              const selectedIndex = e.target.selectedIndex - 1;
+                              const selectedLocation =
+                                selectedEventType?.locations[selectedIndex];
+
+                              setBookingData({
+                                ...bookingData,
+                                location: e.target.value as LocationType,
+                                locationAddress:
+                                  selectedLocation?.address || null,
+                              });
+                            }}
+                            className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                            disabled={!selectedEventType || isLoadingEventTypes}
+                          >
+                            <option value="" disabled>
+                              {isLoadingEventTypes
+                                ? "Loading..."
+                                : !selectedEventType
+                                  ? t("selectGroupFirst")
+                                  : t("selectLocationPlaceholder")}
+                            </option>
+                            {selectedEventType?.locations &&
+                              selectedEventType.locations.map(
+                                (location: Location, index: number) => {
+                                  let displayLabel = "Online";
+                                  let locationValue =
+                                    location.type || `location-${index}`;
+
+                                  if (location.type) {
+                                    displayLabel = formatLocationName(
+                                      location.type
+                                    );
+                                    locationValue = location.type;
+                                  } else if (location.link) {
+                                    displayLabel = "Custom Link";
+                                    locationValue = location.link;
+                                  }
+
+                                  return (
+                                    <option key={index} value={locationValue}>
+                                      {displayLabel}
+                                    </option>
+                                  );
+                                }
+                              )}
+                          </CustomSelect>
+                        </div>
+                      </>
+                    )}
                 </div>
               )}
 
@@ -1246,15 +1267,18 @@ export default function CustomBookingForm({
                                           : "border-gray-300 hover:border-primary text-gray-700 hover:bg-primary/10"
                                       }`}
                                     >
-                                      {formatTimeRange(time, bookingData.duration)}
+                                      {formatTimeRange(
+                                        time,
+                                        bookingData.duration
+                                      )}
                                     </motion.button>
                                   ))}
                                 </AnimatePresence>
                               </div>
                             ) : (
                               <p className="text-sm text-gray-500 p-4 bg-gray-50 rounded-lg">
-                                No available time slots for this date. Please select
-                                another date.
+                                No available time slots for this date. Please
+                                select another date.
                               </p>
                             )}
                           </motion.div>
@@ -1278,7 +1302,9 @@ export default function CustomBookingForm({
                         <div
                           className="text-gray-700 [&>strong]:font-bold [&>strong]:text-neural-dark [&>em]:italic"
                           dangerouslySetInnerHTML={{
-                            __html: parseDescription(selectedEventType.description)
+                            __html: parseDescription(
+                              selectedEventType.description
+                            ),
                           }}
                         />
                       )}
@@ -1288,19 +1314,25 @@ export default function CustomBookingForm({
                         <div className="pt-4 border-t border-gray-200">
                           <div className="space-y-3">
                             <div className="flex justify-between items-center">
-                              <span className="font-bold text-neural-dark">{t("availableSeats")}:</span>
+                              <span className="font-bold text-neural-dark">
+                                {t("availableSeats")}:
+                              </span>
                               <span className="font-bold text-neural-dark text-lg">
-                                {isLoadingBookingCount ? (
-                                  "..."
-                                ) : groupBookingCount !== null ? (
-                                  Math.max(0, selectedEventType.seatsPerTimeSlot - groupBookingCount)
-                                ) : (
-                                  selectedEventType.seatsPerTimeSlot
-                                )}
+                                {isLoadingBookingCount
+                                  ? "..."
+                                  : groupBookingCount !== null
+                                    ? Math.max(
+                                        0,
+                                        selectedEventType.seatsPerTimeSlot -
+                                          groupBookingCount
+                                      )
+                                    : selectedEventType.seatsPerTimeSlot}
                               </span>
                             </div>
                             <div className="flex justify-between items-center">
-                              <span className="font-bold text-neural-dark">{t("maxCapacity")}:</span>
+                              <span className="font-bold text-neural-dark">
+                                {t("maxCapacity")}:
+                              </span>
                               <span className="font-bold text-neural-dark text-lg">
                                 {selectedEventType.seatsPerTimeSlot}
                               </span>
@@ -1509,51 +1541,52 @@ export default function CustomBookingForm({
                       )}
 
                       {/* Group Session Details */}
-                      {bookingData.sessionType === "group" && selectedEventType && (
-                        <>
-                          <div className="flex justify-between gap-2 flex-wrap">
-                            <span className="font-semibold text-gray-700">
-                              {t("selectGroupSession")}:
-                            </span>
-                            <span className="text-neural-dark text-right">
-                              {selectedEventType.title}
-                            </span>
-                          </div>
-
-                          <div className="flex justify-between gap-2 flex-wrap">
-                            <span className="font-semibold text-gray-700">
-                              {t("durationLabel")}:
-                            </span>
-                            <span className="text-neural-dark text-right">
-                              {bookingData.duration
-                                ? formatDuration(bookingData.duration)
-                                : `${selectedEventType.length}'`}
-                            </span>
-                          </div>
-
-                          <div className="flex justify-between gap-2 flex-wrap">
-                            <span className="font-semibold text-gray-700">
-                              {t("locationLabel")}:
-                            </span>
-                            <span className="text-neural-dark text-right">
-                              {bookingData.location
-                                ? formatLocationName(bookingData.location)
-                                : t("location.offline")}
-                            </span>
-                          </div>
-
-                          {bookingData.locationAddress && (
+                      {bookingData.sessionType === "group" &&
+                        selectedEventType && (
+                          <>
                             <div className="flex justify-between gap-2 flex-wrap">
                               <span className="font-semibold text-gray-700">
-                                Address:
+                                {t("selectGroupSession")}:
                               </span>
                               <span className="text-neural-dark text-right">
-                                {bookingData.locationAddress}
+                                {selectedEventType.title}
                               </span>
                             </div>
-                          )}
-                        </>
-                      )}
+
+                            <div className="flex justify-between gap-2 flex-wrap">
+                              <span className="font-semibold text-gray-700">
+                                {t("durationLabel")}:
+                              </span>
+                              <span className="text-neural-dark text-right">
+                                {bookingData.duration
+                                  ? formatDuration(bookingData.duration)
+                                  : `${selectedEventType.length}'`}
+                              </span>
+                            </div>
+
+                            <div className="flex justify-between gap-2 flex-wrap">
+                              <span className="font-semibold text-gray-700">
+                                {t("locationLabel")}:
+                              </span>
+                              <span className="text-neural-dark text-right">
+                                {bookingData.location
+                                  ? formatLocationName(bookingData.location)
+                                  : t("location.offline")}
+                              </span>
+                            </div>
+
+                            {bookingData.locationAddress && (
+                              <div className="flex justify-between gap-2 flex-wrap">
+                                <span className="font-semibold text-gray-700">
+                                  Address:
+                                </span>
+                                <span className="text-neural-dark text-right">
+                                  {bookingData.locationAddress}
+                                </span>
+                              </div>
+                            )}
+                          </>
+                        )}
 
                       {/* Date & Time - Only show for individual sessions */}
                       {bookingData.sessionType === "individual" && (
@@ -1564,23 +1597,30 @@ export default function CustomBookingForm({
                           <span className="text-neural-dark text-right">
                             {bookingData.date} at{" "}
                             {bookingData.time
-                              ? formatTimeRange(bookingData.time, bookingData.duration)
+                              ? formatTimeRange(
+                                  bookingData.time,
+                                  bookingData.duration
+                                )
                               : bookingData.time}
                           </span>
                         </div>
                       )}
 
                       {/* Group Session - Show schedule from description */}
-                      {bookingData.sessionType === "group" && selectedEventType && (
-                        <div className="flex justify-between gap-2 flex-wrap">
-                          <span className="font-semibold text-gray-700">
-                            {t("schedule")}:
-                          </span>
-                          <span className="text-neural-dark text-right">
-                            {extractDescriptionField(selectedEventType.description, "Running Period") || t("groupScheduleInfo")}
-                          </span>
-                        </div>
-                      )}
+                      {bookingData.sessionType === "group" &&
+                        selectedEventType && (
+                          <div className="flex justify-between gap-2 flex-wrap">
+                            <span className="font-semibold text-gray-700">
+                              {t("schedule")}:
+                            </span>
+                            <span className="text-neural-dark text-right">
+                              {extractDescriptionField(
+                                selectedEventType.description,
+                                "Running Period"
+                              ) || t("groupScheduleInfo")}
+                            </span>
+                          </div>
+                        )}
 
                       <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
@@ -1618,8 +1658,12 @@ export default function CustomBookingForm({
                           {t("totalCost")}:
                         </span>
                         <span className="text-xl sm:text-2xl font-bold text-primary">
-                          {bookingData.sessionType === "group" && selectedEventType
-                            ? extractDescriptionField(selectedEventType.description, "Cost") || `€${calculateCost()}`
+                          {bookingData.sessionType === "group" &&
+                          selectedEventType
+                            ? extractDescriptionField(
+                                selectedEventType.description,
+                                "Cost"
+                              ) || `€${calculateCost()}`
                             : `€${calculateCost()}`}
                         </span>
                       </div>
@@ -1632,9 +1676,7 @@ export default function CustomBookingForm({
               )}
             </div>
 
-            {/* Footer Buttons */}
-            <div className="flex items-center justify-center md:justify-between gap-3 p-4 sm:p-6 bg-gray-50 border-t border-gray-200 flex-shrink-0">
-              {/* Desktop Back Button */}
+            <div className="flex items-center justify-center md:justify-between gap-3 p-4 sm:p-6 bg-gray-50 border-t border-gray-200 shrink-0">
               <button
                 onClick={handleBack}
                 disabled={step === 1}

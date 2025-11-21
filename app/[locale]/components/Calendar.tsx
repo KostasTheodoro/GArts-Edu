@@ -22,12 +22,11 @@ export default function Calendar({
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
-  // Notify parent of initial month/year on mount
   useEffect(() => {
     if (onMonthChange) {
       onMonthChange(currentMonth, currentYear);
     }
-  }, []); // Only run once on mount
+  }, [currentMonth, currentYear, onMonthChange]);
 
   const monthNames = [
     "January",
@@ -210,7 +209,7 @@ export default function Calendar({
           </CustomSelect>
         </div>
 
-        <div className="flex gap-1 flex-shrink-0">
+        <div className="flex gap-1 shrink-0">
           <button
             onClick={handlePrevMonth}
             className="p-2 border-2 border-gray-300 rounded-lg hover:border-primary transition-colors"
