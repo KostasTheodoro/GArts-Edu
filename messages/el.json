@@ -240,7 +240,7 @@
     "title": "Κλείστε τη Συνεδρία σας",
     "intro": "Τα ατομικά μας μαθήματα είναι σχεδιασμένα για σοβαρούς μαθητές που θέλουν εξατομικευμένη προσοχή και εστιασμένη διδασκαλία. Είτε είστε εντελώς αρχάριοι είτε θέλετε να αναπτύξετε τις δεξιότητές σας, οι ατομικές μας συνεδρίες προσαρμόζονται στους συγκεκριμένους στόχους και τον ρυθμό μάθησής σας.",
     "bookButton": "Κλείστε Τώρα",
-    "bookPrivateSession": "Κλείστε Ιδιωτικό Μάθημα",
+    "bookPrivateSession": "Κλείστε Το Μάθημά Σας Τώρα",
     "selectSoftware": "Επιλέξτε το Λογισμικό σας",
     "bookingForm": "Ατομικό Μάθημα",
     "software": {
@@ -266,12 +266,21 @@
       "steps": {
         "serviceSelection": "Επιλογή Υπηρεσίας",
         "dateTime": "Ημερομηνία & Ώρα",
+        "groupInfo": "Πληροφορίες Ομάδας",
         "yourInformation": "Τα Στοιχεία σας",
         "overview": "Επισκόπηση"
       },
+      "selectSessionType": "Επιλέξτε Τύπο Μαθήματος",
+      "sessionType": {
+        "individual": "Ατομικό",
+        "group": "Ομαδικό"
+      },
+      "selectGroupSession": "Επιλέξτε Ομαδικό Μάθημα",
+      "selectGroupSessionPlaceholder": "Επιλέξτε ομαδικό μάθημα...",
       "selectSoftware": "Επιλέξτε Λογισμικό",
       "selectSoftwarePlaceholder": "Επιλέξτε λογισμικό...",
       "selectSoftwareFirst": "Επιλέξτε πρώτα λογισμικό",
+      "selectGroupFirst": "Επιλέξτε πρώτα ομαδικό μάθημα",
       "selectDuration": "Επιλέξτε Διάρκεια",
       "selectDurationPlaceholder": "Επιλέξτε διάρκεια...",
       "selectLocation": "Επιλέξτε Τοποθεσία",
@@ -285,7 +294,8 @@
       },
       "location": {
         "online": "Διαδικτυακή Συνεδρία",
-        "offline": "Δια Ζώσης (Στούντιο)"
+        "offline": "Δια Ζώσης (Στούντιο)",
+        "inPerson": "Δια Ζώσης"
       },
       "firstName": "Όνομα",
       "firstNamePlaceholder": "Το όνομά σας",
@@ -295,7 +305,7 @@
       "emailPlaceholder": "to.email@paradeigma.com",
       "phone": "Αριθμός Τηλεφώνου",
       "phonePlaceholder": "π.χ. 6939515320",
-      "notes": "Επιπλέον Σημειώσεις (Προαιρετικό)",
+      "notes": "Επιπλέον Σημειώσεις",
       "notesPlaceholder": "Υπάρχουν συγκεκριμένες απαιτήσεις ή ερωτήσεις;",
       "reviewBooking": "Ελέγξτε την Κράτησή σας",
       "softwareLabel": "Λογισμικό",
@@ -308,7 +318,16 @@
       "back": "Πίσω",
       "continue": "Συνέχεια",
       "confirmBooking": "Επιβεβαίωση Κράτησης",
-      "submitting": "Υποβολή..."
+      "submitting": "Υποβολή...",
+      "groupDescription": "Σχετικά με αυτό το Ομαδικό Μάθημα",
+      "sessionDetails": "Λεπτομέρειες Μαθήματος",
+      "availableSeats": "Διαθέσιμες Θέσεις",
+      "maxCapacity": "Μέγιστη Χωρητικότητα",
+      "bookSeat": "Κράτηση Θέσης",
+      "bookSeatDescription": "Κάντε κλικ για να κρατήσετε τη θέση σας σε αυτό το ομαδικό μάθημα",
+      "seatReserved": "Θέση Κρατημένη",
+      "schedule": "Πρόγραμμα",
+      "groupScheduleInfo": "Θα συντονιστεί από τον εκπαιδευτή"
     }
   },
   "contact": {

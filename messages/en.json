@@ -240,7 +240,7 @@
     "title": "Book Your Session",
     "intro": "Our individual lessons are designed for serious learners who want personalized attention and focused instruction. Whether you're a complete beginner or looking to advance your skills, our one-on-one sessions are tailored to your specific goals and learning pace.",
     "bookButton": "Book Now",
-    "bookPrivateSession": "Book Private Session",
+    "bookPrivateSession": "Book Your Session Now",
     "selectSoftware": "Select Your Software",
     "bookingForm": "Individual Lesson",
     "software": {
@@ -266,12 +266,21 @@
       "steps": {
         "serviceSelection": "Service Selection",
         "dateTime": "Date & Time",
+        "groupInfo": "Group Info",
         "yourInformation": "Your Information",
         "overview": "Overview"
       },
+      "selectSessionType": "Select Session Type",
+      "sessionType": {
+        "individual": "Individual",
+        "group": "Group"
+      },
+      "selectGroupSession": "Select Group Session",
+      "selectGroupSessionPlaceholder": "Choose a group session...",
       "selectSoftware": "Select Software",
       "selectSoftwarePlaceholder": "Choose a software...",
       "selectSoftwareFirst": "Select software first",
+      "selectGroupFirst": "Select group session first",
       "selectDuration": "Select Duration",
       "selectDurationPlaceholder": "Choose duration...",
       "selectLocation": "Select Location",
@@ -285,7 +294,8 @@
       },
       "location": {
         "online": "Online Session",
-        "offline": "Face-to-Face (Studio)"
+        "offline": "Face-to-Face (Studio)",
+        "inPerson": "In-Person"
       },
       "firstName": "First Name",
       "firstNamePlaceholder": "Your first name",
@@ -295,7 +305,7 @@
       "emailPlaceholder": "your.email@example.com",
       "phone": "Phone Number",
       "phonePlaceholder": "e.g. 6939515320",
-      "notes": "Additional Notes (Optional)",
+      "notes": "Additional Notes",
       "notesPlaceholder": "Any specific requests or questions?",
       "reviewBooking": "Review Your Booking",
       "softwareLabel": "Software",
@@ -308,7 +318,16 @@
       "back": "Back",
       "continue": "Continue",
       "confirmBooking": "Confirm Booking",
-      "submitting": "Submitting..."
+      "submitting": "Submitting...",
+      "groupDescription": "About This Group Session",
+      "sessionDetails": "Session Details",
+      "availableSeats": "Available Seats",
+      "maxCapacity": "Max Capacity",
+      "bookSeat": "Book a Seat",
+      "bookSeatDescription": "Click to reserve your spot in this group session",
+      "seatReserved": "Seat Reserved",
+      "schedule": "Schedule",
+      "groupScheduleInfo": "Will be coordinated by instructor"
     }
   },
   "contact": {

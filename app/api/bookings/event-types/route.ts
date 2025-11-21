@@ -50,21 +50,26 @@ export async function GET() {
       );
     }
 
-    // Filter to only our private lesson event types
+    // Filter to our event types (private lessons and group sessions)
     const eventTypes = data.event_types
       .filter(
         (et: any) =>
           et.slug?.includes("blender") ||
           et.slug?.includes("photoshop") ||
           et.slug?.includes("premiere") ||
-          et.slug?.includes("after-effects")
+          et.slug?.includes("after-effects") ||
+          et.slug?.includes("group") // Include group sessions
       )
       .map((et: any) => ({
         id: et.id,
         slug: et.slug,
         title: et.title,
+        description: et.description || "",
         length: et.length,
         locations: et.locations || [],
+        seatsPerTimeSlot: et.seatsPerTimeSlot || null,
+        // Get available durations from metadata, or use length as single option
+        availableDurations: et.metadata?.multipleDuration || [et.length],
       }));
 
     console.log(`Found ${eventTypes.length} matching event types`);

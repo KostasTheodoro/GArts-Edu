@@ -19,6 +19,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import CalendarComponent from "./Calendar";
 import CustomSelect from "./CustomSelect";
 
+type SessionType = "individual" | "group";
 type SoftwareType = "blender" | "photoshop" | "premierePro" | "afterEffects";
 type DurationType = "1h" | "2h";
 type LocationType = "online" | "offline";
@@ -30,7 +31,9 @@ interface Location {
 }
 
 interface BookingData {
+  sessionType: SessionType;
   software: SoftwareType | null;
+  groupEventId: number | null;
   duration: DurationType | null;
   location: LocationType | null;
   locationAddress: string | null;
@@ -47,8 +50,11 @@ interface EventType {
   id: number;
   slug: string;
   title: string;
+  description: string;
   length: number;
   locations: Location[];
+  seatsPerTimeSlot: number | null;
+  availableDurations: number[]; // Array of available durations in minutes
 }
 
 const softwareOptions: SoftwareType[] = [
@@ -70,7 +76,9 @@ export default function CustomBookingForm({
 
   const [step, setStep] = useState(1);
   const [bookingData, setBookingData] = useState<BookingData>({
+    sessionType: "individual",
     software: null,
+    groupEventId: null,
     duration: null,
     location: null,
     locationAddress: null,
@@ -98,6 +106,8 @@ export default function CustomBookingForm({
   const [availableDates, setAvailableDates] = useState<string[]>([]);
   const [calendarMonth, setCalendarMonth] = useState(new Date().getMonth());
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
+  const [groupBookingCount, setGroupBookingCount] = useState<number | null>(null);
+  const [isLoadingBookingCount, setIsLoadingBookingCount] = useState(false);
 
   // Fetch event types on mount
   useEffect(() => {
@@ -127,32 +137,66 @@ export default function CustomBookingForm({
     fetchEventTypes();
   }, []);
 
-  // Derive selectedEventType from bookingData.software and eventTypes (no useEffect needed!)
+  // Filter event types into individual (private) and group events
+  const individualEventTypes = useMemo(() => {
+    return eventTypes.filter((et) => et.slug.includes("private"));
+  }, [eventTypes]);
+
+  const groupEventTypes = useMemo(() => {
+    return eventTypes.filter((et) => et.slug.includes("group"));
+  }, [eventTypes]);
+
+  // Derive selectedEventType based on session type
   const selectedEventType = useMemo(() => {
-    if (!bookingData.software || eventTypes.length === 0) {
-      return null;
+    if (eventTypes.length === 0) return null;
+
+    if (bookingData.sessionType === "individual") {
+      // For individual sessions, derive from software selection
+      if (!bookingData.software) return null;
+
+      const slugMap: Record<SoftwareType, string> = {
+        blender: "blender-private",
+        photoshop: "photoshop-private",
+        premierePro: "premiere-pro-private",
+        afterEffects: "after-effects-private",
+      };
+
+      const slug = slugMap[bookingData.software];
+      return eventTypes.find((et) => et.slug === slug) || null;
+    } else {
+      // For group sessions, find by groupEventId
+      if (!bookingData.groupEventId) return null;
+      return (
+        eventTypes.find((et) => et.id === bookingData.groupEventId) || null
+      );
     }
+  }, [
+    bookingData.sessionType,
+    bookingData.software,
+    bookingData.groupEventId,
+    eventTypes,
+  ]);
 
-    const slugMap: Record<SoftwareType, string> = {
-      blender: "blender-private",
-      photoshop: "photoshop-private",
-      premierePro: "premiere-pro-private",
-      afterEffects: "after-effects-private",
-    };
-
-    const slug = slugMap[bookingData.software];
-    return eventTypes.find((et) => et.slug === slug) || null;
-  }, [bookingData.software, eventTypes]);
-
-  // Fetch available time slots when date changes
+  // Fetch available time slots when date changes (only for individual sessions)
   useEffect(() => {
     const fetchAvailability = async () => {
-      if (!bookingData.date || !bookingData.software || !bookingData.duration) {
+      // Skip fetching for group sessions - they don't need time slot selection
+      if (bookingData.sessionType === "group") {
+        return;
+      }
+
+      if (!bookingData.date || !selectedEventType) {
         setAvailableTimeSlots([]);
         return;
       }
 
-      if (!selectedEventType) return;
+      // For individual sessions, require software and duration
+      if (!bookingData.software || !bookingData.duration) {
+        setAvailableTimeSlots([]);
+        return;
+      }
+
+      const durationValue = bookingData.duration;
 
       setIsLoadingSlots(true);
       try {
@@ -162,7 +206,7 @@ export default function CustomBookingForm({
           body: JSON.stringify({
             eventTypeId: selectedEventType.id,
             date: bookingData.date,
-            duration: bookingData.duration,
+            duration: durationValue,
           }),
         });
 
@@ -191,10 +235,13 @@ export default function CustomBookingForm({
       } catch (error) {
         console.error("Error fetching availability:", error);
         setAvailableTimeSlots([]);
-        setNotification({
-          type: "error",
-          message: "Failed to load available time slots. Please try again.",
-        });
+        // Only show error notification for individual sessions
+        if (bookingData.sessionType === "individual") {
+          setNotification({
+            type: "error",
+            message: "Failed to load available time slots. Please try again.",
+          });
+        }
       } finally {
         setIsLoadingSlots(false);
       }
@@ -203,22 +250,33 @@ export default function CustomBookingForm({
     fetchAvailability();
   }, [
     bookingData.date,
+    bookingData.sessionType,
     bookingData.software,
     bookingData.duration,
+    bookingData.groupEventId,
     selectedEventType,
   ]);
 
-  // Fetch available dates for the current month when software/duration/month changes
+  // Fetch available dates for the current month (only for individual sessions)
   useEffect(() => {
     const fetchAvailableDates = async () => {
-      if (
-        !bookingData.software ||
-        !bookingData.duration ||
-        !selectedEventType
-      ) {
+      // Skip fetching for group sessions - they don't use calendar selection
+      if (bookingData.sessionType === "group") {
+        return;
+      }
+
+      if (!selectedEventType) {
         setAvailableDates([]);
         return;
       }
+
+      // For individual sessions, require software and duration
+      if (!bookingData.software || !bookingData.duration) {
+        setAvailableDates([]);
+        return;
+      }
+
+      const durationValue = bookingData.duration;
 
       try {
         const response = await fetch("/api/bookings/available-dates", {
@@ -228,7 +286,7 @@ export default function CustomBookingForm({
             eventTypeId: selectedEventType.id,
             month: calendarMonth,
             year: calendarYear,
-            duration: bookingData.duration,
+            duration: durationValue,
           }),
         });
 
@@ -252,12 +310,81 @@ export default function CustomBookingForm({
 
     fetchAvailableDates();
   }, [
+    bookingData.sessionType,
     bookingData.software,
     bookingData.duration,
+    bookingData.groupEventId,
     selectedEventType,
     calendarMonth,
     calendarYear,
   ]);
+
+  // Auto-select duration if only one option is available
+  useEffect(() => {
+    if (!selectedEventType || bookingData.duration) return;
+
+    const availableDurations = selectedEventType.availableDurations;
+    if (availableDurations && availableDurations.length === 1) {
+      const singleDuration = minutesToDurationType(availableDurations[0]);
+      setBookingData((prev) => ({
+        ...prev,
+        duration: singleDuration,
+      }));
+    }
+  }, [selectedEventType, bookingData.duration]);
+
+  // Auto-select location if only one option is available
+  useEffect(() => {
+    if (!selectedEventType || bookingData.location) return;
+
+    const locations = selectedEventType.locations;
+    if (locations && locations.length === 1) {
+      const singleLocation = locations[0];
+      const locationValue = singleLocation.type || "online";
+      setBookingData((prev) => ({
+        ...prev,
+        location: locationValue as LocationType,
+        locationAddress: singleLocation.address || null,
+      }));
+    }
+  }, [selectedEventType, bookingData.location]);
+
+  // Fetch booking count for group events
+  useEffect(() => {
+    const fetchBookingCount = async () => {
+      if (bookingData.sessionType !== "group" || !bookingData.groupEventId) {
+        setGroupBookingCount(null);
+        return;
+      }
+
+      setIsLoadingBookingCount(true);
+      try {
+        const response = await fetch("/api/bookings/booking-count", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            eventTypeId: bookingData.groupEventId,
+          }),
+        });
+
+        if (!response.ok) {
+          console.error("Failed to fetch booking count");
+          setGroupBookingCount(null);
+          return;
+        }
+
+        const data = await response.json();
+        setGroupBookingCount(data.bookingCount);
+      } catch (error) {
+        console.error("Error fetching booking count:", error);
+        setGroupBookingCount(null);
+      } finally {
+        setIsLoadingBookingCount(false);
+      }
+    };
+
+    fetchBookingCount();
+  }, [bookingData.sessionType, bookingData.groupEventId]);
 
   const handleNext = () => {
     if (step < 4) setStep(step + 1);
@@ -332,7 +459,9 @@ export default function CustomBookingForm({
   const resetForm = () => {
     setStep(1);
     setBookingData({
+      sessionType: "individual",
       software: null,
+      groupEventId: null,
       duration: null,
       location: null,
       locationAddress: null,
@@ -361,8 +490,13 @@ export default function CustomBookingForm({
   };
 
   const canProceedStep1 =
-    bookingData.software && bookingData.duration && bookingData.location;
-  const canProceedStep2 = bookingData.date && bookingData.time;
+    bookingData.sessionType === "individual"
+      ? bookingData.software && bookingData.duration && bookingData.location
+      : bookingData.groupEventId !== null && bookingData.duration && bookingData.location;
+  const canProceedStep2 =
+    bookingData.sessionType === "group"
+      ? true // Group sessions can always proceed from step 2
+      : bookingData.date && bookingData.time;
   const canProceedStep3 =
     bookingData.firstName &&
     bookingData.lastName &&
@@ -375,10 +509,45 @@ export default function CustomBookingForm({
     return baseCost;
   };
 
+  // Helper function to parse Cal.com description format
+  // Converts ****text**** to bold, <br> to line breaks, _text_ to italic
+  const parseDescription = (description: string): string => {
+    if (!description) return "";
+
+    let parsed = description
+      // Convert ****text**** to <strong>text</strong>
+      .replace(/\*\*\*\*([^*]+)\*\*\*\*/g, "<strong>$1</strong>")
+      // Convert **text** to <strong>text</strong> (standard markdown)
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      // Convert _text_ to <em>text</em> (for italic)
+      .replace(/_([^_]+)_/g, "<em>$1</em>")
+      // Keep <br> tags as they are (they're already HTML)
+      // Convert \n to <br> if any
+      .replace(/\n/g, "<br>");
+
+    return parsed;
+  };
+
+  // Helper function to extract specific field from description
+  // e.g., extractDescriptionField(description, "Running Period") returns "1/12/25 - 31/2/26..."
+  const extractDescriptionField = (description: string, fieldName: string): string | null => {
+    if (!description) return null;
+
+    // Pattern matches ****Field Name:**** value or **Field Name:** value
+    // The value continues until the next <br> or end of string
+    const pattern = new RegExp(
+      `\\*{2,4}${fieldName}:\\*{2,4}\\s*([^<]+?)(?:<br>|$)`,
+      "i"
+    );
+
+    const match = description.match(pattern);
+    return match ? match[1].trim() : null;
+  };
+
   // Helper function to format location display name
   const formatLocationName = (locationType: string): string => {
     if (locationType === "inPerson") {
-      return "In-Person";
+      return t("location.inPerson");
     }
 
     if (locationType?.startsWith("integrations:")) {
@@ -394,23 +563,55 @@ export default function CustomBookingForm({
     }
 
     // Default fallback
-    return locationType || "Online";
+    return locationType || t("location.online");
   };
 
-  // Helper function to format duration
-  const formatDuration = (duration: string): string => {
-    return duration === "1h" ? "60'" : "120'";
+  // Helper function to format duration (handles both "1h"/"2h" and minutes)
+  const formatDuration = (duration: string | number): string => {
+    if (typeof duration === "number") {
+      return `${duration}'`;
+    }
+    if (duration === "1h") return "60'";
+    if (duration === "2h") return "120'";
+    if (duration.endsWith("m")) {
+      return `${duration.slice(0, -1)}'`;
+    }
+    return duration;
+  };
+
+  // Helper function to convert minutes to duration type for API calls
+  const minutesToDurationType = (minutes: number): DurationType => {
+    return minutes === 60 ? "1h" : "2h";
+  };
+
+  // Helper function to convert DurationType to minutes
+  const durationToMinutes = (duration: DurationType | null): number => {
+    if (!duration) return 60;
+    if (duration === "1h") return 60;
+    if (duration === "2h") return 120;
+    return 60;
   };
 
   // Helper function to format time slot as range (e.g., "9:00-10:00", "9:00-11:00")
   const formatTimeRange = (
     startTime: string,
-    duration: DurationType | null
+    duration: DurationType | string | null
   ): string => {
     if (!duration) return startTime;
 
     const [hours, minutes] = startTime.split(":").map(Number);
-    const durationMinutes = duration === "1h" ? 60 : 120;
+
+    // Handle different duration formats: "1h", "2h", or "60m", "90m", etc.
+    let durationMinutes: number;
+    if (duration === "1h") {
+      durationMinutes = 60;
+    } else if (duration === "2h") {
+      durationMinutes = 120;
+    } else if (duration.endsWith("m")) {
+      durationMinutes = parseInt(duration.slice(0, -1)) || 60;
+    } else {
+      durationMinutes = 60; // Default fallback
+    }
 
     // Calculate end time
     const startDate = new Date();
@@ -429,31 +630,51 @@ export default function CustomBookingForm({
 
   // Helper function to get step details with individual selections
   const getStepInfo = (stepNumber: number) => {
+    // Build step 1 selections based on session type
+    const step1Selections =
+      bookingData.sessionType === "individual"
+        ? [
+            bookingData.software
+              ? tSoftware(`${bookingData.software}.title`)
+              : null,
+            bookingData.duration ? formatDuration(bookingData.duration) : null,
+            bookingData.location
+              ? formatLocationName(bookingData.location)
+              : null,
+          ].filter(Boolean)
+        : [
+            selectedEventType ? selectedEventType.title : null,
+            bookingData.duration ? formatDuration(bookingData.duration) : null,
+            bookingData.location
+              ? formatLocationName(bookingData.location)
+              : null,
+          ].filter(Boolean);
+
+    // Get duration for time range formatting
+    const durationForTimeRange =
+      bookingData.sessionType === "group" && selectedEventType
+        ? `${selectedEventType.length}m`
+        : bookingData.duration;
+
     const steps = [
       {
         number: 1,
         icon: Package,
         title: t("steps.serviceSelection"),
-        selections: [
-          bookingData.software
-            ? tSoftware(`${bookingData.software}.title`)
-            : null,
-          bookingData.duration ? formatDuration(bookingData.duration) : null,
-          bookingData.location
-            ? formatLocationName(bookingData.location)
-            : null,
-        ].filter(Boolean),
+        selections: step1Selections,
       },
       {
         number: 2,
         icon: Calendar,
-        title: t("steps.dateTime"),
-        selections: [
-          bookingData.date ? bookingData.date : null,
-          bookingData.time
-            ? formatTimeRange(bookingData.time, bookingData.duration)
-            : null,
-        ].filter(Boolean),
+        title: bookingData.sessionType === "group" ? t("steps.groupInfo") : t("steps.dateTime"),
+        selections: bookingData.sessionType === "group"
+          ? bookingData.date === "group-session" ? [t("seatReserved")] : []
+          : [
+              bookingData.date ? bookingData.date : null,
+              bookingData.time
+                ? formatTimeRange(bookingData.time, durationForTimeRange)
+                : null,
+            ].filter(Boolean),
       },
       {
         number: 3,
@@ -664,8 +885,8 @@ export default function CustomBookingForm({
                       s === step
                         ? "w-8 bg-primary"
                         : s < step
-                        ? "w-2 bg-green-500"
-                        : "w-2 bg-gray-300"
+                          ? "w-2 bg-green-500"
+                          : "w-2 bg-gray-300"
                     }`}
                   />
                 ))}
@@ -698,184 +919,397 @@ export default function CustomBookingForm({
               {/* Step 1: Service Selection */}
               {step === 1 && (
                 <div className="space-y-4 sm:space-y-6">
+                  {/* Session Type Dropdown */}
                   <div>
                     <label className="block text-sm font-semibold text-neural-dark mb-2">
-                      {t("selectSoftware")}
+                      {t("selectSessionType")}
                     </label>
                     <CustomSelect
-                      value={bookingData.software || ""}
-                      onChange={(e) =>
-                        setBookingData({
-                          ...bookingData,
-                          software: e.target.value as SoftwareType,
-                        })
-                      }
-                      className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
-                    >
-                      <option value="" disabled>
-                        {t("selectSoftwarePlaceholder")}
-                      </option>
-                      {softwareOptions.map((software) => (
-                        <option key={software} value={software}>
-                          {tSoftware(`${software}.title`)}
-                        </option>
-                      ))}
-                    </CustomSelect>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-neural-dark mb-2">
-                      {t("selectDuration")}
-                    </label>
-                    <CustomSelect
-                      value={bookingData.duration || ""}
-                      onChange={(e) =>
-                        setBookingData({
-                          ...bookingData,
-                          duration: e.target.value as DurationType,
-                        })
-                      }
-                      className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
-                    >
-                      <option value="" disabled>
-                        {t("selectDurationPlaceholder")}
-                      </option>
-                      <option value="1h">60&apos;</option>
-                      <option value="2h">120&apos;</option>
-                    </CustomSelect>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-neural-dark mb-2">
-                      {t("selectLocation")}
-                    </label>
-                    <CustomSelect
-                      value={bookingData.location || ""}
+                      value={bookingData.sessionType}
                       onChange={(e) => {
-                        const selectedIndex = e.target.selectedIndex - 1; // -1 for placeholder option
-                        const selectedLocation =
-                          selectedEventType?.locations[selectedIndex];
-
+                        const newSessionType = e.target.value as SessionType;
                         setBookingData({
                           ...bookingData,
-                          location: e.target.value as LocationType,
-                          locationAddress: selectedLocation?.address || null,
+                          sessionType: newSessionType,
+                          // Reset selections when switching session type
+                          software: null,
+                          groupEventId: null,
+                          duration: null,
+                          location: null,
+                          locationAddress: null,
+                          date: null,
+                          time: null,
                         });
                       }}
                       className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
-                      disabled={!selectedEventType || isLoadingEventTypes}
+                    >
+                      <option value="individual">{t("sessionType.individual")}</option>
+                      <option value="group">{t("sessionType.group")}</option>
+                    </CustomSelect>
+                  </div>
+
+                  {/* Dynamic Second Dropdown - Software or Group Session */}
+                  <div>
+                    <label className="block text-sm font-semibold text-neural-dark mb-2">
+                      {bookingData.sessionType === "individual"
+                        ? t("selectSoftware")
+                        : t("selectGroupSession")}
+                    </label>
+                    <CustomSelect
+                      value={
+                        bookingData.sessionType === "individual"
+                          ? bookingData.software || ""
+                          : bookingData.groupEventId?.toString() || ""
+                      }
+                      onChange={(e) => {
+                        if (bookingData.sessionType === "individual") {
+                          setBookingData({
+                            ...bookingData,
+                            software: e.target.value as SoftwareType,
+                            // Reset dependent fields
+                            location: null,
+                            locationAddress: null,
+                            date: null,
+                            time: null,
+                          });
+                        } else {
+                          const eventId = parseInt(e.target.value);
+                          setBookingData({
+                            ...bookingData,
+                            groupEventId: eventId,
+                            // Reset dependent fields
+                            date: null,
+                            time: null,
+                          });
+                        }
+                      }}
+                      className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                      disabled={isLoadingEventTypes}
                     >
                       <option value="" disabled>
                         {isLoadingEventTypes
                           ? "Loading..."
-                          : !selectedEventType
-                            ? t("selectSoftwareFirst")
-                            : t("selectLocationPlaceholder")}
+                          : bookingData.sessionType === "individual"
+                            ? t("selectSoftwarePlaceholder")
+                            : t("selectGroupSessionPlaceholder")}
                       </option>
-                      {selectedEventType?.locations &&
-                        selectedEventType.locations.map(
-                          (location: Location, index: number) => {
-                            let displayLabel = "Online";
-                            let locationValue =
-                              location.type || `location-${index}`;
-
-                            if (location.type) {
-                              displayLabel = formatLocationName(location.type);
-                              locationValue = location.type;
-                            } else if (location.link) {
-                              // Handle custom links
-                              displayLabel = "Custom Link";
-                              locationValue = location.link;
-                            }
-
-                            return (
-                              <option key={index} value={locationValue}>
-                                {displayLabel}
-                              </option>
-                            );
-                          }
-                        )}
+                      {bookingData.sessionType === "individual"
+                        ? softwareOptions.map((software) => (
+                            <option key={software} value={software}>
+                              {tSoftware(`${software}.title`)}
+                            </option>
+                          ))
+                        : groupEventTypes.map((event) => (
+                            <option key={event.id} value={event.id}>
+                              {event.title}
+                            </option>
+                          ))}
                     </CustomSelect>
                   </div>
+
+                  {/* Individual Session: Duration & Location */}
+                  {bookingData.sessionType === "individual" && bookingData.software && (
+                    <>
+                      <div>
+                        <label className="block text-sm font-semibold text-neural-dark mb-2">
+                          {t("selectDuration")}
+                        </label>
+                        <CustomSelect
+                          value={bookingData.duration || ""}
+                          onChange={(e) =>
+                            setBookingData({
+                              ...bookingData,
+                              duration: e.target.value as DurationType,
+                              // Reset dependent fields
+                              date: null,
+                              time: null,
+                            })
+                          }
+                          className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                          disabled={!selectedEventType}
+                        >
+                          <option value="" disabled>
+                            {t("selectDurationPlaceholder")}
+                          </option>
+                          {selectedEventType?.availableDurations?.map((minutes) => (
+                            <option key={minutes} value={minutesToDurationType(minutes)}>
+                              {minutes}&apos;
+                            </option>
+                          ))}
+                        </CustomSelect>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-neural-dark mb-2">
+                          {t("selectLocation")}
+                        </label>
+                        <CustomSelect
+                          value={bookingData.location || ""}
+                          onChange={(e) => {
+                            const selectedIndex = e.target.selectedIndex - 1;
+                            const selectedLocation =
+                              selectedEventType?.locations[selectedIndex];
+
+                            setBookingData({
+                              ...bookingData,
+                              location: e.target.value as LocationType,
+                              locationAddress: selectedLocation?.address || null,
+                            });
+                          }}
+                          className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                          disabled={!selectedEventType || isLoadingEventTypes}
+                        >
+                          <option value="" disabled>
+                            {isLoadingEventTypes
+                              ? "Loading..."
+                              : !selectedEventType
+                                ? t("selectSoftwareFirst")
+                                : t("selectLocationPlaceholder")}
+                          </option>
+                          {selectedEventType?.locations &&
+                            selectedEventType.locations.map(
+                              (location: Location, index: number) => {
+                                let displayLabel = "Online";
+                                let locationValue =
+                                  location.type || `location-${index}`;
+
+                                if (location.type) {
+                                  displayLabel = formatLocationName(location.type);
+                                  locationValue = location.type;
+                                } else if (location.link) {
+                                  displayLabel = "Custom Link";
+                                  locationValue = location.link;
+                                }
+
+                                return (
+                                  <option key={index} value={locationValue}>
+                                    {displayLabel}
+                                  </option>
+                                );
+                              }
+                            )}
+                        </CustomSelect>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Group Session: Duration & Location dropdowns */}
+                  {bookingData.sessionType === "group" && bookingData.groupEventId && (
+                    <>
+                      <div>
+                        <label className="block text-sm font-semibold text-neural-dark mb-2">
+                          {t("selectDuration")}
+                        </label>
+                        <CustomSelect
+                          value={bookingData.duration || ""}
+                          onChange={(e) =>
+                            setBookingData({
+                              ...bookingData,
+                              duration: e.target.value as DurationType,
+                              // Reset dependent fields
+                              date: null,
+                              time: null,
+                            })
+                          }
+                          className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                          disabled={!selectedEventType}
+                        >
+                          <option value="" disabled>
+                            {t("selectDurationPlaceholder")}
+                          </option>
+                          {selectedEventType?.availableDurations?.map((minutes) => (
+                            <option key={minutes} value={minutesToDurationType(minutes)}>
+                              {minutes}&apos;
+                            </option>
+                          ))}
+                        </CustomSelect>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-neural-dark mb-2">
+                          {t("selectLocation")}
+                        </label>
+                        <CustomSelect
+                          value={bookingData.location || ""}
+                          onChange={(e) => {
+                            const selectedIndex = e.target.selectedIndex - 1;
+                            const selectedLocation =
+                              selectedEventType?.locations[selectedIndex];
+
+                            setBookingData({
+                              ...bookingData,
+                              location: e.target.value as LocationType,
+                              locationAddress: selectedLocation?.address || null,
+                            });
+                          }}
+                          className="p-3 sm:p-3 pr-12 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-neural-dark bg-white text-base"
+                          disabled={!selectedEventType || isLoadingEventTypes}
+                        >
+                          <option value="" disabled>
+                            {isLoadingEventTypes
+                              ? "Loading..."
+                              : !selectedEventType
+                                ? t("selectGroupFirst")
+                                : t("selectLocationPlaceholder")}
+                          </option>
+                          {selectedEventType?.locations &&
+                            selectedEventType.locations.map(
+                              (location: Location, index: number) => {
+                                let displayLabel = "Online";
+                                let locationValue =
+                                  location.type || `location-${index}`;
+
+                                if (location.type) {
+                                  displayLabel = formatLocationName(location.type);
+                                  locationValue = location.type;
+                                } else if (location.link) {
+                                  displayLabel = "Custom Link";
+                                  locationValue = location.link;
+                                }
+
+                                return (
+                                  <option key={index} value={locationValue}>
+                                    {displayLabel}
+                                  </option>
+                                );
+                              }
+                            )}
+                        </CustomSelect>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
 
-              {/* Step 2: Date & Time Selection */}
+              {/* Step 2: Date & Time Selection (Individual) OR Group Info (Group) */}
               {step === 2 && (
                 <div className="space-y-4 sm:space-y-6">
-                  {/* Calendar */}
-                  <div>
-                    <CalendarComponent
-                      selectedDate={bookingData.date}
-                      onDateSelect={(date) =>
-                        setBookingData({ ...bookingData, date })
-                      }
-                      minDate={new Date()}
-                      datesWithAvailability={availableDates}
-                      onMonthChange={(month, year) => {
-                        setCalendarMonth(month);
-                        setCalendarYear(year);
-                      }}
-                    />
-                  </div>
+                  {/* Individual Session: Calendar and Time Slots */}
+                  {bookingData.sessionType === "individual" && (
+                    <>
+                      {/* Calendar */}
+                      <div>
+                        <CalendarComponent
+                          selectedDate={bookingData.date}
+                          onDateSelect={(date) =>
+                            setBookingData({ ...bookingData, date })
+                          }
+                          minDate={new Date()}
+                          datesWithAvailability={availableDates}
+                          onMonthChange={(month, year) => {
+                            setCalendarMonth(month);
+                            setCalendarYear(year);
+                          }}
+                        />
+                      </div>
 
-                  {/* Time Slots - Slide in from below calendar */}
-                  <AnimatePresence mode="wait">
-                    {bookingData.date && (
-                      <motion.div
-                        key="time-slots"
-                        initial={{ opacity: 0, y: 20, height: 0 }}
-                        animate={{ opacity: 1, y: 0, height: "auto" }}
-                        exit={{ opacity: 0, y: 20, height: 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                      >
-                        <label className="block text-sm font-semibold text-neural-dark mb-3">
-                          {t("selectTime")}
-                        </label>
-                        {isLoadingSlots ? (
-                          <div className="flex items-center justify-center p-8">
-                            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                            <span className="ml-3 text-gray-600">
-                              Loading available times...
-                            </span>
-                          </div>
-                        ) : availableTimeSlots.length > 0 ? (
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            <AnimatePresence mode="popLayout">
-                              {availableTimeSlots.map((time, index) => (
-                                <motion.button
-                                  key={time}
-                                  initial={{ opacity: 0, scale: 0.8 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  exit={{ opacity: 0, scale: 0.8 }}
-                                  transition={{
-                                    duration: 0.2,
-                                    delay: index * 0.05,
-                                    ease: "easeOut",
-                                  }}
-                                  onClick={() =>
-                                    setBookingData({ ...bookingData, time })
-                                  }
-                                  className={`p-3 rounded-lg border-2 transition-all font-semibold ${
-                                    bookingData.time === time
-                                      ? "border-primary bg-primary text-white"
-                                      : "border-gray-300 hover:border-primary text-gray-700 hover:bg-primary/10"
-                                  }`}
-                                >
-                                  {formatTimeRange(time, bookingData.duration)}
-                                </motion.button>
-                              ))}
-                            </AnimatePresence>
-                          </div>
-                        ) : (
-                          <p className="text-sm text-gray-500 p-4 bg-gray-50 rounded-lg">
-                            No available time slots for this date. Please select
-                            another date.
-                          </p>
+                      {/* Time Slots - Slide in from below calendar */}
+                      <AnimatePresence mode="wait">
+                        {bookingData.date && (
+                          <motion.div
+                            key="time-slots"
+                            initial={{ opacity: 0, y: 20, height: 0 }}
+                            animate={{ opacity: 1, y: 0, height: "auto" }}
+                            exit={{ opacity: 0, y: 20, height: 0 }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                          >
+                            <label className="block text-sm font-semibold text-neural-dark mb-3">
+                              {t("selectTime")}
+                            </label>
+                            {isLoadingSlots ? (
+                              <div className="flex items-center justify-center p-8">
+                                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                                <span className="ml-3 text-gray-600">
+                                  Loading available times...
+                                </span>
+                              </div>
+                            ) : availableTimeSlots.length > 0 ? (
+                              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                <AnimatePresence mode="popLayout">
+                                  {availableTimeSlots.map((time, index) => (
+                                    <motion.button
+                                      key={time}
+                                      initial={{ opacity: 0, scale: 0.8 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      exit={{ opacity: 0, scale: 0.8 }}
+                                      transition={{
+                                        duration: 0.2,
+                                        delay: index * 0.05,
+                                        ease: "easeOut",
+                                      }}
+                                      onClick={() =>
+                                        setBookingData({ ...bookingData, time })
+                                      }
+                                      className={`p-3 rounded-lg border-2 transition-all font-semibold ${
+                                        bookingData.time === time
+                                          ? "border-primary bg-primary text-white"
+                                          : "border-gray-300 hover:border-primary text-gray-700 hover:bg-primary/10"
+                                      }`}
+                                    >
+                                      {formatTimeRange(time, bookingData.duration)}
+                                    </motion.button>
+                                  ))}
+                                </AnimatePresence>
+                              </div>
+                            ) : (
+                              <p className="text-sm text-gray-500 p-4 bg-gray-50 rounded-lg">
+                                No available time slots for this date. Please select
+                                another date.
+                              </p>
+                            )}
+                          </motion.div>
                         )}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                      </AnimatePresence>
+                    </>
+                  )}
+
+                  {/* Group Session: Show group info and book seat button */}
+                  {bookingData.sessionType === "group" && selectedEventType && (
+                    <div className="bg-gray-50 rounded-lg p-4 sm:p-6 space-y-6">
+                      {/* Group Title */}
+                      <div className="text-center">
+                        <h4 className="text-xl font-bold text-neural-dark">
+                          {selectedEventType.title}
+                        </h4>
+                      </div>
+
+                      {/* Group Description */}
+                      {selectedEventType.description && (
+                        <div
+                          className="text-gray-700 [&>strong]:font-bold [&>strong]:text-neural-dark [&>em]:italic"
+                          dangerouslySetInnerHTML={{
+                            __html: parseDescription(selectedEventType.description)
+                          }}
+                        />
+                      )}
+
+                      {/* Session Details - Only seats info */}
+                      {selectedEventType.seatsPerTimeSlot && (
+                        <div className="pt-4 border-t border-gray-200">
+                          <div className="space-y-3">
+                            <div className="flex justify-between items-center">
+                              <span className="font-bold text-neural-dark">{t("availableSeats")}:</span>
+                              <span className="font-bold text-neural-dark text-lg">
+                                {isLoadingBookingCount ? (
+                                  "..."
+                                ) : groupBookingCount !== null ? (
+                                  Math.max(0, selectedEventType.seatsPerTimeSlot - groupBookingCount)
+                                ) : (
+                                  selectedEventType.seatsPerTimeSlot
+                                )}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="font-bold text-neural-dark">{t("maxCapacity")}:</span>
+                              <span className="font-bold text-neural-dark text-lg">
+                                {selectedEventType.seatsPerTimeSlot}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -951,7 +1385,7 @@ export default function CustomBookingForm({
                       }}
                       onBlur={(e) => {
                         const email = e.target.value;
-                        // Show error on blur if email is filled but invalid
+
                         if (email && !isValidEmail(email)) {
                           setEmailError("Please enter a valid email address");
                         }
@@ -1018,61 +1452,135 @@ export default function CustomBookingForm({
                     </h3>
 
                     <div className="space-y-3 text-sm sm:text-base">
+                      {/* Session Type */}
                       <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
-                          {t("softwareLabel")}:
+                          {t("selectSessionType")}:
                         </span>
                         <span className="text-neural-dark text-right">
-                          {bookingData.software &&
-                            tSoftware(`${bookingData.software}.title`)}
+                          {t(`sessionType.${bookingData.sessionType}`)}
                         </span>
                       </div>
 
-                      <div className="flex justify-between gap-2 flex-wrap">
-                        <span className="font-semibold text-gray-700">
-                          {t("durationLabel")}:
-                        </span>
-                        <span className="text-neural-dark text-right">
-                          {bookingData.duration &&
-                            formatDuration(bookingData.duration)}
-                        </span>
-                      </div>
+                      {/* Individual Session Details */}
+                      {bookingData.sessionType === "individual" && (
+                        <>
+                          <div className="flex justify-between gap-2 flex-wrap">
+                            <span className="font-semibold text-gray-700">
+                              {t("softwareLabel")}:
+                            </span>
+                            <span className="text-neural-dark text-right">
+                              {bookingData.software &&
+                                tSoftware(`${bookingData.software}.title`)}
+                            </span>
+                          </div>
 
-                      <div className="flex justify-between gap-2 flex-wrap">
-                        <span className="font-semibold text-gray-700">
-                          {t("locationLabel")}:
-                        </span>
-                        <span className="text-neural-dark text-right">
-                          {bookingData.location &&
-                            formatLocationName(bookingData.location)}
-                        </span>
-                      </div>
+                          <div className="flex justify-between gap-2 flex-wrap">
+                            <span className="font-semibold text-gray-700">
+                              {t("durationLabel")}:
+                            </span>
+                            <span className="text-neural-dark text-right">
+                              {bookingData.duration &&
+                                formatDuration(bookingData.duration)}
+                            </span>
+                          </div>
 
-                      {bookingData.locationAddress && (
+                          <div className="flex justify-between gap-2 flex-wrap">
+                            <span className="font-semibold text-gray-700">
+                              {t("locationLabel")}:
+                            </span>
+                            <span className="text-neural-dark text-right">
+                              {bookingData.location &&
+                                formatLocationName(bookingData.location)}
+                            </span>
+                          </div>
+
+                          {bookingData.locationAddress && (
+                            <div className="flex justify-between gap-2 flex-wrap">
+                              <span className="font-semibold text-gray-700">
+                                Address:
+                              </span>
+                              <span className="text-neural-dark text-right">
+                                {bookingData.locationAddress}
+                              </span>
+                            </div>
+                          )}
+                        </>
+                      )}
+
+                      {/* Group Session Details */}
+                      {bookingData.sessionType === "group" && selectedEventType && (
+                        <>
+                          <div className="flex justify-between gap-2 flex-wrap">
+                            <span className="font-semibold text-gray-700">
+                              {t("selectGroupSession")}:
+                            </span>
+                            <span className="text-neural-dark text-right">
+                              {selectedEventType.title}
+                            </span>
+                          </div>
+
+                          <div className="flex justify-between gap-2 flex-wrap">
+                            <span className="font-semibold text-gray-700">
+                              {t("durationLabel")}:
+                            </span>
+                            <span className="text-neural-dark text-right">
+                              {bookingData.duration
+                                ? formatDuration(bookingData.duration)
+                                : `${selectedEventType.length}'`}
+                            </span>
+                          </div>
+
+                          <div className="flex justify-between gap-2 flex-wrap">
+                            <span className="font-semibold text-gray-700">
+                              {t("locationLabel")}:
+                            </span>
+                            <span className="text-neural-dark text-right">
+                              {bookingData.location
+                                ? formatLocationName(bookingData.location)
+                                : t("location.offline")}
+                            </span>
+                          </div>
+
+                          {bookingData.locationAddress && (
+                            <div className="flex justify-between gap-2 flex-wrap">
+                              <span className="font-semibold text-gray-700">
+                                Address:
+                              </span>
+                              <span className="text-neural-dark text-right">
+                                {bookingData.locationAddress}
+                              </span>
+                            </div>
+                          )}
+                        </>
+                      )}
+
+                      {/* Date & Time - Only show for individual sessions */}
+                      {bookingData.sessionType === "individual" && (
                         <div className="flex justify-between gap-2 flex-wrap">
                           <span className="font-semibold text-gray-700">
-                            Address:
+                            {t("dateTime")}:
                           </span>
                           <span className="text-neural-dark text-right">
-                            {bookingData.locationAddress}
+                            {bookingData.date} at{" "}
+                            {bookingData.time
+                              ? formatTimeRange(bookingData.time, bookingData.duration)
+                              : bookingData.time}
                           </span>
                         </div>
                       )}
 
-                      <div className="flex justify-between gap-2 flex-wrap">
-                        <span className="font-semibold text-gray-700">
-                          {t("dateTime")}:
-                        </span>
-                        <span className="text-neural-dark text-right">
-                          {bookingData.date} at{" "}
-                          {bookingData.time
-                            ? formatTimeRange(
-                                bookingData.time,
-                                bookingData.duration
-                              )
-                            : bookingData.time}
-                        </span>
-                      </div>
+                      {/* Group Session - Show schedule from description */}
+                      {bookingData.sessionType === "group" && selectedEventType && (
+                        <div className="flex justify-between gap-2 flex-wrap">
+                          <span className="font-semibold text-gray-700">
+                            {t("schedule")}:
+                          </span>
+                          <span className="text-neural-dark text-right">
+                            {extractDescriptionField(selectedEventType.description, "Running Period") || t("groupScheduleInfo")}
+                          </span>
+                        </div>
+                      )}
 
                       <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
@@ -1110,7 +1618,9 @@ export default function CustomBookingForm({
                           {t("totalCost")}:
                         </span>
                         <span className="text-xl sm:text-2xl font-bold text-primary">
-                          €{calculateCost()}
+                          {bookingData.sessionType === "group" && selectedEventType
+                            ? extractDescriptionField(selectedEventType.description, "Cost") || `€${calculateCost()}`
+                            : `€${calculateCost()}`}
                         </span>
                       </div>
                       <p className="text-xs sm:text-sm text-gray-600 mt-2">
@@ -1140,7 +1650,17 @@ export default function CustomBookingForm({
 
               {step < 4 ? (
                 <button
-                  onClick={handleNext}
+                  onClick={() => {
+                    // For group sessions on step 2, set placeholder date/time before proceeding
+                    if (step === 2 && bookingData.sessionType === "group") {
+                      setBookingData({
+                        ...bookingData,
+                        date: "group-session",
+                        time: "scheduled",
+                      });
+                    }
+                    handleNext();
+                  }}
                   disabled={
                     (step === 1 && !canProceedStep1) ||
                     (step === 2 && !canProceedStep2) ||
@@ -1154,7 +1674,11 @@ export default function CustomBookingForm({
                       : "bg-neural-dark text-primary hover:bg-primary hover:text-white border-neural-dark hover:border-primary"
                   }`}
                 >
-                  <span>{t("continue")}</span>
+                  <span>
+                    {step === 2 && bookingData.sessionType === "group"
+                      ? t("bookSeat")
+                      : t("continue")}
+                  </span>
                   <ChevronRight className="w-5 h-5" />
                 </button>
               ) : (
