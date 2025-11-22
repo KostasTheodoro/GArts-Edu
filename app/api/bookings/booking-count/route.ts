@@ -49,23 +49,33 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await response.json();
-    console.log("Cal.com bookings response:", JSON.stringify(data, null, 2));
 
     // Count only active bookings (not cancelled) for this specific event type
     // Cal.com API may return all bookings, so we filter by eventTypeId on our side as well
     const bookings = data.bookings || [];
+
+    // Filter to active bookings for this event type
     const activeBookings = bookings.filter(
       (booking: { status: string; eventTypeId?: number }) =>
         (booking.status === "ACCEPTED" || booking.status === "PENDING") &&
         booking.eventTypeId === eventTypeId
     );
 
+    // For seats-enabled events, Cal.com stores multiple attendees within a single booking
+    // We need to count the total number of attendees, not just the number of bookings
+    let totalParticipants = 0;
+    activeBookings.forEach((booking: { id: number; status: string; attendees?: Array<{ email: string }> }) => {
+      const attendeeCount = booking.attendees?.length || 1; // Default to 1 if no attendees array
+      totalParticipants += attendeeCount;
+      console.log(`Booking ${booking.id}: ${attendeeCount} attendee(s)`);
+    });
+
     console.log(
-      `Found ${activeBookings.length} active bookings for event type ${eventTypeId} (total bookings: ${bookings.length})`
+      `Event type ${eventTypeId}: ${activeBookings.length} active booking(s), ${totalParticipants} total participant(s)`
     );
 
     return NextResponse.json({
-      bookingCount: activeBookings.length,
+      bookingCount: totalParticipants, // Return total participants, not booking count
       eventTypeId,
     });
   } catch (error) {
