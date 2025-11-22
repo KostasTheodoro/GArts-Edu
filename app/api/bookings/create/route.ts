@@ -1,7 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const CAL_COM_API_KEY = process.env.CAL_COM_API_KEY;
-const CAL_COM_USERNAME = process.env.CAL_COM_USERNAME;
+
+// Helper function to get next available slot for group sessions
+async function getNextAvailableSlot(eventTypeId: number, durationInMinutes: number): Promise<string | null> {
+  try {
+    // Get slots for the next 30 days
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 30);
+
+    const response = await fetch(
+      `https://api.cal.com/v1/slots?apiKey=${CAL_COM_API_KEY}&eventTypeId=${eventTypeId}&startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&timeZone=Europe/Athens&duration=${durationInMinutes}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (!response.ok) {
+      console.error("Failed to fetch slots for group session");
+      return null;
+    }
+
+    const data = await response.json();
+    const slots = data.slots || {};
+
+    // Get the first available slot
+    for (const dateKey of Object.keys(slots).sort()) {
+      if (slots[dateKey] && slots[dateKey].length > 0) {
+        return slots[dateKey][0].time;
+      }
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error fetching slots:", error);
+    return null;
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,11 +58,14 @@ export async function POST(req: NextRequest) {
 
     console.log("Booking request received:", body);
 
+    // Check if this is a group session (placeholder date/time)
+    const isGroupSession = date === "group-session" || time === "scheduled";
+
     // Validate required fields with detailed error messages
     const missingFields = [];
     if (!eventTypeId) missingFields.push("eventTypeId");
-    if (!date) missingFields.push("date");
-    if (!time) missingFields.push("time");
+    if (!isGroupSession && !date) missingFields.push("date");
+    if (!isGroupSession && !time) missingFields.push("time");
     if (!duration) missingFields.push("duration");
     if (!location) missingFields.push("location");
     if (!firstName) missingFields.push("firstName");
@@ -56,14 +96,24 @@ export async function POST(req: NextRequest) {
     // Convert duration to minutes
     const durationInMinutes = duration === "1h" ? 60 : 120;
 
-    // Combine date and time to create start datetime in local timezone
-    // Then convert to ISO for Cal.com API
-    const startDateTime = new Date(`${date}T${time}:00`).toISOString();
+    let startDateTime: string;
 
-    // Calculate end datetime
-    const endDateTime = new Date(
-      new Date(startDateTime).getTime() + durationInMinutes * 60000
-    ).toISOString();
+    if (isGroupSession) {
+      // For group sessions, get the next available slot
+      const nextSlot = await getNextAvailableSlot(eventTypeId, durationInMinutes);
+      if (!nextSlot) {
+        return NextResponse.json(
+          { error: "No available slots for this group session" },
+          { status: 400 }
+        );
+      }
+      startDateTime = new Date(nextSlot).toISOString();
+      console.log("Group session - using next available slot:", startDateTime);
+    } else {
+      // Combine date and time to create start datetime in local timezone
+      // Then convert to ISO for Cal.com API
+      startDateTime = new Date(`${date}T${time}:00`).toISOString();
+    }
 
     // Prepare booking data for Cal.com API
     const bookingData = {

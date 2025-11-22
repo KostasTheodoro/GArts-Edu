@@ -8,8 +8,8 @@ interface CalendarProps {
   selectedDate: string | null;
   onDateSelect: (date: string) => void;
   minDate?: Date;
-  datesWithAvailability?: string[]; // Array of dates in YYYY-MM-DD format that have available slots
-  onMonthChange?: (month: number, year: number) => void; // Callback when month/year changes
+  datesWithAvailability?: string[];
+  onMonthChange?: (month: number, year: number) => void;
 }
 
 export default function Calendar({
@@ -45,19 +45,16 @@ export default function Calendar({
 
   const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-  // Get days in month
   const getDaysInMonth = (month: number, year: number) => {
     return new Date(year, month + 1, 0).getDate();
   };
 
-  // Get first day of month (0 = Sunday, 6 = Saturday)
   const getFirstDayOfMonth = (month: number, year: number) => {
     const day = new Date(year, month, 1).getDay();
-    // Convert to Monday = 0, Sunday = 6
+
     return day === 0 ? 6 : day - 1;
   };
 
-  // Generate calendar days
   const generateCalendarDays = () => {
     const daysInMonth = getDaysInMonth(currentMonth, currentYear);
     const firstDay = getFirstDayOfMonth(currentMonth, currentYear);
@@ -65,7 +62,6 @@ export default function Calendar({
 
     const days = [];
 
-    // Previous month days
     for (let i = firstDay - 1; i >= 0; i--) {
       days.push({
         day: daysInPrevMonth - i,

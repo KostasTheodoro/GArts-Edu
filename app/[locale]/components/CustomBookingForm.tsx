@@ -393,7 +393,12 @@ export default function CustomBookingForm({
   };
 
   const handleSubmit = async () => {
-    if (!bookingData.software || !selectedEventType) return;
+    // Validate based on session type
+    if (bookingData.sessionType === "individual" && !bookingData.software)
+      return;
+    if (bookingData.sessionType === "group" && !bookingData.groupEventId)
+      return;
+    if (!selectedEventType) return;
 
     const bookingPayload = {
       eventTypeId: selectedEventType.id,
@@ -894,7 +899,6 @@ export default function CustomBookingForm({
               </div>
 
               <div className="text-center md:pr-0 relative">
-                {/* Mobile Back Button (Same line as header) */}
                 <button
                   onClick={handleBack}
                   disabled={step === 1}
@@ -915,12 +919,9 @@ export default function CustomBookingForm({
               </div>
             </div>
 
-            {/* Content */}
             <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-              {/* Step 1: Service Selection */}
               {step === 1 && (
                 <div className="space-y-4 sm:space-y-6">
-                  {/* Session Type Dropdown */}
                   <div>
                     <label className="block text-sm font-semibold text-neural-dark mb-2">
                       {t("selectSessionType")}
@@ -932,7 +933,7 @@ export default function CustomBookingForm({
                         setBookingData({
                           ...bookingData,
                           sessionType: newSessionType,
-                          // Reset selections when switching session type
+
                           software: null,
                           groupEventId: null,
                           duration: null,
@@ -951,7 +952,6 @@ export default function CustomBookingForm({
                     </CustomSelect>
                   </div>
 
-                  {/* Dynamic Second Dropdown - Software or Group Session */}
                   <div>
                     <label className="block text-sm font-semibold text-neural-dark mb-2">
                       {bookingData.sessionType === "individual"
@@ -969,7 +969,7 @@ export default function CustomBookingForm({
                           setBookingData({
                             ...bookingData,
                             software: e.target.value as SoftwareType,
-                            // Reset dependent fields
+
                             location: null,
                             locationAddress: null,
                             date: null,
@@ -980,7 +980,7 @@ export default function CustomBookingForm({
                           setBookingData({
                             ...bookingData,
                             groupEventId: eventId,
-                            // Reset dependent fields
+
                             date: null,
                             time: null,
                           });
@@ -1010,7 +1010,6 @@ export default function CustomBookingForm({
                     </CustomSelect>
                   </div>
 
-                  {/* Individual Session: Duration & Location */}
                   {bookingData.sessionType === "individual" &&
                     bookingData.software && (
                       <>
@@ -1024,7 +1023,7 @@ export default function CustomBookingForm({
                               setBookingData({
                                 ...bookingData,
                                 duration: e.target.value as DurationType,
-                                // Reset dependent fields
+
                                 date: null,
                                 time: null,
                               })
@@ -1105,7 +1104,6 @@ export default function CustomBookingForm({
                       </>
                     )}
 
-                  {/* Group Session: Duration & Location dropdowns */}
                   {bookingData.sessionType === "group" &&
                     bookingData.groupEventId && (
                       <>
@@ -1119,7 +1117,7 @@ export default function CustomBookingForm({
                               setBookingData({
                                 ...bookingData,
                                 duration: e.target.value as DurationType,
-                                // Reset dependent fields
+
                                 date: null,
                                 time: null,
                               })
@@ -1202,13 +1200,10 @@ export default function CustomBookingForm({
                 </div>
               )}
 
-              {/* Step 2: Date & Time Selection (Individual) OR Group Info (Group) */}
               {step === 2 && (
                 <div className="space-y-4 sm:space-y-6">
-                  {/* Individual Session: Calendar and Time Slots */}
                   {bookingData.sessionType === "individual" && (
                     <>
-                      {/* Calendar */}
                       <div>
                         <CalendarComponent
                           selectedDate={bookingData.date}
@@ -1224,7 +1219,6 @@ export default function CustomBookingForm({
                         />
                       </div>
 
-                      {/* Time Slots - Slide in from below calendar */}
                       <AnimatePresence mode="wait">
                         {bookingData.date && (
                           <motion.div
@@ -1287,17 +1281,14 @@ export default function CustomBookingForm({
                     </>
                   )}
 
-                  {/* Group Session: Show group info and book seat button */}
                   {bookingData.sessionType === "group" && selectedEventType && (
                     <div className="bg-gray-50 rounded-lg p-4 sm:p-6 space-y-6">
-                      {/* Group Title */}
                       <div className="text-center">
                         <h4 className="text-xl font-bold text-neural-dark">
                           {selectedEventType.title}
                         </h4>
                       </div>
 
-                      {/* Group Description */}
                       {selectedEventType.description && (
                         <div
                           className="text-gray-700 [&>strong]:font-bold [&>strong]:text-neural-dark [&>em]:italic"
@@ -1309,7 +1300,6 @@ export default function CustomBookingForm({
                         />
                       )}
 
-                      {/* Session Details - Only seats info */}
                       {selectedEventType.seatsPerTimeSlot && (
                         <div className="pt-4 border-t border-gray-200">
                           <div className="space-y-3">
@@ -1345,7 +1335,6 @@ export default function CustomBookingForm({
                 </div>
               )}
 
-              {/* Step 3: Personal Information */}
               {step === 3 && (
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1359,7 +1348,7 @@ export default function CustomBookingForm({
                         value={bookingData.firstName}
                         onChange={(e) => {
                           const value = e.target.value;
-                          // Auto-capitalize first letter
+
                           const capitalized =
                             value.charAt(0).toUpperCase() + value.slice(1);
                           setBookingData({
@@ -1382,7 +1371,7 @@ export default function CustomBookingForm({
                         value={bookingData.lastName}
                         onChange={(e) => {
                           const value = e.target.value;
-                          // Auto-capitalize first letter
+
                           const capitalized =
                             value.charAt(0).toUpperCase() + value.slice(1);
                           setBookingData({
@@ -1408,7 +1397,6 @@ export default function CustomBookingForm({
                         const email = e.target.value;
                         setBookingData({ ...bookingData, email });
 
-                        // Validate email format
                         if (email && !isValidEmail(email)) {
                           setEmailError("Please enter a valid email address");
                         } else {
@@ -1475,7 +1463,6 @@ export default function CustomBookingForm({
                 </div>
               )}
 
-              {/* Step 4: Confirmation */}
               {step === 4 && (
                 <div className="space-y-4 sm:space-y-6">
                   <div className="bg-gray-50 rounded-lg p-4 sm:p-6 space-y-4">
@@ -1484,7 +1471,6 @@ export default function CustomBookingForm({
                     </h3>
 
                     <div className="space-y-3 text-sm sm:text-base">
-                      {/* Session Type */}
                       <div className="flex justify-between gap-2 flex-wrap">
                         <span className="font-semibold text-gray-700">
                           {t("selectSessionType")}:
@@ -1494,7 +1480,6 @@ export default function CustomBookingForm({
                         </span>
                       </div>
 
-                      {/* Individual Session Details */}
                       {bookingData.sessionType === "individual" && (
                         <>
                           <div className="flex justify-between gap-2 flex-wrap">
@@ -1540,7 +1525,6 @@ export default function CustomBookingForm({
                         </>
                       )}
 
-                      {/* Group Session Details */}
                       {bookingData.sessionType === "group" &&
                         selectedEventType && (
                           <>
@@ -1588,7 +1572,6 @@ export default function CustomBookingForm({
                           </>
                         )}
 
-                      {/* Date & Time - Only show for individual sessions */}
                       {bookingData.sessionType === "individual" && (
                         <div className="flex justify-between gap-2 flex-wrap">
                           <span className="font-semibold text-gray-700">
@@ -1606,7 +1589,6 @@ export default function CustomBookingForm({
                         </div>
                       )}
 
-                      {/* Group Session - Show schedule from description */}
                       {bookingData.sessionType === "group" &&
                         selectedEventType && (
                           <div className="flex justify-between gap-2 flex-wrap">
@@ -1693,7 +1675,6 @@ export default function CustomBookingForm({
               {step < 4 ? (
                 <button
                   onClick={() => {
-                    // For group sessions on step 2, set placeholder date/time before proceeding
                     if (step === 2 && bookingData.sessionType === "group") {
                       setBookingData({
                         ...bookingData,
