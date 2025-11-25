@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { locales } from "@/i18n";
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import Script from "next/script";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -26,6 +27,12 @@ type LocaleLayoutProps = {
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
+
+export const metadata: Metadata = {
+  appleWebApp: {
+    title: "MyWebSite",
+  },
+};
 
 export default async function LocaleLayout({
   children,

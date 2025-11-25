@@ -36,50 +36,39 @@ export default function BookingsPage() {
           {/* Main Content */}
           <div className="space-y-6 text-foreground text-lg leading-relaxed mb-12">
             <p className="text-center max-w-4xl mx-auto">
-              We're here for creators who believe that learning should be more than memorizing tools —{" "}
-              <span className="font-semibold">it should be an adventure.</span>
+              {t("whoWeAreFor.paragraph1")}
             </p>
 
             <p className="text-center max-w-4xl mx-auto">
-              For those who don't just want to learn <em>how</em> to design — but <em className="font-semibold">why</em> they create.
-              Whether you're just starting out or already shaping your artistic path,{" "}
-              <span className="font-bold text-primary">GArts Education</span> gives you the
-              guidance, inspiration, and community you need to grow and rediscover what creativity truly means.
+              {t("whoWeAreFor.paragraph2")}
             </p>
 
             <p className="text-center max-w-4xl mx-auto">
-              We blend <span className="font-semibold">Education</span> with{" "}
-              <span className="font-semibold">Entertainment</span> to make every learning moment fun, practical, and meaningful.
-              Because when you learn with joy, you don't just improve —{" "}
-              <span className="font-semibold italic">you evolve.</span>
+              {t("whoWeAreFor.paragraph3")}
             </p>
 
             <div className="text-center max-w-4xl mx-auto py-6">
               <p className="font-semibold text-neural-dark text-xl">
-                Join a community that turns passion into progress —<br />
-                and imagination into reality.
+                {t("whoWeAreFor.paragraph4")}
               </p>
             </div>
 
             {/* Target Audiences */}
             <div className="pt-8 mt-8">
               <p className="font-semibold text-neural-dark mb-6 text-center text-xl">
-                Our programs are designed for anyone who lives and breathes visual creativity.
+                {t("whoWeAreFor.paragraph5")}
               </p>
 
               <p className="mb-6 text-center max-w-4xl mx-auto">
-                From <span className="font-semibold">graphic designers, motion artists, and photographers</span>, to{" "}
-                <span className="font-semibold">architects, product designers, and filmmakers</span> — every creative mind finds a place here.
+                {t("whoWeAreFor.paragraph6")}
               </p>
 
               <p className="mb-6 text-center max-w-4xl mx-auto">
-                We also welcome <span className="font-semibold">content creators, influencers, and digital marketers</span>{" "}
-                who want to elevate their visual storytelling and build a stronger digital presence.
+                {t("whoWeAreFor.paragraph7")}
               </p>
 
               <p className="font-semibold text-neural-dark text-center max-w-4xl mx-auto">
-                Whether you're shaping your first 3D scene or refining your creative voice,<br />
-                <span className="text-primary text-xl">GArts Education</span> helps you turn imagination into impact.
+                {t("whoWeAreFor.paragraph8")}
               </p>
             </div>
           </div>
@@ -87,7 +76,7 @@ export default function BookingsPage() {
           {/* Who It's Designed For - 3 Column Grid */}
           <div className="mt-16">
             <h3 className="text-3xl md:text-4xl font-bold text-neural-dark mb-12 text-center">
-              GArts Education is designed for:
+              {t("whoWeAreFor.designedForTitle")}
             </h3>
             <div className="grid md:grid-cols-3 gap-12">
               {/* Beginners */}
@@ -99,9 +88,9 @@ export default function BookingsPage() {
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-2xl font-bold text-neural-dark mb-4">Beginners</h4>
+                <h4 className="text-2xl font-bold text-neural-dark mb-4">{t("whoWeAreFor.beginners.title")}</h4>
                 <p className="text-foreground text-lg">
-                  Who want to learn the fundamentals of 2D & 3D design in a creative, supportive way.
+                  {t("whoWeAreFor.beginners.description")}
                 </p>
               </div>
 
@@ -114,9 +103,9 @@ export default function BookingsPage() {
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-2xl font-bold text-neural-dark mb-4">Self-taught Artists</h4>
+                <h4 className="text-2xl font-bold text-neural-dark mb-4">{t("whoWeAreFor.selfTaught.title")}</h4>
                 <p className="text-foreground text-lg">
-                  Who need structure, guidance, and feedback to take the next step.
+                  {t("whoWeAreFor.selfTaught.description")}
                 </p>
               </div>
 
@@ -129,9 +118,9 @@ export default function BookingsPage() {
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-2xl font-bold text-neural-dark mb-4">Professionals & Hobbyists</h4>
+                <h4 className="text-2xl font-bold text-neural-dark mb-4">{t("whoWeAreFor.professionals.title")}</h4>
                 <p className="text-foreground text-lg">
-                  Seeking to expand their creative toolbox and refresh their inspiration.
+                  {t("whoWeAreFor.professionals.description")}
                 </p>
               </div>
             </div>

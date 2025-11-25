@@ -6,12 +6,27 @@ export default function HeroBlended() {
 
   return (
     <section className="relative min-h-[800px] md:min-h-[900px] flex flex-col justify-between pt-16 pb-40 overflow-hidden">
+      {/* Mobile Video */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover object-[72%_center]  md:scale-106"
+        className="md:hidden absolute inset-0 w-full h-full object-cover object-[60%_center]"
+      >
+        <source
+          src="/videos/hero/hero-animated-wallpaper-mobile.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      {/* Desktop Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="hidden md:block absolute inset-0 w-full h-full object-cover object-[72%_center] md:scale-106"
       >
         <source
           src="/videos/hero/hero-animated-wallpaper.mp4"
@@ -19,6 +34,7 @@ export default function HeroBlended() {
         />
       </video>
 
+      {/* Blended Video - Both Mobile and Desktop */}
       <video
         autoPlay
         loop

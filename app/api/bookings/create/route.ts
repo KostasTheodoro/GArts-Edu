@@ -33,7 +33,7 @@ async function getEventTypeDetails(eventTypeId: number): Promise<{
 
     return {
       seatsPerTimeSlot: eventType?.seatsPerTimeSlot || null,
-      scheduledTime: null, // We'll calculate this differently
+      scheduledTime: null,
     };
   } catch (error) {
     console.error("Error fetching event type details:", error);
@@ -41,8 +41,9 @@ async function getEventTypeDetails(eventTypeId: number): Promise<{
   }
 }
 
-// Helper function to find an existing booking for the group event (for seats)
-async function findExistingGroupBooking(eventTypeId: number): Promise<string | null> {
+async function findExistingGroupBooking(
+  eventTypeId: number
+): Promise<string | null> {
   try {
     const response = await fetch(
       `https://api.cal.com/v1/bookings?apiKey=${CAL_COM_API_KEY}&eventTypeId=${eventTypeId}`,
@@ -60,7 +61,6 @@ async function findExistingGroupBooking(eventTypeId: number): Promise<string | n
     const data = await response.json();
     const bookings = data.bookings || [];
 
-    // Find active bookings for this event type
     const activeBookings = bookings.filter(
       (booking: { status: string; eventTypeId?: number }) =>
         (booking.status === "ACCEPTED" || booking.status === "PENDING") &&
@@ -74,7 +74,6 @@ async function findExistingGroupBooking(eventTypeId: number): Promise<string | n
     });
 
     if (activeBookings.length > 0) {
-      // Return the start time of the first active booking
       const firstBooking = activeBookings[0];
       console.log("Using existing booking time:", firstBooking.startTime);
       return firstBooking.startTime;
@@ -87,15 +86,21 @@ async function findExistingGroupBooking(eventTypeId: number): Promise<string | n
   }
 }
 
-// Helper function to get next available slot for group sessions
-async function getNextAvailableSlot(eventTypeId: number, durationInMinutes: number): Promise<string | null> {
+async function getNextAvailableSlot(
+  eventTypeId: number,
+  durationInMinutes: number
+): Promise<string | null> {
   try {
-    // Get slots for the next 60 days to find the scheduled time
     const startDate = new Date();
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + 60);
 
-    console.log("Fetching group slots:", { eventTypeId, durationInMinutes, startDate: startDate.toISOString(), endDate: endDate.toISOString() });
+    console.log("Fetching group slots:", {
+      eventTypeId,
+      durationInMinutes,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+    });
 
     const response = await fetch(
       `https://api.cal.com/v1/slots?apiKey=${CAL_COM_API_KEY}&eventTypeId=${eventTypeId}&startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&timeZone=Europe/Athens&duration=${durationInMinutes}`,
@@ -107,16 +112,23 @@ async function getNextAvailableSlot(eventTypeId: number, durationInMinutes: numb
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Failed to fetch slots for group session:", response.status, errorText);
+      console.error(
+        "Failed to fetch slots for group session:",
+        response.status,
+        errorText
+      );
       return null;
     }
 
     const data = await response.json();
     const slots = data.slots || {};
 
-    console.log("Group slots response:", { eventTypeId, availableDates: Object.keys(slots), totalSlots: Object.values(slots).flat().length });
+    console.log("Group slots response:", {
+      eventTypeId,
+      availableDates: Object.keys(slots),
+      totalSlots: Object.values(slots).flat().length,
+    });
 
-    // Get the first available slot
     for (const dateKey of Object.keys(slots).sort()) {
       if (slots[dateKey] && slots[dateKey].length > 0) {
         console.log("Found slot for group:", slots[dateKey][0].time);
@@ -170,7 +182,7 @@ export async function POST(req: NextRequest) {
         {
           error: "Missing required fields",
           missingFields,
-          receivedData: body
+          receivedData: body,
         },
         { status: 400 }
       );
@@ -194,9 +206,14 @@ export async function POST(req: NextRequest) {
       // For group sessions with seats, first try to find an existing booking
       // This allows multiple people to book the same group session
       const eventDetails = await getEventTypeDetails(eventTypeId);
-      const hasSeats = eventDetails?.seatsPerTimeSlot && eventDetails.seatsPerTimeSlot > 1;
+      const hasSeats =
+        eventDetails?.seatsPerTimeSlot && eventDetails.seatsPerTimeSlot > 1;
 
-      console.log("Group session booking:", { eventTypeId, hasSeats, seatsPerTimeSlot: eventDetails?.seatsPerTimeSlot });
+      console.log("Group session booking:", {
+        eventTypeId,
+        hasSeats,
+        seatsPerTimeSlot: eventDetails?.seatsPerTimeSlot,
+      });
 
       if (hasSeats) {
         // Check if there's already a booking for this group - use that time
@@ -205,10 +222,16 @@ export async function POST(req: NextRequest) {
         if (existingBookingTime) {
           // Use the same time as the existing booking (join the group)
           startDateTime = new Date(existingBookingTime).toISOString();
-          console.log("Group session - joining existing booking at:", startDateTime);
+          console.log(
+            "Group session - joining existing booking at:",
+            startDateTime
+          );
         } else {
           // No existing booking, get the first available slot
-          const nextSlot = await getNextAvailableSlot(eventTypeId, durationInMinutes);
+          const nextSlot = await getNextAvailableSlot(
+            eventTypeId,
+            durationInMinutes
+          );
           if (!nextSlot) {
             return NextResponse.json(
               { error: "No available slots for this group session" },
@@ -216,11 +239,17 @@ export async function POST(req: NextRequest) {
             );
           }
           startDateTime = new Date(nextSlot).toISOString();
-          console.log("Group session - creating new booking at:", startDateTime);
+          console.log(
+            "Group session - creating new booking at:",
+            startDateTime
+          );
         }
       } else {
         // No seats feature, use slots API
-        const nextSlot = await getNextAvailableSlot(eventTypeId, durationInMinutes);
+        const nextSlot = await getNextAvailableSlot(
+          eventTypeId,
+          durationInMinutes
+        );
         if (!nextSlot) {
           return NextResponse.json(
             { error: "No available slots for this group session" },
@@ -231,8 +260,6 @@ export async function POST(req: NextRequest) {
         console.log("Group session (no seats) - using slot:", startDateTime);
       }
     } else {
-      // Combine date and time to create start datetime in local timezone
-      // Then convert to ISO for Cal.com API
       startDateTime = new Date(`${date}T${time}:00`).toISOString();
     }
 
@@ -244,20 +271,21 @@ export async function POST(req: NextRequest) {
         name: `${firstName} ${lastName}`,
         email: email,
         location: location,
+        ...(phone && { attendeePhoneNumber: phone }),
+        ...(notes && { notes: notes }),
       },
       metadata: {
-        phone: phone || "",
-        notes: notes || "",
         duration: durationInMinutes.toString(), // Cal.com expects string, not number
       },
       timeZone: "Europe/Athens",
       language: "en",
     };
 
-    console.log("Creating booking with data:", JSON.stringify(bookingData, null, 2));
+    console.log(
+      "Creating booking with data:",
+      JSON.stringify(bookingData, null, 2)
+    );
 
-    // Call Cal.com API to create booking
-    // Cal.com v1 API uses query parameter authentication, not Bearer token
     const response = await fetch(
       `https://api.cal.com/v1/bookings?apiKey=${CAL_COM_API_KEY}`,
       {
@@ -283,9 +311,13 @@ export async function POST(req: NextRequest) {
       try {
         const errorJson = JSON.parse(errorData);
         if (errorJson.message === "booker_limit_exceeded_error") {
-          userMessage = "You have already booked this session. Each person can only book once per group session.";
-        } else if (errorJson.message === "Attempting to book a meeting in the past.") {
-          userMessage = "This booking time is no longer available. Please try again.";
+          userMessage =
+            "You have already booked this session. Each person can only book once per group session.";
+        } else if (
+          errorJson.message === "Attempting to book a meeting in the past."
+        ) {
+          userMessage =
+            "This booking time is no longer available. Please try again.";
         } else if (errorJson.message) {
           userMessage = errorJson.message;
         }
@@ -310,7 +342,10 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Error creating booking:", error);
     return NextResponse.json(
-      { error: "Internal server error", details: error instanceof Error ? error.message : "Unknown error" },
+      {
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }

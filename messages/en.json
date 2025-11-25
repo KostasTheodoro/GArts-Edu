@@ -243,6 +243,29 @@
     "bookPrivateSession": "Book Your Session Now",
     "selectSoftware": "Select Your Software",
     "bookingForm": "Individual Lesson",
+    "whoWeAreFor": {
+      "paragraph1": "We're here for creators who believe that learning should be more than memorizing tools — it should be an adventure.",
+      "paragraph2": "For those who don't just want to learn how to design — but why they create. Whether you're just starting out or already shaping your artistic path, GArts Education gives you the guidance, inspiration, and community you need to grow and rediscover what creativity truly means.",
+      "paragraph3": "We blend Education with Entertainment to make every learning moment fun, practical, and meaningful. Because when you learn with joy, you don't just improve — you evolve.",
+      "paragraph4": "Join a community that turns passion into progress — and imagination into reality.",
+      "paragraph5": "Our programs are designed for anyone who lives and breathes visual creativity.",
+      "paragraph6": "From graphic designers, motion artists, and photographers, to architects, product designers, and filmmakers — every creative mind finds a place here.",
+      "paragraph7": "We also welcome content creators, influencers, and digital marketers who want to elevate their visual storytelling and build a stronger digital presence.",
+      "paragraph8": "Whether you're shaping your first 3D scene or refining your creative voice, GArts Education helps you turn imagination into impact.",
+      "designedForTitle": "GArts Education is designed for:",
+      "beginners": {
+        "title": "Beginners",
+        "description": "Who want to learn the fundamentals of 2D & 3D design in a creative, supportive way."
+      },
+      "selfTaught": {
+        "title": "Self-taught Artists",
+        "description": "Who need structure, guidance, and feedback to take the next step."
+      },
+      "professionals": {
+        "title": "Professionals & Hobbyists",
+        "description": "Seeking to expand their creative toolbox and refresh their inspiration."
+      }
+    },
     "software": {
       "blender": {
         "title": "Blender",
