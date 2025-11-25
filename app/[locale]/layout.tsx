@@ -29,8 +29,62 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://garts-education.com'),
+  title: {
+    default: 'GArts Education - Master Digital Arts & 3D Design',
+    template: '%s | GArts Education'
+  },
+  description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece. Transform your creativity into professional skills.',
+  keywords: ['Blender courses', '3D modeling', 'Photoshop lessons', 'Premiere Pro', 'After Effects', 'digital arts education', 'Athens Greece', 'CGI training', 'video editing courses', 'graphic design lessons', 'online art classes'],
+  authors: [{ name: 'GArts Education' }],
+  creator: 'GArts Education',
+  publisher: 'GArts Education',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    alternateLocale: ['el_GR'],
+    url: 'https://garts-education.com',
+    siteName: 'GArts Education',
+    title: 'GArts Education - Master Digital Arts & 3D Design',
+    description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece.',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'GArts Education Logo',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'GArts Education - Master Digital Arts & 3D Design',
+    description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor.',
+    images: ['/logo.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   appleWebApp: {
-    title: "MyWebSite",
+    title: "GArts Education",
+    statusBarStyle: 'black-translucent',
+    capable: true,
+  },
+  verification: {
+    google: 'your-google-verification-code',
   },
 };
 
