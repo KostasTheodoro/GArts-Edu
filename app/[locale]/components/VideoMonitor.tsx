@@ -27,7 +27,7 @@ export default function VideoMonitor() {
   };
 
   return (
-    <div className="w-full py-16 px-4 bg-linear-to-b from-gray-300 via-gray-200 to-gray-400 relative">
+    <div className="w-full py-8 md:py-16 px-2 md:px-4 bg-linear-to-b from-gray-300 via-gray-200 to-gray-400 relative">
       <div
         className="absolute inset-0 z-10 pointer-events-none"
         style={{
@@ -36,7 +36,7 @@ export default function VideoMonitor() {
         }}
       ></div>
 
-      <div className="max-w-[1600px] mx-auto relative z-20">
+      <div className="max-w-full md:max-w-[1600px] mx-auto relative z-20">
         <div className="relative w-full aspect-16/10">
           <Image
             src={monitorImage}
@@ -66,7 +66,7 @@ export default function VideoMonitor() {
                   className="absolute inset-0 flex items-center justify-center cursor-pointer rounded-sm z-30"
                   onClick={handlePlayClick}
                 >
-                  <div className="relative w-[20%] aspect-square rounded-full border-[3px] border-white flex items-center justify-center hover:bg-white/10 transition-all shadow-2xl">
+                  <div className="relative w-[25%] md:w-[20%] aspect-square rounded-full border-[3px] border-white flex items-center justify-center hover:bg-white/10 transition-all shadow-2xl">
                     <svg
                       className="w-[60%] h-[60%] text-white ml-[5%]"
                       fill="currentColor"
