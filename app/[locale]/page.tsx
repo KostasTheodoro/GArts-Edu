@@ -4,13 +4,13 @@ import dynamic from "next/dynamic";
 import Hero from "./components/Hero";
 import MissionStatement from "./components/MissionStatement";
 import HowWeThink from "./components/HowWeThink";
-import Manifesto from "./components/Manifesto";
-import TargetAudience from "./components/TargetAudience";
-import LearningPath from "./components/LearningPath";
-import BeforeAfter from "./components/BeforeAfter";
-import ProgressionLevel from "./components/ProgressionLevel";
 
-// Lazy load VideoMonitor since it's below the fold
+// Lazy load below-the-fold components to reduce initial bundle
+const Manifesto = dynamic(() => import("./components/Manifesto"));
+const TargetAudience = dynamic(() => import("./components/TargetAudience"));
+const LearningPath = dynamic(() => import("./components/LearningPath"));
+const ProgressionLevel = dynamic(() => import("./components/ProgressionLevel"));
+const BeforeAfter = dynamic(() => import("./components/BeforeAfter"));
 const VideoMonitor = dynamic(() => import("./components/VideoMonitor"));
 
 export async function generateMetadata({
@@ -25,16 +25,16 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: `/${locale}`,
+      canonical: `https://garts-edu.vercel.app/${locale}`,
       languages: {
-        'en': '/en',
-        'el': '/el',
+        'en': 'https://garts-edu.vercel.app/en',
+        'el': 'https://garts-edu.vercel.app/el',
       },
     },
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: `/${locale}`,
+      url: `https://garts-edu.vercel.app/${locale}`,
       type: 'website',
     },
   };

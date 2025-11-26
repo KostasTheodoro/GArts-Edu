@@ -12,6 +12,7 @@ export default function HeroBlended() {
         loop
         muted
         playsInline
+        preload="auto"
         className="lg:hidden absolute inset-0 w-full h-full object-cover "
       >
         <source
@@ -26,6 +27,7 @@ export default function HeroBlended() {
         loop
         muted
         playsInline
+        preload="auto"
         className="hidden lg:block absolute inset-0 w-full h-full object-cover "
       >
         <source
@@ -40,6 +42,7 @@ export default function HeroBlended() {
         loop
         muted
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover mix-blend-screen"
       >
         <source src="/videos/hero/hero-animated-1.mp4" type="video/mp4" />

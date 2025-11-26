@@ -12,11 +12,15 @@ import Footer from "./components/Footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 type LocaleLayoutProps = {
@@ -32,12 +36,12 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   const { locale } = await params;
 
   return {
-    metadataBase: new URL('https://garts-education.com'),
+    metadataBase: new URL('https://garts-edu.vercel.app'),
     alternates: {
-      canonical: `/${locale}`,
+      canonical: `https://garts-edu.vercel.app/${locale}`,
       languages: {
-        'en': '/en',
-        'el': '/el',
+        'en': 'https://garts-edu.vercel.app/en',
+        'el': 'https://garts-edu.vercel.app/el',
       },
     },
     title: {
@@ -58,7 +62,7 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
       type: 'website',
       locale: locale === 'en' ? 'en_US' : 'el_GR',
       alternateLocale: locale === 'en' ? ['el_GR'] : ['en_US'],
-      url: `https://garts-education.com/${locale}`,
+      url: `https://garts-edu.vercel.app/${locale}`,
       siteName: 'GArts Education',
       title: 'GArts Education - Master Digital Arts & 3D Design',
       description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece.',
@@ -116,6 +120,8 @@ export default async function LocaleLayout({
       <head>
         <link rel="preload" href="/videos/hero/hero-animated-wallpaper-mobile.mp4" as="video" type="video/mp4" />
         <link rel="preload" href="/videos/hero/hero-animated-1.mp4" as="video" type="video/mp4" />
+        <link rel="dns-prefetch" href="https://cdn.lordicon.com" />
+        <link rel="preconnect" href="https://cdn.lordicon.com" crossOrigin="anonymous" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
