@@ -12,8 +12,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@heroicons/react', 'next-intl'],
   },
-  // Enable modern JavaScript output
-  swcMinify: true,
 };
 
 export default withNextIntl(nextConfig);
