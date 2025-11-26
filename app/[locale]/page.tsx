@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import dynamic from "next/dynamic";
 import Hero from "./components/Hero";
 import MissionStatement from "./components/MissionStatement";
 import HowWeThink from "./components/HowWeThink";
 import Manifesto from "./components/Manifesto";
 import TargetAudience from "./components/TargetAudience";
-import VideoMonitor from "./components/VideoMonitor";
 import LearningPath from "./components/LearningPath";
 import BeforeAfter from "./components/BeforeAfter";
 import ProgressionLevel from "./components/ProgressionLevel";
+
+// Lazy load VideoMonitor since it's below the fold
+const VideoMonitor = dynamic(() => import("./components/VideoMonitor"));
 
 export async function generateMetadata({
   params,

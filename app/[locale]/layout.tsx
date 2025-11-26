@@ -28,65 +28,76 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://garts-education.com'),
-  title: {
-    default: 'GArts Education - Master Digital Arts & 3D Design',
-    template: '%s | GArts Education'
-  },
-  description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece. Transform your creativity into professional skills.',
-  keywords: ['Blender courses', '3D modeling', 'Photoshop lessons', 'Premiere Pro', 'After Effects', 'digital arts education', 'Athens Greece', 'CGI training', 'video editing courses', 'graphic design lessons', 'online art classes'],
-  authors: [{ name: 'GArts Education' }],
-  creator: 'GArts Education',
-  publisher: 'GArts Education',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    alternateLocale: ['el_GR'],
-    url: 'https://garts-education.com',
-    siteName: 'GArts Education',
-    title: 'GArts Education - Master Digital Arts & 3D Design',
-    description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece.',
-    images: [
-      {
-        url: '/logo.png',
-        width: 1200,
-        height: 630,
-        alt: 'GArts Education Logo',
-      }
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'GArts Education - Master Digital Arts & 3D Design',
-    description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor.',
-    images: ['/logo.png'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export async function generateMetadata({ params }: LocaleLayoutProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    metadataBase: new URL('https://garts-education.com'),
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        'en': '/en',
+        'el': '/el',
+      },
+    },
+    title: {
+      default: 'GArts Education - Master Digital Arts & 3D Design',
+      template: '%s | GArts Education'
+    },
+    description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece. Transform your creativity into professional skills.',
+    keywords: ['Blender courses', '3D modeling', 'Photoshop lessons', 'Premiere Pro', 'After Effects', 'digital arts education', 'Athens Greece', 'CGI training', 'video editing courses', 'graphic design lessons', 'online art classes'],
+    authors: [{ name: 'GArts Education' }],
+    creator: 'GArts Education',
+    publisher: 'GArts Education',
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    openGraph: {
+      type: 'website',
+      locale: locale === 'en' ? 'en_US' : 'el_GR',
+      alternateLocale: locale === 'en' ? ['el_GR'] : ['en_US'],
+      url: `https://garts-education.com/${locale}`,
+      siteName: 'GArts Education',
+      title: 'GArts Education - Master Digital Arts & 3D Design',
+      description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece.',
+      images: [
+        {
+          url: '/logo.png',
+          width: 1200,
+          height: 630,
+          alt: 'GArts Education Logo',
+        }
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'GArts Education - Master Digital Arts & 3D Design',
+      description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor.',
+      images: ['/logo.png'],
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-  },
-  appleWebApp: {
-    title: "GArts Education",
-    statusBarStyle: 'black-translucent',
-    capable: true,
-  },
-  verification: {
-    google: 'your-google-verification-code',
-  },
-};
+    appleWebApp: {
+      title: "GArts Education",
+      statusBarStyle: 'black-translucent',
+      capable: true,
+    },
+    verification: {
+      google: 'your-google-verification-code',
+    },
+  };
+}
 
 export default async function LocaleLayout({
   children,
@@ -102,10 +113,14 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="preload" href="/videos/hero/hero-animated-wallpaper-mobile.mp4" as="video" type="video/mp4" />
+        <link rel="preload" href="/videos/hero/hero-animated-1.mp4" as="video" type="video/mp4" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
+        <Script src="https://cdn.lordicon.com/lordicon.js" strategy="lazyOnload" />
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           {children}
