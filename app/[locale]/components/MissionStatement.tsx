@@ -65,11 +65,12 @@ export default function MissionStatement() {
                   </span>
                 </p>
 
-                <div className="flex items-center justify-center gap-4 flex-wrap">
+                {/* Mobile: Stacked, Desktop: Inline */}
+                <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
                   <span className="text-3xl md:text-4xl font-bold text-neural-dark">
                     <span className="border-b-4 border-primary pb-1">Edu</span>cation
                   </span>
-                  <span className="text-2xl md:text-3xl text-neural-dark font-light">{t("closing.meets")}</span>
+                  <span className="text-2xl md:text-3xl text-neural-dark font-light my-4 md:my-0">{t("closing.meets")}</span>
                   <span className="text-3xl md:text-4xl font-bold text-neural-dark">
                     Enter<span className="border-b-4 border-primary pb-1">tainment</span>
                   </span>
