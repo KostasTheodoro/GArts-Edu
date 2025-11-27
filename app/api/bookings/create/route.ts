@@ -260,7 +260,17 @@ export async function POST(req: NextRequest) {
         console.log("Group session (no seats) - using slot:", startDateTime);
       }
     } else {
-      startDateTime = new Date(`${date}T${time}:00`).toISOString();
+      // For individual sessions, construct the datetime in Athens timezone
+      // date format: "2025-01-15", time format: "09:00"
+      const dateTimeString = `${date}T${time}:00`;
+      startDateTime = new Date(dateTimeString).toISOString();
+
+      console.log("Individual session datetime:", {
+        inputDate: date,
+        inputTime: time,
+        combined: dateTimeString,
+        isoString: startDateTime
+      });
     }
 
     // Format phone number with country code if provided
@@ -314,7 +324,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Parse the error for better user feedback
-      let userMessage = "Failed to create booking on Cal.com";
+      let userMessage = "There was an error processing your booking. Please contact us directly to complete your reservation.";
       try {
         const errorJson = JSON.parse(errorData);
         if (errorJson.message === "booker_limit_exceeded_error") {
@@ -325,11 +335,16 @@ export async function POST(req: NextRequest) {
         ) {
           userMessage =
             "This booking time is no longer available. Please try again.";
-        } else if (errorJson.message) {
+        } else if (errorJson.message === "no_available_users_found_error") {
+          userMessage =
+            "This time slot is no longer available. Please select a different time or contact us for assistance.";
+        } else if (errorJson.message && !errorJson.message.includes("_error")) {
+          // Only show Cal.com's message if it's user-friendly (doesn't contain technical error codes)
           userMessage = errorJson.message;
         }
+        // For any other technical errors, use the generic message
       } catch {
-        // Keep default message if parsing fails
+        // Keep default generic message if parsing fails
       }
 
       return NextResponse.json(
