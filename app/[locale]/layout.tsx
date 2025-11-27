@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -131,6 +132,7 @@ export default async function LocaleLayout({
           <Navbar />
           {children}
           <Footer />
+          <ScrollToTop />
         </NextIntlClientProvider>
       </body>
     </html>
