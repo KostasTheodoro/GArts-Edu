@@ -106,7 +106,10 @@
     "closing": {
       "prefix": "Στο",
       "garts": "GArts Education",
-      "suffix": ", η δημιουργικότητα συναντά τη γνώση."
+      "education": "Εκπαίδευση",
+      "meets": "συναντά",
+      "entertainment": "Διασκέδαση",
+      "edutainment": "Εκπαιδευτική Διασκέδαση"
     }
   },
   "manifesto": {
@@ -159,7 +162,8 @@
       "digitalPresence": "Όποιος θέλει να χτίσει μια δυνατή ψηφιακή παρουσία"
     },
     "button": "Εξερευνήστε το Λογισμικό μας",
-    "buttonSessions": "Δείτε τις Συνεδρίες μας"
+    "buttonSessions": "Δείτε τις Συνεδρίες μας",
+    "buttonSoftware": "Εξερευνήστε το Λογισμικό μας"
   },
   "learningPath": {
     "title": "Μαθησιακή Πορεία",

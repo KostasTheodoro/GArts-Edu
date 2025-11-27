@@ -106,7 +106,10 @@
     "closing": {
       "prefix": "At",
       "garts": "GArts Education",
-      "suffix": ", creativity meets knowledge."
+      "education": "Education",
+      "meets": "meets",
+      "entertainment": "Entertainment",
+      "edutainment": "Edutainment"
     }
   },
   "manifesto": {
@@ -159,7 +162,8 @@
       "digitalPresence": "Anyone who wants to build a strong digital presence"
     },
     "button": "Explore Our Software",
-    "buttonSessions": "View Our Sessions"
+    "buttonSessions": "View Our Sessions",
+    "buttonSoftware": "Explore Our Software"
   },
   "learningPath": {
     "title": "Learning Path",
