@@ -7,7 +7,7 @@ export default function Footer() {
         {/* Mobile Layout: Facebook above, Copyright below */}
         <div className="md:hidden flex flex-col items-center gap-8">
           <a
-            href="https://facebook.com"
+            href="https://www.facebook.com/groups/2597150567130470"
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 flex items-center justify-center bg-neural-dark"
@@ -35,7 +35,7 @@ export default function Footer() {
 
           <div className="flex-1 flex justify-end">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/groups/2597150567130470"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 flex items-center justify-center bg-neural-dark"
