@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
+import { RiEqualizer2Fill } from "react-icons/ri";
 
 export default function MissionStatement() {
   const t = useTranslations("mission");
@@ -66,12 +67,17 @@ export default function MissionStatement() {
 
                 <div className="flex items-center justify-center gap-4 flex-wrap">
                   <span className="text-3xl md:text-4xl font-bold text-neural-dark">
-                    {t("closing.education")}
+                    <span className="border-b-4 border-primary pb-1">Edu</span>cation
                   </span>
                   <span className="text-2xl md:text-3xl text-neural-dark font-light">{t("closing.meets")}</span>
                   <span className="text-3xl md:text-4xl font-bold text-neural-dark">
-                    {t("closing.entertainment")}
+                    Enter<span className="border-b-4 border-primary pb-1">tainment</span>
                   </span>
+                </div>
+
+                {/* Connection icon */}
+                <div className="flex justify-center text-primary">
+                  <RiEqualizer2Fill className="w-16 h-16 md:w-20 md:h-20" />
                 </div>
 
                 <div className="inline-block pt-8">

@@ -106,10 +106,10 @@
     "closing": {
       "prefix": "Στο",
       "garts": "GArts Education",
-      "education": "Εκπαίδευση",
+      "education": "Education",
       "meets": "συναντά",
-      "entertainment": "Διασκέδαση",
-      "edutainment": "Εκπαιδευτική Διασκέδαση"
+      "entertainment": "Entertainment",
+      "edutainment": "Edutainment"
     }
   },
   "manifesto": {
