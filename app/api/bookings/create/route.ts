@@ -263,6 +263,13 @@ export async function POST(req: NextRequest) {
       startDateTime = new Date(`${date}T${time}:00`).toISOString();
     }
 
+    // Format phone number with country code if provided
+    let formattedPhone = phone;
+    if (phone && phone.trim()) {
+      // If phone doesn't start with +, assume it's a Greek number and add +30
+      formattedPhone = phone.startsWith('+') ? phone : `+30${phone}`;
+    }
+
     // Prepare booking data for Cal.com API
     const bookingData = {
       eventTypeId: eventTypeId,
@@ -271,7 +278,7 @@ export async function POST(req: NextRequest) {
         name: `${firstName} ${lastName}`,
         email: email,
         location: location,
-        ...(phone && { attendeePhoneNumber: phone }),
+        ...(formattedPhone && { attendeePhoneNumber: formattedPhone }),
         ...(notes && { notes: notes }),
       },
       metadata: {
