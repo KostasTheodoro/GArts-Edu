@@ -23,12 +23,14 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Disabled dark mode auto-detection to prevent color distortion
 @media (prefers-color-scheme: dark) {
   :root {
     --gray: #1a1a1a;
     --foreground: #ededed;
   }
 }
+*/
 
 body {
   background: var(--gray);
