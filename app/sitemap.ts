@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { locales } from '@/i18n'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://garts-education.com'
+  const baseUrl = 'https://garts.gr'
 
   // Define all routes
   const routes = ['', '/software', '/sessions', '/bookings', '/about', '/contact']

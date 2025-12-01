@@ -37,12 +37,12 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   const { locale } = await params;
 
   return {
-    metadataBase: new URL('https://garts-edu.vercel.app'),
+    metadataBase: new URL('https://garts.gr'),
     alternates: {
-      canonical: `https://garts-edu.vercel.app/${locale}`,
+      canonical: `https://garts.gr/${locale}`,
       languages: {
-        'en': 'https://garts-edu.vercel.app/en',
-        'el': 'https://garts-edu.vercel.app/el',
+        'en': 'https://garts.gr/en',
+        'el': 'https://garts.gr/el',
       },
     },
     title: {
@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
       type: 'website',
       locale: locale === 'en' ? 'en_US' : 'el_GR',
       alternateLocale: locale === 'en' ? ['el_GR'] : ['en_US'],
-      url: `https://garts-edu.vercel.app/${locale}`,
+      url: `https://garts.gr/${locale}`,
       siteName: 'GArts Education',
       title: 'GArts Education - Master Digital Arts & 3D Design',
       description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece.',
@@ -97,9 +97,6 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
       title: "GArts Education",
       statusBarStyle: 'black-translucent',
       capable: true,
-    },
-    verification: {
-      google: 'your-google-verification-code',
     },
   };
 }

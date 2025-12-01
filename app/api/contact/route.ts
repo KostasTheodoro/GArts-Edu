@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'GArts Education <onboarding@resend.dev>', // You'll change this to your domain
+      from: 'GArts Education <noreply@garts.gr>',
       to: process.env.CONTACT_EMAIL || 'k.m.theodoropoulos@gmail.com',
       replyTo: email,
       subject: `New Contact Form Message from ${firstName} ${lastName}`,
