@@ -25,16 +25,16 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: `https://garts-edu.vercel.app/${locale}`,
+      canonical: `https://garts.gr/${locale}`,
       languages: {
-        'en': 'https://garts-edu.vercel.app/en',
-        'el': 'https://garts-edu.vercel.app/el',
+        'en': 'https://garts.gr/en',
+        'el': 'https://garts.gr/el',
       },
     },
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: `https://garts-edu.vercel.app/${locale}`,
+      url: `https://garts.gr/${locale}`,
       type: 'website',
     },
   };
