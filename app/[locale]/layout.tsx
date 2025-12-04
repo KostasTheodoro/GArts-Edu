@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
     metadataBase: new URL('https://garts.gr'),
     alternates: {
       languages: {
-        'en': 'https://garts.gr/en',
+        'en': 'https://garts.gr',
         'el': 'https://garts.gr/el',
       },
     },
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
       type: 'website',
       locale: locale === 'en' ? 'en_US' : 'el_GR',
       alternateLocale: locale === 'en' ? ['el_GR'] : ['en_US'],
-      url: `https://garts.gr/${locale}`,
+      url: locale === 'en' ? 'https://garts.gr' : 'https://garts.gr/el',
       siteName: 'GArts Education',
       title: 'GArts Education - Master Digital Arts & 3D Design',
       description: 'Learn Blender 3D modeling, Photoshop, Premiere Pro, and After Effects from an experienced instructor. Online and face-to-face sessions in Athens, Greece.',

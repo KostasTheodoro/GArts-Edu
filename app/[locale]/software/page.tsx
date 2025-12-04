@@ -15,16 +15,16 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: `https://garts.gr/${locale}/software`,
+      canonical: locale === 'en' ? 'https://garts.gr/software' : 'https://garts.gr/el/software',
       languages: {
-        'en': 'https://garts.gr/en/software',
+        'en': 'https://garts.gr/software',
         'el': 'https://garts.gr/el/software',
       },
     },
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: `https://garts.gr/${locale}/software`,
+      url: locale === 'en' ? 'https://garts.gr/software' : 'https://garts.gr/el/software',
       type: 'website',
     },
   };
