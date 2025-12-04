@@ -14,16 +14,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: t('title'),
     description: t('description'),
     alternates: {
-      canonical: `/${locale}/about`,
+      canonical: `https://garts.gr/${locale}/about`,
       languages: {
-        'en': '/en/about',
-        'el': '/el/about',
+        'en': 'https://garts.gr/en/about',
+        'el': 'https://garts.gr/el/about',
       },
     },
     openGraph: {
       title: t('title'),
       description: t('description'),
-      url: `/${locale}/about`,
+      url: `https://garts.gr/${locale}/about`,
       type: 'website',
     },
   };

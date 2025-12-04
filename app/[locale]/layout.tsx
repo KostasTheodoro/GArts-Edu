@@ -39,7 +39,6 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   return {
     metadataBase: new URL('https://garts.gr'),
     alternates: {
-      canonical: `https://garts.gr/${locale}`,
       languages: {
         'en': 'https://garts.gr/en',
         'el': 'https://garts.gr/el',

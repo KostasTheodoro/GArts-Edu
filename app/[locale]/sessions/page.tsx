@@ -20,16 +20,16 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: `/${locale}/sessions`,
+      canonical: `https://garts.gr/${locale}/sessions`,
       languages: {
-        'en': '/en/sessions',
-        'el': '/el/sessions',
+        'en': 'https://garts.gr/en/sessions',
+        'el': 'https://garts.gr/el/sessions',
       },
     },
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: `/${locale}/sessions`,
+      url: `https://garts.gr/${locale}/sessions`,
       type: 'website',
     },
   };
