@@ -175,7 +175,7 @@ export default function Calendar({
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-full overflow-hidden">
       <div className="flex items-stretch gap-2 mb-4 w-full">
         <div className="flex-1 min-w-0">
           <CustomSelect
@@ -221,20 +221,19 @@ export default function Calendar({
         </div>
       </div>
 
-      <div className="grid grid-cols-7  mb-0.5">
+      <div className="grid grid-cols-7 mb-1 gap-px">
         {weekDays.map((day) => (
           <div
             key={day}
-            className="text-center text-base
-             font-semibold text-neutral-600 w-14"
+            className="text-center text-[10px] sm:text-xs md:text-sm font-semibold text-neutral-600 px-0.5"
           >
             {day}
           </div>
         ))}
       </div>
 
-      {/* Calendar Grid - Compact dates */}
-      <div className="grid grid-cols-7 gap-1.5">
+      {/* Calendar Grid - Responsive dates */}
+      <div className="grid grid-cols-7 gap-px sm:gap-1 md:gap-1.5">
         {calendarDays.map((dayInfo, index) => {
           const disabled = isDateDisabled(dayInfo.date);
           const selected = isDateSelected(dayInfo.date);
@@ -254,7 +253,7 @@ export default function Calendar({
               }
               disabled={disabled || !dayInfo.isCurrentMonth || isWeekend}
               className={`
-                w-14 h-10 rounded text-center text-base font-medium transition-all flex items-center justify-center
+                aspect-square w-full rounded text-center text-[11px] sm:text-sm md:text-base font-medium transition-all flex items-center justify-center
                 ${!dayInfo.isCurrentMonth ? "text-gray-300" : ""}
                 ${disabled || isWeekend ? "text-gray-300 cursor-not-allowed bg-gray-50" : ""}
                 ${selected ? "bg-primary text-white border border-primary" : ""}
