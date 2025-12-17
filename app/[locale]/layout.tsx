@@ -38,6 +38,14 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
 
   return {
     metadataBase: new URL('https://garts.gr'),
+    icons: {
+      icon: [
+        { url: '/icon.ico', sizes: '48x48' },
+        { url: '/web-app-manifest-192x192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/web-app-manifest-512x512.png', sizes: '512x512', type: 'image/png' },
+      ],
+      apple: '/apple-icon.png',
+    },
     alternates: {
       languages: {
         'en': 'https://garts.gr',
