@@ -22,9 +22,13 @@ export default function AboutPageClient() {
     }
   };
 
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setVideoEnded(false);
+  };
+
   const handleVideoEnd = () => {
     setVideoEnded(true);
-    setIsHovered(false);
   };
 
   return (
@@ -116,7 +120,7 @@ export default function AboutPageClient() {
           <div
             className="relative aspect-video overflow-hidden rounded-2xl"
             onMouseEnter={handleMouseEnter}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseLeave={handleMouseLeave}
           >
             {/* Static Image */}
             <Image
@@ -130,7 +134,7 @@ export default function AboutPageClient() {
               placeholder="blur"
             />
 
-            {/* Video - Shows on hover, plays once */}
+            {/* Video - Shows on hover, plays once, stays on end frame while hovering */}
             <video
               ref={videoRef}
               src="/videos/image-fold.mp4"
