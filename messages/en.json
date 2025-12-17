@@ -59,8 +59,21 @@
       "tagline": "Creative Freedom Starts Here.."
     },
     "vision": {
-      "title": "My Vision",
-      "content": "To empower aspiring artists and creators with the tools, knowledge, and inspiration they need to transform their imagination into stunning visual realities. Through comprehensive education in computer graphics and digital arts, I aim to build a community where creativity knows no bounds, and every student discovers their unique artistic voice in the ever-evolving world of digital media."
+      "title": "Our Vision — The Heart of GArts",
+      "intro": "We envision a world where learning meets joy — where education blends with entertainment to spark curiosity and imagination.",
+      "edutainment": {
+        "label": "At GArts Education, we call it Edutainment:",
+        "description": "a hybrid experience of learning that inspires as much as it educates, where every lesson feels like creation, and every creation becomes a story worth sharing."
+      },
+      "community": "Our vision is to build a community that thrives on connection — artists, dreamers, and mentors supporting one another through art and empathy.",
+      "together": {
+        "intro": "Together, we turn screens into canvases,",
+        "bridge": "where digital art becomes a bridge — a way to",
+        "purpose": "escape routine, relieve stress, and rediscover meaning through creativity."
+      },
+      "create": "Because when we create, we heal.",
+      "learn": "And when we learn together, we grow stronger — as artists and as humans.",
+      "connections": "Because through art, we don't just create worlds — we create connections."
     }
   },
   "sessions": {
