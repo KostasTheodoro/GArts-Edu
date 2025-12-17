@@ -104,44 +104,9 @@ export default function AboutPageClient() {
             <div className="w-20 h-1 bg-primary mx-auto mt-4"></div>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+          <div className="max-w-4xl mx-auto">
             <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
-              {t('vision.intro')}
-            </p>
-
-            <div className="space-y-2">
-              <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
-                {t('vision.edutainment.label')}
-              </p>
-              <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
-                {t('vision.edutainment.description')}
-              </p>
-            </div>
-
-            <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
-              {t('vision.community')}
-            </p>
-
-            <div className="space-y-1">
-              <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
-                {t('vision.together.intro')}
-              </p>
-              <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
-                {t('vision.together.bridge')}
-              </p>
-              <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
-                {t('vision.together.purpose')}
-              </p>
-            </div>
-
-            <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed font-semibold">
-              {t('vision.create')}
-            </p>
-            <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed font-semibold">
-              {t('vision.learn')}
-            </p>
-            <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed font-semibold">
-              {t('vision.connections')}
+              {t('vision.content')}
             </p>
           </div>
         </div>
