@@ -40,12 +40,13 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
     metadataBase: new URL('https://garts.gr'),
     icons: {
       icon: [
-        { url: '/icon.ico', sizes: '48x48' },
-        { url: '/web-app-manifest-192x192.png', sizes: '192x192', type: 'image/png' },
-        { url: '/web-app-manifest-512x512.png', sizes: '512x512', type: 'image/png' },
+        { url: '/icon.ico', sizes: '48x48', type: 'image/x-icon' },
       ],
-      apple: '/apple-icon.png',
+      apple: [
+        { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+      ],
     },
+    manifest: '/manifest.json',
     alternates: {
       languages: {
         'en': 'https://garts.gr',
@@ -123,6 +124,9 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <head>
+        <link rel="icon" type="image/x-icon" href="/icon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="/icon.ico" />
+        <link rel="icon" type="image/x-icon" sizes="48x48" href="/icon.ico" />
         <link rel="preload" href="/videos/hero/hero-animated-wallpaper-mobile.mp4" as="video" type="video/mp4" />
         <link rel="preload" href="/videos/hero/hero-animated-1.mp4" as="video" type="video/mp4" />
         <link rel="dns-prefetch" href="https://cdn.lordicon.com" />
