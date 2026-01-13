@@ -51,14 +51,16 @@ export async function GET() {
     }
 
     // Filter to our event types (private lessons and group sessions)
+    // Also exclude events marked as hidden in Cal.com
     const eventTypes = data.event_types
       .filter(
         (et: any) =>
-          et.slug?.includes("blender") ||
+          (et.slug?.includes("blender") ||
           et.slug?.includes("photoshop") ||
           et.slug?.includes("premiere") ||
           et.slug?.includes("after-effects") ||
-          et.slug?.includes("group") // Include group sessions
+          et.slug?.includes("group")) && // Include group sessions
+          !et.hidden // Exclude events marked as hidden in Cal.com
       )
       .map((et: any) => ({
         id: et.id,

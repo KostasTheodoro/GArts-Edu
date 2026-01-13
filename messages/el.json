@@ -302,6 +302,8 @@
         "individual": "Ατομικό",
         "group": "Ομαδικό"
       },
+      "groupUnavailable": "Προσωρινά μη διαθέσιμο",
+      "groupUnavailableMessage": "Τα ομαδικά μαθήματα είναι προσωρινά μη διαθέσιμα.",
       "selectGroupSession": "Επιλέξτε Ομαδικό Μάθημα",
       "selectGroupSessionPlaceholder": "Επιλέξτε ομαδικό μάθημα...",
       "selectSoftware": "Επιλέξτε Λογισμικό",

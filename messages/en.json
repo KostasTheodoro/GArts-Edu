@@ -302,6 +302,8 @@
         "individual": "Individual",
         "group": "Group"
       },
+      "groupUnavailable": "Currently unavailable",
+      "groupUnavailableMessage": "Group sessions are temporarily unavailable.",
       "selectGroupSession": "Select Group Session",
       "selectGroupSessionPlaceholder": "Choose a group session...",
       "selectSoftware": "Select Software",

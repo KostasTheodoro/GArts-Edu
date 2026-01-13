@@ -144,6 +144,21 @@ export default function CustomBookingForm({
     return eventTypes.filter((et) => et.slug.includes("group"));
   }, [eventTypes]);
 
+  // Auto-switch to individual if group is selected but no group events available
+  useEffect(() => {
+    if (
+      bookingData.sessionType === "group" &&
+      groupEventTypes.length === 0 &&
+      !isLoadingEventTypes
+    ) {
+      setBookingData((prev) => ({
+        ...prev,
+        sessionType: "individual",
+        groupEventId: null,
+      }));
+    }
+  }, [groupEventTypes.length, bookingData.sessionType, isLoadingEventTypes]);
+
   // Derive selectedEventType based on session type
   const selectedEventType = useMemo(() => {
     if (eventTypes.length === 0) return null;
@@ -948,8 +963,19 @@ export default function CustomBookingForm({
                       <option value="individual">
                         {t("sessionType.individual")}
                       </option>
-                      <option value="group">{t("sessionType.group")}</option>
+                      <option
+                        value="group"
+                        disabled={groupEventTypes.length === 0}
+                      >
+                        {t("sessionType.group")}
+                        {groupEventTypes.length === 0 ? ` (${t("groupUnavailable")})` : ""}
+                      </option>
                     </CustomSelect>
+                    {groupEventTypes.length === 0 && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        {t("groupUnavailableMessage")}
+                      </p>
+                    )}
                   </div>
 
                   <div>
