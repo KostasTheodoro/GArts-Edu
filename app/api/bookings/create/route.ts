@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { fromZonedTime } from "date-fns-tz";
 
 const CAL_COM_API_KEY = process.env.CAL_COM_API_KEY;
 
@@ -262,14 +263,20 @@ export async function POST(req: NextRequest) {
     } else {
       // For individual sessions, construct the datetime in Athens timezone
       // date format: "2025-01-15", time format: "09:00"
+      // Use date-fns-tz to properly convert Athens local time to UTC
+      // This automatically handles DST transitions (UTC+2 in winter, UTC+3 in summer)
       const dateTimeString = `${date}T${time}:00`;
-      startDateTime = new Date(dateTimeString).toISOString();
+
+      // Convert Athens local time to UTC
+      const athensTime = fromZonedTime(dateTimeString, 'Europe/Athens');
+      startDateTime = athensTime.toISOString();
 
       console.log("Individual session datetime:", {
         inputDate: date,
         inputTime: time,
-        combined: dateTimeString,
-        isoString: startDateTime
+        athensLocalTime: dateTimeString,
+        convertedToUTC: startDateTime,
+        explanation: 'Athens time properly converted to UTC with DST handling'
       });
     }
 

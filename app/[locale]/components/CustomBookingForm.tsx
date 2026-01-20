@@ -525,7 +525,7 @@ export default function CustomBookingForm({
     !emailError;
 
   const calculateCost = () => {
-    const baseCost = bookingData.duration === "1h" ? 30 : 50; // Example pricing
+    const baseCost = bookingData.duration === "1h" ? 20 : 40; // Example pricing
     return baseCost;
   };
 
