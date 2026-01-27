@@ -59,7 +59,7 @@ export default function BookingsPage() {
             </p>
 
             {/* Card for paragraphs 2 & 3 */}
-            <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-primary/20 shadow-lg hover:shadow-xl hover:border-primary/40 transition-all duration-300">
+            <div className="max-w-5xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-primary/20 shadow-lg hover:shadow-xl hover:border-primary/40 transition-all duration-300">
               <p className="text-center text-foreground">
                 {t("whoWeAreFor.paragraph2Part1")}
                 <br />
@@ -72,12 +72,6 @@ export default function BookingsPage() {
                 {t("whoWeAreFor.paragraph3Part1")}
                 <br />
                 {t("whoWeAreFor.paragraph3Part2")}
-              </p>
-            </div>
-
-            <div className="text-center max-w-6xl mx-auto py-6">
-              <p className="font-semibold text-neural-dark text-xl">
-                {t("whoWeAreFor.paragraph4")}
               </p>
             </div>
 
@@ -103,9 +97,12 @@ export default function BookingsPage() {
               </div>
 
               {/* Card for paragraphs 6 & 7 */}
-              <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-primary/20 shadow-lg hover:shadow-xl hover:border-primary/40 transition-all duration-300 mb-6">
+              <div className="max-w-5xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-primary/20 shadow-lg hover:shadow-xl hover:border-primary/40 transition-all duration-300 mb-6">
                 <p className="text-center text-foreground">
-                  {t("whoWeAreFor.paragraph6")}
+                  {t("whoWeAreFor.paragraph6Part1")}
+                  <br className="hidden lg:block" />
+                  <span className="lg:hidden"> </span>
+                  {t("whoWeAreFor.paragraph6Part2")}
                 </p>
 
                 <div className="w-16 h-0.5 bg-primary/40 mx-auto my-6"></div>
