@@ -15,17 +15,23 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: locale === 'en' ? 'https://garts.gr/bookings' : 'https://garts.gr/el/bookings',
+      canonical:
+        locale === "en"
+          ? "https://garts.gr/bookings"
+          : "https://garts.gr/el/bookings",
       languages: {
-        'en': 'https://garts.gr/bookings',
-        'el': 'https://garts.gr/el/bookings',
+        en: "https://garts.gr/bookings",
+        el: "https://garts.gr/el/bookings",
       },
     },
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: locale === 'en' ? 'https://garts.gr/bookings' : 'https://garts.gr/el/bookings',
-      type: 'website',
+      url:
+        locale === "en"
+          ? "https://garts.gr/bookings"
+          : "https://garts.gr/el/bookings",
+      type: "website",
     },
   };
 }
@@ -48,19 +54,28 @@ export default function BookingsPage() {
         <div className="max-w-6xl mx-auto mb-16">
           {/* Main Content */}
           <div className="space-y-6 text-foreground text-lg leading-relaxed mb-12">
-            <p className="text-center max-w-4xl mx-auto">
+            <p className="text-center max-w-6xl mx-auto font-semibold text-xl">
               {t("whoWeAreFor.paragraph1")}
             </p>
 
-            <p className="text-center max-w-4xl mx-auto">
-              {t("whoWeAreFor.paragraph2")}
-            </p>
+            {/* Card for paragraphs 2 & 3 */}
+            <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-primary/20 shadow-lg hover:shadow-xl hover:border-primary/40 transition-all duration-300">
+              <p className="text-center text-foreground">
+                {t("whoWeAreFor.paragraph2Part1")}
+                <br />
+                {t("whoWeAreFor.paragraph2Part2")}
+              </p>
 
-            <p className="text-center max-w-4xl mx-auto">
-              {t("whoWeAreFor.paragraph3")}
-            </p>
+              <div className="w-16 h-0.5 bg-primary/40 mx-auto my-6"></div>
 
-            <div className="text-center max-w-4xl mx-auto py-6">
+              <p className="text-center text-foreground">
+                {t("whoWeAreFor.paragraph3Part1")}
+                <br />
+                {t("whoWeAreFor.paragraph3Part2")}
+              </p>
+            </div>
+
+            <div className="text-center max-w-6xl mx-auto py-6">
               <p className="font-semibold text-neural-dark text-xl">
                 {t("whoWeAreFor.paragraph4")}
               </p>
@@ -68,20 +83,42 @@ export default function BookingsPage() {
 
             {/* Target Audiences */}
             <div className="pt-8 mt-8">
-              <p className="font-semibold text-neural-dark mb-6 text-center text-xl">
-                {t("whoWeAreFor.paragraph5")}
-              </p>
+              <div className="group/p5 relative flex flex-col items-center mb-6 cursor-default">
+                {/* Pointing hand icon - appears on hover */}
+                <div className="opacity-0 group-hover/p5:opacity-100 -translate-y-2 group-hover/p5:translate-y-0 transition-all duration-300 mb-2">
+                  <svg
+                    className="w-8 h-8 text-primary animate-bounce"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7.5 21.5c-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l7.8-7.8-7.8-7.8c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l8.5 8.5c.4.4.4 1 0 1.4l-8.5 8.5c-.2.2-.4.3-.7.3z"
+                      transform="rotate(90 12 12)"
+                    />
+                  </svg>
+                </div>
+                <p className="font-semibold text-neural-dark text-center text-xl group-hover/p5:text-primary transition-colors duration-300">
+                  {t("whoWeAreFor.paragraph5")}
+                </p>
+              </div>
 
-              <p className="mb-6 text-center max-w-4xl mx-auto">
-                {t("whoWeAreFor.paragraph6")}
-              </p>
+              {/* Card for paragraphs 6 & 7 */}
+              <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-primary/20 shadow-lg hover:shadow-xl hover:border-primary/40 transition-all duration-300 mb-6">
+                <p className="text-center text-foreground">
+                  {t("whoWeAreFor.paragraph6")}
+                </p>
 
-              <p className="mb-6 text-center max-w-4xl mx-auto">
-                {t("whoWeAreFor.paragraph7")}
-              </p>
+                <div className="w-16 h-0.5 bg-primary/40 mx-auto my-6"></div>
 
-              <p className="font-semibold text-neural-dark text-center max-w-4xl mx-auto">
-                {t("whoWeAreFor.paragraph8")}
+                <p className="text-center text-foreground">
+                  {t("whoWeAreFor.paragraph7")}
+                </p>
+              </div>
+
+              <p className="font-semibold text-neural-dark text-center text-xl max-w-6xl mx-auto">
+                {t("whoWeAreFor.paragraph8Part1")}
+                <br />
+                {t("whoWeAreFor.paragraph8Part2")}
               </p>
             </div>
           </div>
@@ -96,12 +133,24 @@ export default function BookingsPage() {
               <div className="text-center">
                 <div className="flex justify-center mb-6">
                   <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center">
-                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    <svg
+                      className="w-10 h-10 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                      />
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-2xl font-bold text-neural-dark mb-4">{t("whoWeAreFor.beginners.title")}</h4>
+                <h4 className="text-2xl font-bold text-neural-dark mb-4">
+                  {t("whoWeAreFor.beginners.title")}
+                </h4>
                 <p className="text-foreground text-lg">
                   {t("whoWeAreFor.beginners.description")}
                 </p>
@@ -111,12 +160,24 @@ export default function BookingsPage() {
               <div className="text-center">
                 <div className="flex justify-center mb-6">
                   <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center">
-                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    <svg
+                      className="w-10 h-10 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                      />
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-2xl font-bold text-neural-dark mb-4">{t("whoWeAreFor.selfTaught.title")}</h4>
+                <h4 className="text-2xl font-bold text-neural-dark mb-4">
+                  {t("whoWeAreFor.selfTaught.title")}
+                </h4>
                 <p className="text-foreground text-lg">
                   {t("whoWeAreFor.selfTaught.description")}
                 </p>
@@ -126,12 +187,24 @@ export default function BookingsPage() {
               <div className="text-center">
                 <div className="flex justify-center mb-6">
                   <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center">
-                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <svg
+                      className="w-10 h-10 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-2xl font-bold text-neural-dark mb-4">{t("whoWeAreFor.professionals.title")}</h4>
+                <h4 className="text-2xl font-bold text-neural-dark mb-4">
+                  {t("whoWeAreFor.professionals.title")}
+                </h4>
                 <p className="text-foreground text-lg">
                   {t("whoWeAreFor.professionals.description")}
                 </p>

@@ -38,7 +38,12 @@ export default function ProgressionLevel() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neural-dark mb-3">
             {t("title")}
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto"></div>
+          <div className="w-20 h-1 bg-primary mx-auto mb-4"></div>
+          <p className="text-lg md:text-xl text-foreground italic max-w-2xl mx-auto">
+            {t("subtitlePart1")}
+            <br />
+            {t("subtitlePart2")}
+          </p>
         </div>
 
         <div className="relative w-full h-[500px] md:h-[550px] max-w-5xl mx-auto">
