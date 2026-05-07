@@ -3,18 +3,52 @@ import { fromZonedTime } from "date-fns-tz";
 
 const CAL_COM_API_KEY = process.env.CAL_COM_API_KEY;
 
-// Helper function to get event type details including schedule configuration
+interface CalSlot {
+  start?: string;
+  time?: string;
+}
+
+interface CalBookingLocation {
+  type: "integration" | "phone" | "attendeeAddress";
+  integration?: string;
+  value?: string;
+}
+
+interface CalBookingData {
+  eventTypeId: number;
+  start: string;
+  attendee: {
+    name: string;
+    email: string;
+    timeZone: string;
+    language: string;
+    phoneNumber?: string;
+  };
+  metadata: {
+    duration: string;
+  };
+  lengthInMinutes?: number;
+  location?: CalBookingLocation;
+  bookingFieldsResponses?: {
+    notes?: string;
+  };
+}
+
 async function getEventTypeDetails(eventTypeId: number): Promise<{
   seatsPerTimeSlot: number | null;
   scheduledTime: string | null;
 } | null> {
   try {
     const response = await fetch(
-      `https://api.cal.com/v1/event-types/${eventTypeId}?apiKey=${CAL_COM_API_KEY}`,
+      `https://api.cal.com/v2/event-types/${eventTypeId}`,
       {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${CAL_COM_API_KEY}`,
+          "cal-api-version": "2024-06-14",
+        },
+      },
     );
 
     if (!response.ok) {
@@ -23,7 +57,8 @@ async function getEventTypeDetails(eventTypeId: number): Promise<{
     }
 
     const data = await response.json();
-    const eventType = data.event_type;
+
+    const eventType = data.data;
 
     console.log("Event type details:", {
       id: eventType?.id,
@@ -43,15 +78,19 @@ async function getEventTypeDetails(eventTypeId: number): Promise<{
 }
 
 async function findExistingGroupBooking(
-  eventTypeId: number
+  eventTypeId: number,
 ): Promise<string | null> {
   try {
     const response = await fetch(
-      `https://api.cal.com/v1/bookings?apiKey=${CAL_COM_API_KEY}&eventTypeId=${eventTypeId}`,
+      `https://api.cal.com/v2/bookings?eventTypeId=${eventTypeId}`,
       {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${CAL_COM_API_KEY}`,
+          "cal-api-version": "2024-08-13",
+        },
+      },
     );
 
     if (!response.ok) {
@@ -60,12 +99,13 @@ async function findExistingGroupBooking(
     }
 
     const data = await response.json();
-    const bookings = data.bookings || [];
+
+    const bookings = data.data || [];
 
     const activeBookings = bookings.filter(
-      (booking: { status: string; eventTypeId?: number }) =>
-        (booking.status === "ACCEPTED" || booking.status === "PENDING") &&
-        booking.eventTypeId === eventTypeId
+      (booking: { status: string; eventType?: { id: number } }) =>
+        (booking.status === "accepted" || booking.status === "pending") &&
+        booking.eventType?.id === eventTypeId,
     );
 
     console.log("Found existing bookings for group:", {
@@ -76,8 +116,9 @@ async function findExistingGroupBooking(
 
     if (activeBookings.length > 0) {
       const firstBooking = activeBookings[0];
-      console.log("Using existing booking time:", firstBooking.startTime);
-      return firstBooking.startTime;
+
+      console.log("Using existing booking time:", firstBooking.start);
+      return firstBooking.start;
     }
 
     return null;
@@ -89,7 +130,7 @@ async function findExistingGroupBooking(
 
 async function getNextAvailableSlot(
   eventTypeId: number,
-  durationInMinutes: number
+  durationInMinutes: number,
 ): Promise<string | null> {
   try {
     const startDate = new Date();
@@ -102,13 +143,16 @@ async function getNextAvailableSlot(
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
     });
-
     const response = await fetch(
-      `https://api.cal.com/v1/slots?apiKey=${CAL_COM_API_KEY}&eventTypeId=${eventTypeId}&startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&timeZone=Europe/Athens&duration=${durationInMinutes}`,
+      `https://api.cal.com/v2/slots?eventTypeId=${eventTypeId}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&timeZone=Europe/Athens&duration=${durationInMinutes}`,
       {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${CAL_COM_API_KEY}`,
+          "cal-api-version": "2024-09-04",
+        },
+      },
     );
 
     if (!response.ok) {
@@ -116,13 +160,14 @@ async function getNextAvailableSlot(
       console.error(
         "Failed to fetch slots for group session:",
         response.status,
-        errorText
+        errorText,
       );
       return null;
     }
 
     const data = await response.json();
-    const slots = data.slots || {};
+
+    const slots: Record<string, CalSlot[]> = data.data || data.slots || {};
 
     console.log("Group slots response:", {
       eventTypeId,
@@ -132,8 +177,9 @@ async function getNextAvailableSlot(
 
     for (const dateKey of Object.keys(slots).sort()) {
       if (slots[dateKey] && slots[dateKey].length > 0) {
-        console.log("Found slot for group:", slots[dateKey][0].time);
-        return slots[dateKey][0].time;
+        const slotTime = slots[dateKey][0].start || slots[dateKey][0].time;
+        console.log("Found slot for group:", slotTime);
+        return slotTime || null;
       }
     }
 
@@ -163,10 +209,8 @@ export async function POST(req: NextRequest) {
 
     console.log("Booking request received:", body);
 
-    // Check if this is a group session (placeholder date/time)
     const isGroupSession = date === "group-session" || time === "scheduled";
 
-    // Validate required fields with detailed error messages
     const missingFields = [];
     if (!eventTypeId) missingFields.push("eventTypeId");
     if (!isGroupSession && !date) missingFields.push("date");
@@ -185,27 +229,23 @@ export async function POST(req: NextRequest) {
           missingFields,
           receivedData: body,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    // Validate API key
     if (!CAL_COM_API_KEY) {
       console.error("CAL_COM_API_KEY is not set");
       return NextResponse.json(
         { error: "Cal.com API key is not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
-    // Convert duration to minutes
     const durationInMinutes = duration === "1h" ? 60 : 120;
 
     let startDateTime: string;
 
     if (isGroupSession) {
-      // For group sessions with seats, first try to find an existing booking
-      // This allows multiple people to book the same group session
       const eventDetails = await getEventTypeDetails(eventTypeId);
       const hasSeats =
         eventDetails?.seatsPerTimeSlot && eventDetails.seatsPerTimeSlot > 1;
@@ -217,58 +257,49 @@ export async function POST(req: NextRequest) {
       });
 
       if (hasSeats) {
-        // Check if there's already a booking for this group - use that time
         const existingBookingTime = await findExistingGroupBooking(eventTypeId);
 
         if (existingBookingTime) {
-          // Use the same time as the existing booking (join the group)
           startDateTime = new Date(existingBookingTime).toISOString();
           console.log(
             "Group session - joining existing booking at:",
-            startDateTime
+            startDateTime,
           );
         } else {
-          // No existing booking, get the first available slot
           const nextSlot = await getNextAvailableSlot(
             eventTypeId,
-            durationInMinutes
+            durationInMinutes,
           );
           if (!nextSlot) {
             return NextResponse.json(
               { error: "No available slots for this group session" },
-              { status: 400 }
+              { status: 400 },
             );
           }
           startDateTime = new Date(nextSlot).toISOString();
           console.log(
             "Group session - creating new booking at:",
-            startDateTime
+            startDateTime,
           );
         }
       } else {
-        // No seats feature, use slots API
         const nextSlot = await getNextAvailableSlot(
           eventTypeId,
-          durationInMinutes
+          durationInMinutes,
         );
         if (!nextSlot) {
           return NextResponse.json(
             { error: "No available slots for this group session" },
-            { status: 400 }
+            { status: 400 },
           );
         }
         startDateTime = new Date(nextSlot).toISOString();
         console.log("Group session (no seats) - using slot:", startDateTime);
       }
     } else {
-      // For individual sessions, construct the datetime in Athens timezone
-      // date format: "2025-01-15", time format: "09:00"
-      // Use date-fns-tz to properly convert Athens local time to UTC
-      // This automatically handles DST transitions (UTC+2 in winter, UTC+3 in summer)
       const dateTimeString = `${date}T${time}:00`;
 
-      // Convert Athens local time to UTC
-      const athensTime = fromZonedTime(dateTimeString, 'Europe/Athens');
+      const athensTime = fromZonedTime(dateTimeString, "Europe/Athens");
       startDateTime = athensTime.toISOString();
 
       console.log("Individual session datetime:", {
@@ -276,50 +307,69 @@ export async function POST(req: NextRequest) {
         inputTime: time,
         athensLocalTime: dateTimeString,
         convertedToUTC: startDateTime,
-        explanation: 'Athens time properly converted to UTC with DST handling'
+        explanation: "Athens time properly converted to UTC with DST handling",
       });
     }
 
-    // Format phone number with country code if provided
     let formattedPhone = phone;
     if (phone && phone.trim()) {
-      // If phone doesn't start with +, assume it's a Greek number and add +30
-      formattedPhone = phone.startsWith('+') ? phone : `+30${phone}`;
+      formattedPhone = phone.startsWith("+") ? phone : `+30${phone}`;
     }
 
-    // Prepare booking data for Cal.com API
-    const bookingData = {
+    const bookingData: CalBookingData = {
       eventTypeId: eventTypeId,
       start: startDateTime,
-      responses: {
+      attendee: {
         name: `${firstName} ${lastName}`,
         email: email,
-        location: location,
-        ...(formattedPhone && { attendeePhoneNumber: formattedPhone }),
-        ...(notes && { notes: notes }),
+        timeZone: "Europe/Athens",
+        language: "en",
+        ...(formattedPhone && { phoneNumber: formattedPhone }),
       },
       metadata: {
-        duration: durationInMinutes.toString(), // Cal.com expects string, not number
+        duration: durationInMinutes.toString(),
       },
-      timeZone: "Europe/Athens",
-      language: "en",
+      ...(durationInMinutes && { lengthInMinutes: durationInMinutes }),
     };
+
+    if (location) {
+      if (
+        location.toLowerCase().includes("google meet") ||
+        location.toLowerCase().includes("googlemeet")
+      ) {
+        bookingData.location = {
+          type: "integration",
+          integration: "google-meet",
+        };
+      } else if (location.toLowerCase().includes("zoom")) {
+        bookingData.location = { type: "integration", integration: "zoom" };
+      } else if (location.toLowerCase().includes("phone")) {
+        bookingData.location = { type: "phone" };
+      } else {
+        bookingData.location = { type: "attendeeAddress", value: location };
+      }
+    }
+
+    if (notes) {
+      bookingData.bookingFieldsResponses = {
+        notes: notes,
+      };
+    }
 
     console.log(
       "Creating booking with data:",
-      JSON.stringify(bookingData, null, 2)
+      JSON.stringify(bookingData, null, 2),
     );
 
-    const response = await fetch(
-      `https://api.cal.com/v1/bookings?apiKey=${CAL_COM_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookingData),
-      }
-    );
+    const response = await fetch(`https://api.cal.com/v2/bookings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${CAL_COM_API_KEY}`,
+        "cal-api-version": "2024-08-13",
+      },
+      body: JSON.stringify(bookingData),
+    });
 
     if (!response.ok) {
       const errorData = await response.text();
@@ -330,8 +380,8 @@ export async function POST(req: NextRequest) {
         requestData: bookingData,
       });
 
-      // Parse the error for better user feedback
-      let userMessage = "There was an error processing your booking. Please contact us directly to complete your reservation.";
+      let userMessage =
+        "There was an error processing your booking. Please contact us directly to complete your reservation.";
       try {
         const errorJson = JSON.parse(errorData);
         if (errorJson.message === "booker_limit_exceeded_error") {
@@ -346,17 +396,13 @@ export async function POST(req: NextRequest) {
           userMessage =
             "This time slot is no longer available. Please select a different time or contact us for assistance.";
         } else if (errorJson.message && !errorJson.message.includes("_error")) {
-          // Only show Cal.com's message if it's user-friendly (doesn't contain technical error codes)
           userMessage = errorJson.message;
         }
-        // For any other technical errors, use the generic message
-      } catch {
-        // Keep default generic message if parsing fails
-      }
+      } catch {}
 
       return NextResponse.json(
         { error: userMessage, details: errorData },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -375,7 +421,7 @@ export async function POST(req: NextRequest) {
         error: "Internal server error",
         details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

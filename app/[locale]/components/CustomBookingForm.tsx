@@ -568,20 +568,39 @@ export default function CustomBookingForm({
   };
 
   // Helper function to format location display name
+  // Handles both Cal.com v1 and v2 location type formats
   const formatLocationName = (locationType: string): string => {
-    if (locationType === "inPerson") {
+    // v2 format: "integration" for online meetings
+    if (locationType === "integration" || locationType === "conferencing") {
+      return t("location.online");
+    }
+
+    // v2 format: "address" or "attendeeAddress" for in-person
+    if (locationType === "address" || locationType === "attendeeAddress" || locationType === "inPerson") {
       return t("location.inPerson");
     }
 
-    if (locationType?.startsWith("integrations:")) {
-      // Extract integration parts (e.g., "integrations:google:meet" -> ["google", "meet"])
-      const parts = locationType.split(":").slice(1);
+    // v2 format: "phone" for phone calls
+    if (locationType === "phone") {
+      return t("location.phone") || "Phone";
+    }
 
-      // Format each part: capitalize first letter
+    // v2 format: "link" for custom links
+    if (locationType === "link") {
+      return t("location.online");
+    }
+
+    // v2 format: "organizersDefaultApp" for organizer's default conferencing
+    if (locationType === "organizersDefaultApp") {
+      return t("location.online");
+    }
+
+    // v1 format: "integrations:google:meet" style
+    if (locationType?.startsWith("integrations:")) {
+      const parts = locationType.split(":").slice(1);
       const formatted = parts
         .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
         .join(" ");
-
       return formatted;
     }
 
